@@ -1,0 +1,22 @@
+{
+    "name": "ood/oc_blog",
+    "description": "A blog for OpenClassroom",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "schomy",
+            "email": "sebastien.chomy@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Blogpost\\": "src/blogpost",
+            "Comment\\": "src/comment",
+            "User\\": "src/user",
+            "Lib\\": "lib"
+        }
+    }
+}
