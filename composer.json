@@ -9,8 +9,9 @@
             "email": "sebastien.chomy@gmail.com"
         }
     ],
-    "minimum-stability": "stable",
-    "require": {},
+    "require": {
+        "twig/twig": "^2.4"
+    },
     "autoload": {
         "psr-4": {
             "Blogpost\\": "src/blogpost",
