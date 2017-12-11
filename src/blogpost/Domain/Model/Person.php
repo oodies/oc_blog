@@ -56,6 +56,7 @@ class Person
     public function setNickname($nickname)
     {
         $this->nickname = $nickname;
+        return $this;
     }
 
     /**
