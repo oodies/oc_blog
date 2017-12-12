@@ -1,9 +1,9 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Sébastien CHOMY
- * Date: 30/11/2017
- * Time: 22:06
+ * This file is part of oc_blog project
+ *
+ * @author: Sébastien CHOMY <sebastien.chomy@gmail.com>
+ * @since 2017/12
  */
 
 namespace Blogpost\Domain\Model;
@@ -20,7 +20,7 @@ class Body
     /** *******************************
      *  ATTRIBUTES
      */
-    /** @var integer */
+    /** @var integer|null */
     protected $idBody;
 
 
@@ -40,19 +40,19 @@ class Body
      */
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getIdBody(): int
+    public function getIdBody(): ?int
     {
         return $this->idBody;
     }
 
     /**
-     * @param int $idBody
+     * @param int|null $idBody
      *
      * @return Body
      */
-    public function setIdBody(int $idBody): Body
+    public function setIdBody(?int $idBody): Body
     {
         $this->idBody = $idBody;
         return $this;

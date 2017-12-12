@@ -1,9 +1,9 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Sébastien CHOMY
- * Date: 02/12/2017
- * Time: 10:41
+ * This file is part of oc_blog project
+ *
+ * @author: Sébastien CHOMY <sebastien.chomy@gmail.com>
+ * @since 2017/12
  */
 
 namespace Blogpost\Domain\Model;
@@ -42,19 +42,19 @@ class Header
      */
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getIdHeader(): int
+    public function getIdHeader(): ?int
     {
         return $this->idHeader;
     }
 
     /**
-     * @param int $idHeader
+     * @param int|null $idHeader
      *
      * @return Header
      */
-    public function setIdHeader(int $idHeader): Header
+    public function setIdHeader(?int $idHeader): Header
     {
         $this->idHeader = $idHeader;
         return $this;

@@ -1,9 +1,9 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Sébastien CHOMY
- * Date: 02/12/2017
- * Time: 10:55
+ * This file is part of oc_blog project
+ *
+ * @author: Sébastien CHOMY <sebastien.chomy@gmail.com>
+ * @since 2017/12
  */
 
 namespace Blogpost\Domain\Model;
@@ -45,19 +45,19 @@ class Post
      */
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getIdPost(): int
+    public function getIdPost(): ?int
     {
         return $this->idPost;
     }
 
     /**
-     * @param int $idPost
+     * @param int|null $idPost
      *
      * @return Post
      */
-    public function setIdPost(int $idPost): Post
+    public function setIdPost(?int $idPost): Post
     {
         $this->idPost = $idPost;
         return $this;
