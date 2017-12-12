@@ -1,0 +1,62 @@
+{% extends "/layouts.html.twig" %}
+
+{% block content %}
+    <!-- Page Header -->
+    <header class="masthead"
+            style="background-image: url('/public/node_modules/startbootstrap-clean-blog/img/post-bg.jpg')">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-md-10 mx-auto">
+                    <div class="post-heading">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                {# TODO route avec PATH #}
+                <form action="/?action=newPost" novalidate method="post">
+                    <div class="control-group">
+                        <div class="form-group floating-label-form-group controls">
+                            <label>Title</label>
+                            <input type="text" class="form-control" placeholder="title" id="title" name="title" required
+                                   data-validation-required-message="Please enter your title."
+                                value="{{ title ?? '' }}"
+                            >
+                            <p class="help-block text-danger"></p>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="form-group floating-label-form-group controls">
+                            <label>Brief</label>
+                            <input type="text" class="form-control" placeholder="brief" id="brief" name="brief" required
+                                   data-validation-required-message="Please enter your brief."
+                                    value="{{ brief ?? '' }}"
+                            >
+                            <p class="help-block text-danger"></p>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="form-group floating-label-form-group controls">
+                            <label>Contenu</label>
+                            <textarea class="form-control" placeholder="content" id="content" name="content" required
+                                      data-validation-required-message="Please enter your content.">
+                                {{ content ?? '' }}
+                            </textarea>
+                        </div>
+                    </div>
+                    <br>
+                    <div id="success" class="success {{ success ?? ' active' }}" hidden>Votre article est posté</div>
+                    <div class="form-group">
+                        <input type="submit" class="btn btn-primary" id="sendMessageButton"/>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+{% endblock content %}
