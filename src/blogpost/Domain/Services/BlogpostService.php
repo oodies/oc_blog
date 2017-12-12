@@ -25,13 +25,13 @@ class BlogpostService
     /**
      * Get a single blogpost
      *
-     * @param integer $idPost
+     * @param string $postID
      *
      * @return PostAggregate
      */
-    public function getBlogPost(int $idPost)
+    public function getBlogPost(string $postID)
     {
-        $post = (new PostRepository())->findByPostId($idPost);
+        $post = (new PostRepository())->findByPostId($postID);
         $postID = $post->getPostID();
         $bloggerID = $post->getBloggerID();
 
