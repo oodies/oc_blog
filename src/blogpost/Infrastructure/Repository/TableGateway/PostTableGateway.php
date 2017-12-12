@@ -24,4 +24,28 @@ class PostTableGateway extends AbstractTableGateway
     protected $primary = 'id_post';
 
     protected $tableName = 'blogpost_post';
+
+    /** *******************************
+     *      METHODS
+     * ********************************/
+
+
+    /**
+     * Fetches a row by 'postID' foreign key
+     *
+     * @param string $postID
+     *
+     * @return array|false
+     */
+    public function findByPostId(string $postID)
+    {
+        $sql = "SELECT * FROM " . $this->tableName .
+            " WHERE postID" . "= :postID";
+
+        /** @var \PDOStatement $statement */
+        $statement = $this->getAdapter()->getConnection()->prepare($sql);
+        $statement->execute([':postID' => $postID]);
+
+        return $statement->fetch();
+    }
 }
