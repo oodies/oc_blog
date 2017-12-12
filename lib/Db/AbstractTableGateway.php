@@ -49,7 +49,7 @@ class AbstractTableGateway
     }
 
     /**
-     * Fectches rows by primary key
+     * Fetches rows by primary key
      *
      * @param $id
      *
@@ -80,8 +80,12 @@ class AbstractTableGateway
 
     /**
      * Set dbAdapter property
+     *
+     * @param AbstractDB $db
+     *
+     * @return AbstractTableGateway
      */
-    public function setAdapter($db)
+    public function setAdapter(AbstractDB $db): AbstractTableGateway
     {
         $this->db = $db;
         return $this;
@@ -122,7 +126,7 @@ class AbstractTableGateway
 
         $bind = [];
         foreach ($data as $field => $value) {
-            // Ici un quoteInto
+            // TODO Ici un quoteInto
             $bind[$field] = $value;
         }
 
@@ -139,7 +143,20 @@ class AbstractTableGateway
      */
     public function update(array $data, $where)
     {
+        $sql = 'UPDATE ' . $this->tableName . ' SET ';
+        $fields = array_keys($data);
+        foreach ($fields as $field) {
+            $sql .= ' ' . $field . ' =:' . $field . ',';
+        }
+        $sql = rtrim($sql, ',');
+        $sql .= ' WHERE ' . $this->primary . ' = ' . $where;
 
+        $bind = [];
+        foreach ($data as $field => $value) {
+            // TODO Ici un quoteInto
+            $bind[$field] = $value;
+        }
+        $statement = $this->getAdapter()->getConnection()->prepare($sql);
+        $statement->execute($bind);
     }
-
 }
