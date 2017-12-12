@@ -23,6 +23,9 @@ class Post
      *  ATTRIBUTES
      */
 
+    /** @var integer */
+    protected $idPost;
+
     /**
      * Object-Value
      */
@@ -40,6 +43,25 @@ class Post
     /** *******************************
      *  GETTER/SETTER
      */
+
+    /**
+     * @return int
+     */
+    public function getIdPost(): int
+    {
+        return $this->idPost;
+    }
+
+    /**
+     * @param int $idPost
+     *
+     * @return Post
+     */
+    public function setIdPost(int $idPost): Post
+    {
+        $this->idPost = $idPost;
+        return $this;
+    }
 
     /**
      * @return PostID

@@ -20,6 +20,9 @@ class Body
     /** *******************************
      *  ATTRIBUTES
      */
+    /** @var integer */
+    protected $idBody;
+
 
     /** @var string */
     protected $content;
@@ -35,6 +38,25 @@ class Body
     /** *******************************
      *  GETTER/SETTER
      */
+
+    /**
+     * @return int
+     */
+    public function getIdBody(): int
+    {
+        return $this->idBody;
+    }
+
+    /**
+     * @param int $idBody
+     *
+     * @return Body
+     */
+    public function setIdBody(int $idBody): Body
+    {
+        $this->idBody = $idBody;
+        return $this;
+    }
 
     /**
      * @return string

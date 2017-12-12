@@ -20,6 +20,9 @@ class Header
      *  ATTRIBUTES
      */
 
+    /** @var integer */
+    protected $idHeader;
+
     /** @var string $title */
     protected $title;
 
@@ -37,6 +40,25 @@ class Header
     /** *******************************
      *  GETTER/SETTER
      */
+
+    /**
+     * @return int
+     */
+    public function getIdHeader(): int
+    {
+        return $this->idHeader;
+    }
+
+    /**
+     * @param int $idHeader
+     *
+     * @return Header
+     */
+    public function setIdHeader(int $idHeader): Header
+    {
+        $this->idHeader = $idHeader;
+        return $this;
+    }
 
     /**
      * @return string|null
