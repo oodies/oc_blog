@@ -1,48 +1,19 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Sébastien CHOMY
- * Date: 30/11/2017
- * Time: 22:43
+ * This file is part of oc_blog project
+ *
+ * @author: Sébastien CHOMY <sebastien.chomy@gmail.com>
+ * @since 2017/12
  */
 
 namespace Blogpost\Domain\ValueObject;
 
-use Ramsey\Uuid\Uuid;
+use User\Domain\ValueObject\UserID;
 
 /**
  * Class BloggerID
  * @package Blogpost\Domain\ValueObject
  */
-class BloggerID
+class BloggerID extends UserID
 {
-    /**
-     * @var string $Uuid
-     */
-    protected $Uuid;
-
-    /**
-     * PostID constructor.
-     *
-     * @param string $Uuid
-     *
-     * @return BloggerID
-     */
-    public function __construct(string $Uuid = null)
-    {
-        if ($Uuid == null) {
-            $Uuid = Uuid::uuid4()->toString();
-        }
-        $this->Uuid = $Uuid;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getValue()
-    {
-        return $this->Uuid;
-    }
 }
