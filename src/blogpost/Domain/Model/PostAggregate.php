@@ -9,7 +9,7 @@
 namespace Blogpost\Domain\Model;
 
 use Blogpost\Domain\ValueObject\PostID;
-use User\Domain\Model\Person;
+use User\Domain\Model\User;
 
 /**
  * Class PostAggregate
@@ -79,19 +79,19 @@ class PostAggregate extends Post
     }
 
     /**
-     * @return Person|null
+     * @return User|null
      */
-    public function getBlogger(): ?Person
+    public function getBlogger(): ?User
     {
         return $this->blogger;
     }
 
     /**
-     * @param Person $blogger
+     * @param User $blogger
      *
      * @return PostAggregate
      */
-    public function setBlogger(Person $blogger): PostAggregate
+    public function setBlogger(User $blogger): PostAggregate
     {
         $this->blogger = $blogger;
         return $this;

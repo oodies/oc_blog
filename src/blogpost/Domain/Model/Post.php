@@ -102,19 +102,19 @@ class Post
     }
 
     /**
-     * @return mixed
+     * @return BloggerID
      */
-    public function getBloggerID()
+    public function getBloggerID(): BloggerID
     {
         return $this->bloggerID;
     }
 
     /**
-     * @param mixed $bloggerID
+     * @param BloggerID $bloggerID
      *
      * @return Post
      */
-    public function setBloggerID($bloggerID)
+    public function setBloggerID(BloggerID $bloggerID)
     {
         $this->bloggerID = $bloggerID;
         return $this;

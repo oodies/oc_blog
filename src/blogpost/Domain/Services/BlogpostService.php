@@ -15,7 +15,7 @@ use Blogpost\Domain\ValueObject\VersionID;
 use Blogpost\Infrastructure\Repository\BodyRepository;
 use Blogpost\Infrastructure\Repository\HeaderRepository;
 use Blogpost\Infrastructure\Repository\PostRepository;
-use User\Infrastructure\Repository\PersonRepository;
+use User\Domain\Services\UserService;
 
 /**
  * Class Blogpost
@@ -39,7 +39,7 @@ class BlogpostService
 
         $body = (new bodyRepository())->findByPostID($postID);
         $header = (new HeaderRepository())->findByPostID($postID);
-        $blogger = (new PersonRepository())->findByUid($bloggerID);
+        $blogger = (new UserService())->getUser($post->getBloggerID()->getValue());
 
         $postAggregate->setBody($body);
         $postAggregate->setHeader($header);
@@ -58,7 +58,6 @@ class BlogpostService
      */
     public function getBlogPosts()
     {
-
         $postRepository = new PostRepository();
         $posts = $postRepository->findAll();
 
@@ -66,19 +65,17 @@ class BlogpostService
         foreach ($posts as $key => $post) {
             /** @var Post $post */
             $postID = $post->getPostID();
-            $bloggerID = $post->getBloggerID();
 
             $postAggregate = new postAggregate($postID);
 
             $header = (new HeaderRepository())->findByPostID($postID);
-            $blogger = (new PersonRepository())->findByUid($bloggerID);
+            $blogger = (new UserService())->getUser($post->getBloggerID()->getValue());
 
             $postAggregate->setHeader($header);
             $postAggregate->setBlogger($blogger);
 
             $entries[] = $postAggregate;
         }
-
         return $entries;
     }
 
@@ -86,6 +83,8 @@ class BlogpostService
      * Create a new blogpost
      *
      * @param PostAggregate $postAggregate
+     *
+     * @throws
      */
     public function postBlogPost(PostAggregate $postAggregate): void
     {
@@ -109,10 +108,11 @@ class BlogpostService
      * Complete change of blogpost data
      *
      * @param PostAggregate $postAggregate
+     *
+     * @throws
      */
     public function putBlogPost(PostAggregate $postAggregate): void
     {
-
         // TODO change versionID of the Post entity
 
         $headerRepository = new HeaderRepository();
