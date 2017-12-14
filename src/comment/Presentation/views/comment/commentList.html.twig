@@ -1,0 +1,10 @@
+<p>ThreadID : {{ thread.threadID.value }}</p>
+<p>PostID : {{ thread.postID.value }}</p>
+<table>
+    {% for commentAggregate in comments %}
+        <tr>
+            <td>{{ commentAggregate.comment.body }}</td>
+            <td>{{ commentAggregate.author.lastname }}</td>
+        </tr>
+    {% endfor %}
+</table>
