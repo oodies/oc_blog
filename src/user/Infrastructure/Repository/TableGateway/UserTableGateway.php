@@ -47,4 +47,24 @@ class UserTableGateway extends AbstractTableGateway
 
         return $statement->fetch();
     }
+
+    /**
+     * Fetches a row by Email
+     *
+     * @param string $email
+     *
+     * @return false|array
+     * @throws \Exception
+     */
+    public function findByEmail(string $email)
+    {
+        $sql = "SELECT * FROM " . $this->tableName .
+            " WHERE email" . " = :email";
+
+        /** @var \PDOStatement $statement */
+        $statement = $this->getAdapter()->getConnection()->prepare($sql);
+        $statement->execute([':email' => $email]);
+
+        return $statement->fetch();
+    }
 }

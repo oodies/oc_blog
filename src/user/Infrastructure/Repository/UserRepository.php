@@ -59,6 +59,33 @@ class UserRepository extends AbstractRepository
         return $user;
     }
 
+    /**
+     * Find User by 'Email'
+     *
+     * @param string $email
+     *
+     * @return User
+     */
+    public function findByEmail(string $email): User
+    {
+        /** @var User $user */
+        $user = new User();
+
+        $row = $this->getDbTable()->findByEmail($email);
+        if ($row !== false) {
+            $user
+                ->setIdUser($row['id_user'])
+                ->setUserID(new UserID($row['userID']))
+                ->setNickname($row['nickname'])
+                ->setFirstname($row['firstname'])
+                ->setLastname($row['lastname'])
+                ->setUsername($row['username'])
+                ->setEmail($row['email'])
+                ->setEnabled($row['enabled'])
+                ->setSalt($row['salt']);
+        }
+        return $user;
+    }
 
     /**
      * Find all users
