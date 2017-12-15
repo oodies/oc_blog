@@ -23,7 +23,7 @@ class ThreadAggregate
     /** @var Thread $thread */
     protected $thread;
 
-    /** @var array $comments
+    /** @var \arrayObject $comments
      * array commentAggregate */
     protected $comments;
 
@@ -68,9 +68,9 @@ class ThreadAggregate
     }
 
     /**
-     * @return array
+     * @return \ArrayObject
      */
-    public function getComments(): array
+    public function getComments(): \ArrayObject
     {
         return $this->comments;
     }
@@ -80,9 +80,9 @@ class ThreadAggregate
      *
      * @return ThreadAggregate
      */
-    public function setComments(array $comments): ThreadAggregate
+    public function setComments(CommentAggregate $comments): ThreadAggregate
     {
-        $this->comments = $comments;
+        $this->comments->append($comments);
         return $this;
     }
 }
