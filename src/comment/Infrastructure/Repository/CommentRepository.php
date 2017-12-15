@@ -51,7 +51,7 @@ class CommentRepository extends AbstractRepository
                     ->setThreadID(new ThreadID($row['threadID']))
                     ->setAuthorID(new AuthorID($row['authorID']))
                     ->setBody($row['body'])
-                    ->setCreateAt($row['create_at'])
+                    ->setCreateAt(new \DateTime($row['create_at']))
                 ;
                 $entries[] = $comment;
                 unset($comment);
@@ -70,8 +70,9 @@ class CommentRepository extends AbstractRepository
     public function save(Comment $comment)
     {
         $data['threadID'] = $comment->getThreadID()->getValue();
+        $data['authorID'] = $comment->getAuthorID()->getValue();
         $data['body'] = $comment->getBody();
-        $data['create_at'] = $comment->getCreateAt();
+        $data['create_at'] = $comment->getCreateAt()->format('Y-m-d H:i:s');
 
         if ($comment->getIdComment() === null) {
             $this->getDbTable()->insert($data);
