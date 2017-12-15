@@ -18,6 +18,25 @@ use User\Infrastructure\Repository\UserRepository;
  */
 class UserService
 {
+    /** *******************************
+     *      PROPERTIES
+     */
+
+    /** @var UserRepository */
+    protected $userRepository;
+
+    /** *******************************
+     *      METHODS
+     */
+
+    /**
+     * UserService Constructor
+     */
+    public function __construct()
+    {
+        $this->userRepository = new UserRepository();
+    }
+
     /**
      * Get a simple user
      *
@@ -27,10 +46,17 @@ class UserService
      */
     public function getUser(string $userID)
     {
-        $userRepository = new UserRepository();
-        $user = $userRepository->findByUserID(new UserID($userID));
+        return $this->userRepository->findByUserID(new UserID($userID));
+    }
 
-        return $user;
+    /**
+     * @param string $email
+     *
+     * @return User
+     */
+    public function getUserByEmail(string $email)
+    {
+        return $this->userRepository->findByEmail($email);
     }
 
     /**
@@ -40,20 +66,20 @@ class UserService
      */
     public function getUsers()
     {
-        $userRepository = new UserRepository();
-        $users = $userRepository->findAll();
-
-        return $users;
+        return $this->userRepository->findAll();
     }
 
     /**
      * Create a new complete user
      *
      * @param User $user
+     *
+     * @throws \Exception
+     *
+     * @return void
      */
     public function postUser(User $user): void
     {
-        $userRepository = new UserRepository();
-        $userRepository->save($user);
+        $this->userRepository->save($user);
     }
 }
