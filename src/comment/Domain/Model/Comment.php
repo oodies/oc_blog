@@ -103,9 +103,9 @@ class Comment
     }
 
     /**
-     * @return AuthorID
+     * @return UserID
      */
-    public function getAuthorID(): AuthorID
+    public function getAuthorID(): UserID
     {
         return $this->authorID;
     }
