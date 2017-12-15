@@ -11,6 +11,7 @@ namespace Comment\Domain\Services;
 use Blogpost\Domain\ValueObject\PostID;
 use Comment\Domain\Model\Comment;
 use Comment\Domain\Model\CommentAggregate;
+use Comment\Domain\Model\Thread;
 use Comment\Domain\Model\ThreadAggregate;
 use Comment\Infrastructure\Repository\CommentRepository;
 use Comment\Infrastructure\Repository\ThreadRepository;
@@ -22,7 +23,6 @@ use User\Domain\Services\UserService;
  */
 class CommentService
 {
-
     /**
      * Return a comments list by PostID
      *
@@ -32,37 +32,43 @@ class CommentService
      */
     public function getComments(string $postID)
     {
-        $threadAggregate = new ThreadAggregate();
-
         /** @var ThreadRepository $threadRepository */
         $threadRepository = new ThreadRepository();
+        /** @var Thread $thread */
         $thread = $threadRepository->findByPostID(new PostID($postID));
-
-        $threadAggregate->setThread($thread);
 
         /** @var CommentRepository $commentRepository */
         $commentRepository = new CommentRepository();
+        /** @var array $comments */
         $comments = $commentRepository->findByThreadID($thread->getThreadID());
 
-        $commentTab = [];
-        foreach ($comments as $comment) {
-            $userService = new UserService();
-            /** @var Comment $comment */
-            $author = $userService->getUser($comment->getAuthorID()->getValue());
+        $threadAggregate = new ThreadAggregate();
+        $threadAggregate->setThread($thread);
 
+        foreach ($comments as $comment) {
             $commentAggregate = new CommentAggregate();
             $commentAggregate->setComment($comment);
-            $commentAggregate->setAuthor($author);
+            $commentAggregate->setAuthor(
+                (new UserService())->getUser($comment->getAuthorID()->getValue())
+            );
 
-            $commentTab[] = $commentAggregate;
+            $threadAggregate->setComments($commentAggregate);
         }
-        $threadAggregate->setComments($commentTab);
 
         return $threadAggregate;
     }
 
-
-    public function postComment(Comment $comment)
+    /**
+     * Create a new comment
+     *
+     * @param Comment $comment
+     *
+     * @throws \Exception
+     *
+     * @return void
+     *
+     */
+    public function postComment(Comment $comment): void
     {
         $commentRepository = new CommentRepository();
         $commentRepository->save($comment);

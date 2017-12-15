@@ -8,11 +8,8 @@
 
 namespace Comment\Domain\Services;
 
-
 use Comment\Domain\Model\ThreadAggregate;
-use Comment\Infrastructure\Repository\CommentRepository;
 use Comment\Infrastructure\Repository\ThreadRepository;
-use User\Infrastructure\Repository\UserRepository;
 
 /**
  * Class ThreadService
@@ -21,34 +18,34 @@ use User\Infrastructure\Repository\UserRepository;
 class ThreadService
 {
 
+    /**
+     *
+     */
     public function getThread () {
-
+        // TODO to implement
     }
 
     /**
+     * Create or update Thread and create Comment
+     *
      * @param ThreadAggregate $threadAggregate
      *
      * @throws \Exception
+     *
+     * @return void
      */
-    public function postThread (ThreadAggregate $threadAggregate) {
+    public function postThread (ThreadAggregate $threadAggregate): void {
 
         $thread = $threadAggregate->getThread();
-        $comment = $threadAggregate->getComment();
-        $author = $threadAggregate->getAuthor();
+        $comments = $threadAggregate->getComments();
 
         /** @var ThreadRepository $threadRepository */
         $threadRepository = new ThreadRepository();
         $threadRepository->save($thread);
 
+        $comment = $comments->offsetGet(0)->getComment();
 
-        /** @var UserRepository $userRepository */
-        $userRepository = new UserRepository();
-        $userRepository->save($author);
-
-        $comment->setAuthorID($author->getUserID());
-
-        /** @var CommentRepository $commentRepository */
-        $commentRepository = new CommentRepository();
-        $commentRepository->save($comment);
+        $commentService = new CommentService();
+        $commentService->postComment($comment);
     }
 }
