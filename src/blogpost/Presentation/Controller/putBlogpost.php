@@ -20,10 +20,12 @@ class putBlogpost extends Controller
     /**
      * Complete change of blogpost data
      *
-     * @param string $postID
      */
-    public function putBlogpostAction(string $postID)
+    public function putBlogpostAction()
     {
+        $params = Registry::get('request')->getQueryParams();
+        $postID = $params['id'];
+
         $blogpostService = new BlogpostService();
         $postAggregate = $blogpostService->GetBlogPost($postID);
 

@@ -22,9 +22,12 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-md-10 mx-auto">
+                <div>
+                    <a href="/newPost">Nouvel article</a>
+                </div>
                 {% for post in posts %}
                     <div class="post-preview">
-                        <a href="?action=viewPost&id={{ post.postID.value }}">
+                        <a href="/post?id={{ post.postID.value }}">
                             <h2 class="post-title">
                                 {{ post.header.title }}
                             </h2>
@@ -34,6 +37,7 @@
                         </a>
                         <p class="post-meta">Posted by
                             <a href="#">{{ post.blogger.nickname }}</a>
+                            {# TODO DateTime->__toString #}
                             on September 24, 2017</p>
                     </div>
                 {% endfor %}

@@ -6,7 +6,7 @@
  * @since 2017/12
  */
 
-namespace User\Presentation\Controller\User;
+namespace User\Presentation\Controller;
 
 use Lib\Controller\Controller;
 use User\Domain\Model\User;

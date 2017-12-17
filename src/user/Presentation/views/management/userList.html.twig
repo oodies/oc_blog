@@ -1,3 +1,4 @@
+<a href="/registration">Ajouter un utilisateur</a>
 <table>
     <thead>
     <tr>
@@ -16,7 +17,7 @@
             <td>{{ user.username }}</td>
             <td>{{ user.email }}</td>
             <td>
-                <a href="/index.php?action=changeUser&id={{ user.userID.value }}">modifier</a>
+                <a href="/changeUser?id={{ user.userID.value }}">modifier</a>
             </td>
         </tr>
     {% endfor %}

@@ -14,6 +14,7 @@
                         <h2 class="subheading">{{ post.header.brief }}</h2>
                         <span class="meta">Posted by
                 <a href="#">{{ post.blogger.nickname }}</a>
+                {# TODO DateTime->__toString #}
                 on August 24, 2017</span>
                     </div>
                 </div>
@@ -31,7 +32,7 @@
             </div>
         </div>
     </article>
-    <a href="/?action=changePost&id={{ post.postId.value }}">Change</a>
+    <a href="/changePost&id={{ post.postId.value }}">Change</a>
     <hr>
 
 

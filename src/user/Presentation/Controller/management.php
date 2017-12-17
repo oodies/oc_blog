@@ -6,9 +6,10 @@
  * @since 2017/12
  */
 
-namespace User\Presentation\Controller\User;
+namespace User\Presentation\Controller;
 
 use Lib\Controller\Controller;
+use Lib\Registry;
 use User\Domain\Model\User;
 use User\Domain\Services\UserService;
 use User\Domain\ValueObject\UserID;
@@ -16,7 +17,7 @@ use User\Infrastructure\Repository\UserRepository;
 
 /**
  * Class management
- * @package User\Presentation\Controller\User
+ * @package User\Presentation\Controller
  */
 class management extends Controller
 {
@@ -37,10 +38,12 @@ class management extends Controller
     /**
      * Complete change of user data
      *
-     * @param string $userID
      */
-    public function putUserAction(string $userID)
+    public function putUserAction()
     {
+        $params = Registry::get('request')->getQueryParams();
+        $userID = $params['id'];
+
         $userRepository = new UserRepository();
         /** @var User $user */
         $user = $userRepository->findByUserID(new UserID($userID));

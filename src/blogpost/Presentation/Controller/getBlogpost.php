@@ -10,6 +10,8 @@ namespace Blogpost\presentation\Controller;
 
 use Blogpost\Domain\Services\BlogpostService;
 use Lib\Controller\Controller;
+use Lib\Registry;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Class getBlogpost
@@ -22,8 +24,11 @@ class getBlogpost extends Controller
      *
      * @param string $postID
      */
-    public function getBlogpostAction(string $postID)
+    public function getBlogpostAction()
     {
+        $params = Registry::get('request')->getQueryParams();
+        $postID = $params['id'];
+
         $blogpostService = new BlogpostService();
         $post = $blogpostService->GetBlogPost($postID);
 
