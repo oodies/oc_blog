@@ -63,14 +63,16 @@ class Controller
     {
         list($module, $controller, $action) = explode(':', $path);
 
-        $directory = $_SERVER['DOCUMENT_ROOT'].'/src/' . $module . '/presentation/views';
-        $name = $controller . '/' . $action;
+        $directoryApp = $_SERVER['DOCUMENT_ROOT'].'/app/views/layout';
+        $directoryModule = $_SERVER['DOCUMENT_ROOT'].'/src/' . $module . '/Presentation/views';
 
-        $loader = new Twig_Loader_Filesystem($directory);
+        $loader = new Twig_Loader_Filesystem(array($directoryApp, $directoryModule));
         /** @var Twig_Environment $twig */
         $twig = new Twig_Environment($loader, array(
             'cache' => false
         ));
+
+        $name = $controller . '/' . $action;
 
         return $twig->render($name, $context);
     }
