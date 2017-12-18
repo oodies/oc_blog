@@ -131,6 +131,10 @@ class Bootstrap
                 'path'       => '/users',
                 'controller' => 'user:management:getUsers'
             ],
+            'user_management_postUser'    => [
+                'path'       => '/addUser',
+                'controller' => 'user:management:postUser',
+            ],
             'user_management_putUser'    => [
                 'path'       => '/changeUser',
                 'controller' => 'user:management:putUser',
@@ -148,7 +152,11 @@ class Bootstrap
             // Other application routing
             'contact'                    => [
                 'path'       => '/contact',
-                'controller' => 'blogpost:contactUs:contactUs'
+                'controller' => 'app:contactUs:contactUs'
+            ],
+            'homepage'                   => [
+                'path'       => '/',
+                'controller' => 'app:homepage:homepage'
             ]
         ];
     }
@@ -158,7 +166,7 @@ class Bootstrap
      */
     public function dispatch()
     {
-       $path = $this->request->getUri()->getPath();
+        $path = $this->request->getUri()->getPath();
 
         // default route
         $route = [
