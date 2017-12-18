@@ -2,6 +2,12 @@
 # yarn lockfile v1
 
 
+boosted@^4.0.0-beta.2:
+  version "4.0.0-beta.2"
+  resolved "https://registry.yarnpkg.com/boosted/-/boosted-4.0.0-beta.2.tgz#f3743d16fd5e50ff9cb2d83bdf639fa9c2da1c7e"
+  dependencies:
+    swiper "^3.4.1"
+
 bootstrap@^4.0.0-beta.2:
   version "4.0.0-beta.2"
   resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-4.0.0-beta.2.tgz#4d67d2aa2219f062cd90bc1247e6747b9e8fd051"
@@ -25,3 +31,7 @@ startbootstrap-clean-blog@^4.0.0-beta.2:
     bootstrap "^4.0.0-beta.2"
     font-awesome "4.7.0"
     jquery "^3.2.1"
+
+swiper@^3.4.1:
+  version "3.4.2"
+  resolved "https://registry.yarnpkg.com/swiper/-/swiper-3.4.2.tgz#39d6b410b1a39833e1f72d3b72999df5f5e38392"
