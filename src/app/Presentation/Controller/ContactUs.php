@@ -5,13 +5,13 @@
  * Date: 03/12/2017
  * Time: 23:10
  */
-namespace Blogpost\Presentation\Controller;
+namespace App\Presentation\Controller;
 
 use Lib\Controller\Controller;
 
 /**
  * Class ContactUs
- * @package Blogpost\Presentation\Controller
+ * @package App\Presentation\Controller
  *
  */
 class ContactUs extends Controller
@@ -19,6 +19,6 @@ class ContactUs extends Controller
 
     public function contactUsAction () {
 
-        echo $this->render('blogpost:app:contactUs.html.twig', array());
+        echo $this->render('app:contactUS:contactUs.html.twig', array());
     }
 }
