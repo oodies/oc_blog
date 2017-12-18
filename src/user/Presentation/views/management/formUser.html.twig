@@ -1,0 +1,40 @@
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="firstname">firstname</label>
+            <input id="firstname" type="text" class="form-control" name="firstname"
+                   value="{{ user.firstname ?? '' }}">
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="lastname">lastname</label>
+            <input id="lastname" type="text" class="form-control" name="lastname"
+                   value="{{ user.lastname ?? '' }}">
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="">nickname</label>
+            <input id="nickname" type="text" class="form-control" name="nickname"
+                   value="{{ user.nickname ?? '' }}">
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="username">username</label>
+            <input id="username" type="text" class="form-control" name="username"
+                   value="{{ user.username ?? '' }}">
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            <label for="email">email</label>
+            <input id="email" type="email" class="form-control" name="email" value="{{ user.email ?? '' }}">
+        </div>
+    </div>
+</div>

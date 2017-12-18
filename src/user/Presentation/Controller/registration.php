@@ -56,6 +56,6 @@ class registration extends Controller
             }
         }
 
-        echo $this->render('user:user:newUser.html.twig', $assign);
+        echo $this->render('user:registration:register.html.twig', $assign);
     }
 }

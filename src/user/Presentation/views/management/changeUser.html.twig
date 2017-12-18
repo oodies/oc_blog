@@ -1,27 +1,16 @@
-<form action="/changeUser?id={{ user.userID.value }}" method="post" novalidate>
-    <div class="control-group">
-        <div class="form-group controls">
-            <label for="">nickname</label>
-            <input id="nickname" type="text" class="form-control" name="nickname" value="{{ user.nickname ?? '' }}">
-        </div>
-        <div class="form-group controls">
-            <label for="firstname">firstname</label>
-            <input id="firstname" type="text" class="form-control" name="firstname" value="{{ user.firstname ?? '' }}">
-        </div>
-        <div class="form-group controls">
-            <label for="lastname">lastname</label>
-            <input id="lastname" type="text" class="form-control" name="lastname" value="{{ user.lastname ?? '' }}">
-        </div>
-        <div class="form-group controls">
-            <label for="username">username</label>
-            <input id="username" type="text" class="form-control" name="username" value="{{ user.username ?? '' }}">
-        </div>
-        <div class="form-group controls">
-            <label for="email">email</label>
-            <input id="email" type="email" class="form-control" name="email" value="{{ user.email ?? '' }}">
-        </div>
-        <div class="form-group controls">
-            <input type="submit" value="Valider">
-        </div>
+{% extends 'layouts.admin.html.twig' %}
+
+{% block content %}
+    <div class="row">
+        <form id="changeUser" action="/changeUser?id={{ user.userID.value }}" method="post" novalidate>
+            {% include '/management/formUser.html.twig' %}
+            <div class="submit">
+                <input type="submit" form="changeUser" class="btn btn-primary"
+                       value="Mettre à jour le profil utilisateur">
+            </div>
+        </form>
     </div>
-</form>
+    <hr>
+{% endblock content %}
+
+{% block actionTitle %}Profil{% endblock actionTitle %}

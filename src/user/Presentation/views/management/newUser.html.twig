@@ -1,0 +1,15 @@
+{% extends 'layouts.admin.html.twig' %}
+
+{% block content %}
+    <div class="row">
+        <form id="addUser" action="/addUser" method="post" novalidate>
+            {% include '/management/formUser.html.twig' %}
+            <div class="submit">
+                <input type="submit" form="addUser" class="btn btn-primary" value="Ajouter un utilisateur">
+            </div>
+        </form>
+    </div>
+    <hr>
+{% endblock content %}
+
+{% block actionTitle %}Ajouter un utilisateur{% endblock actionTitle %}
