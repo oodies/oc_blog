@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Mon Blog - Admin</title>
+
+    <link rel="stylesheet" href="/public/node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link href="/public/node_modules/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="/public/node_modules/boosted/dist/css/boosted.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="/public/css/exemple.css" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet'
+          type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
+          rel='stylesheet' type='text/css'>
+</head>
+<body>
+
+{% include 'layout.admin.navigation.html.twig' %}
+
+<main id="content" class="container">
+    <div id="header" class="container">
+        <div class="row">
+            <div class="col-sm-6">
+                <a href="#">
+                    <img src="/public/node_modules/boosted/dist/img/orange_logo.svg" alt="Back to homepage">
+                </a>
+                <h1>{% block actionTitle %}{% endblock actionTitle %}</h1>
+            </div>
+        </div>
+    </div>
+    <div id="localContainer" class="o-nav-local"></div>
+    {% block content %}
+    {% endblock content %}
+</main>
+
+{% include 'layout.footer.html.twig' %}
+
+<!-- Bootstrap core JavaScript -->
+<script src="/public/node_modules/jquery/dist/jquery.min.js"></script>
+<script src="/public/node_modules/startbootstrap-clean-blog/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Contact Form JavaScript -->
+<script src="/public/node_modules/startbootstrap-clean-blog/js/jqBootstrapValidation.js"></script>
+<script src="/public/node_modules/startbootstrap-clean-blog/js/contact_me.js"></script>
+
+<!-- Custom scripts for this template -->
+<script src="/public/node_modules/startbootstrap-clean-blog/js/clean-blog.min.js"></script>
+
+</body>
+</html>
