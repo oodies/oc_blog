@@ -51,6 +51,29 @@ class CommentRepository extends AbstractRepository
                     ->setThreadID(new ThreadID($row['threadID']))
                     ->setAuthorID(new AuthorID($row['authorID']))
                     ->setBody($row['body'])
+                    ->setCreateAt(new \DateTime($row['create_at']));
+                $entries[] = $comment;
+                unset($comment);
+            }
+        }
+        return $entries;
+    }
+
+    /**
+     * Find all comments
+     */
+    public function findAll()
+    {
+        $rowSet = $this->getDbTable()->findAll();
+
+        $entries = [];
+        if (count($rowSet)) {
+            foreach ($rowSet as $key => $row) {
+                $comment = new Comment();
+                $comment->setIdComment($row['id_comment'])
+                    ->setThreadID(new ThreadID($row['threadID']))
+                    ->setAuthorID(new AuthorID($row['authorID']))
+                    ->setBody($row['body'])
                     ->setCreateAt(new \DateTime($row['create_at']))
                 ;
                 $entries[] = $comment;

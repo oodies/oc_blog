@@ -53,6 +53,24 @@ class ThreadRepository extends AbstractRepository
     }
 
     /**
+     * @param ThreadID $threadID
+     *
+     * @return Thread
+     */
+    public function findByThreadID(ThreadID $threadID): Thread
+    {
+        $thread = new Thread();
+
+        $row = $this->getDbTable()->findByThreadID($threadID->getValue());
+        if ($row !== false) {
+            $thread->setIdThread($row['id_thread'])
+                ->setThreadID($threadID)
+                ->setPostID(new PostID($row['postID']));
+        }
+        return $thread;
+    }
+
+    /**
      * Persist model
      *
      * @param Thread $thread

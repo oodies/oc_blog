@@ -49,4 +49,24 @@ class ThreadTableGateway extends AbstractTableGateway
 
         return $statement->fetch();
     }
+
+    /**
+     * fetches a row by 'threadID' foreign key
+     *
+     * @param string $threadID
+     *
+     * @return array|false
+     * @throws \Exception
+     */
+    public function findByThreadID(string $threadID)
+    {
+        $sql = "SELECT * FROM " . $this->tableName .
+            " WHERE threadID" . "= :threadID";
+
+        /** @var \PDOStatement $statement */
+        $statement = $this->getAdapter()->getConnection()->prepare($sql);
+        $statement->execute([':threadID' => $threadID]);
+
+        return $statement->fetch();
+    }
 }
