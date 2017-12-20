@@ -15,7 +15,9 @@ use Blogpost\Domain\ValueObject\VersionID;
 use Blogpost\Infrastructure\Repository\BodyRepository;
 use Blogpost\Infrastructure\Repository\HeaderRepository;
 use Blogpost\Infrastructure\Repository\PostRepository;
-use User\Domain\Services\UserService;
+use User\Infrastructure\Persistence\CQRS\ReadRepository;
+use User\Infrastructure\Repository\ReadDataMapperRepository;
+use User\Infrastructure\Service\UserReadService;
 
 /**
  * Class Blogpost
@@ -37,9 +39,14 @@ class BlogpostService
 
         $postAggregate = new PostAggregate($postID);
 
+        $userReadService = new UserReadService(
+            new ReadRepository(
+                new ReadDataMapperRepository())
+        );
+
         $body = (new bodyRepository())->findByPostID($postID);
         $header = (new HeaderRepository())->findByPostID($postID);
-        $blogger = (new UserService())->getUser($post->getBloggerID()->getValue());
+        $blogger = $userReadService->getByUserID($post->getBloggerID());
 
         $postAggregate->setBody($body);
         $postAggregate->setHeader($header);
@@ -54,6 +61,7 @@ class BlogpostService
     /**
      * Return a blogpost list
      *
+     * TODO classer par date de mise à jour décroissant
      * @return array
      */
     public function getBlogPosts()
@@ -68,8 +76,13 @@ class BlogpostService
 
             $postAggregate = new postAggregate($postID);
 
+            $userReadService = new UserReadService(
+                new ReadRepository(
+                    new ReadDataMapperRepository())
+            );
+
             $header = (new HeaderRepository())->findByPostID($postID);
-            $blogger = (new UserService())->getUser($post->getBloggerID()->getValue());
+            $blogger = $userReadService->getByUserID($post->getBloggerID());
 
             $postAggregate->setHeader($header);
             $postAggregate->setBlogger($blogger);
