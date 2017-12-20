@@ -8,14 +8,14 @@
 
 namespace Comment\Domain\Services;
 
-use Blogpost\Domain\ValueObject\PostID;
+use Blogpost\Domain\Services\BlogpostService;
 use Comment\Domain\Model\Comment;
 use Comment\Domain\Model\CommentAggregate;
-use Comment\Domain\Model\Thread;
-use Comment\Domain\Model\ThreadAggregate;
 use Comment\Infrastructure\Repository\CommentRepository;
 use Comment\Infrastructure\Repository\ThreadRepository;
-use User\Domain\Services\UserService;
+use User\Infrastructure\Persistence\CQRS\ReadRepository;
+use User\Infrastructure\Repository\ReadDataMapperRepository;
+use User\Infrastructure\Service\UserReadService;
 
 /**
  * Class CommentService
@@ -24,38 +24,40 @@ use User\Domain\Services\UserService;
 class CommentService
 {
     /**
-     * Return a comments list by PostID
+     * Return a comments list
      *
-     * @param string $postID
-     *
-     * @return ThreadAggregate
      */
-    public function getComments(string $postID)
+    public function getComments()
     {
-        /** @var ThreadRepository $threadRepository */
-        $threadRepository = new ThreadRepository();
-        /** @var Thread $thread */
-        $thread = $threadRepository->findByPostID(new PostID($postID));
-
         /** @var CommentRepository $commentRepository */
         $commentRepository = new CommentRepository();
-        /** @var array $comments */
-        $comments = $commentRepository->findByThreadID($thread->getThreadID());
+        $comments = $commentRepository->findAll();
 
-        $threadAggregate = new ThreadAggregate();
-        $threadAggregate->setThread($thread);
+        /** @var UserReadService $userReadService */
+        $userReadService = new UserReadService(
+            new ReadRepository(
+                new ReadDataMapperRepository())
+        );
 
+        $response = [];
         foreach ($comments as $comment) {
             $commentAggregate = new CommentAggregate();
             $commentAggregate->setComment($comment);
             $commentAggregate->setAuthor(
-                (new UserService())->getUser($comment->getAuthorID()->getValue())
+                $userReadService->getByUserID($comment->getAuthorID())
             );
 
-            $threadAggregate->setComments($commentAggregate);
+            $threadRepository = new ThreadRepository();
+            $thread = $threadRepository->findByThreadID($comment->getThreadID());
+
+            $post = (new BlogpostService())->getBlogPost($thread->getPostID()->getValue());
+
+            $commentAggregate->setPost($post);
+
+            $response[] = $commentAggregate;
         }
 
-        return $threadAggregate;
+        return $response;
     }
 
     /**

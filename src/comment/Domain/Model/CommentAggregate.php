@@ -8,6 +8,7 @@
 
 namespace Comment\Domain\Model;
 
+use Blogpost\Domain\Model\Post;
 use User\Domain\Model\User;
 
 /**
@@ -22,6 +23,9 @@ class CommentAggregate
 
     /** @var User $author */
     protected $author;
+
+    /** @var Post $comment */
+    protected $post;
 
     /**
      * @return Comment
@@ -58,6 +62,25 @@ class CommentAggregate
     public function setAuthor(User $author): CommentAggregate
     {
         $this->author = $author;
+        return $this;
+    }
+
+    /**
+     * @return Post
+     */
+    public function getPost(): Post
+    {
+        return $this->post;
+    }
+
+    /**
+     * @param Post $post
+     *
+     * @return CommentAggregate
+     */
+    public function setPost(Post $post): CommentAggregate
+    {
+        $this->post = $post;
         return $this;
     }
 }
