@@ -10,10 +10,15 @@ namespace User\Presentation\Controller;
 
 use Lib\Controller\Controller;
 use Lib\Registry;
-use User\Domain\Model\User;
-use User\Domain\Services\UserService;
 use User\Domain\ValueObject\UserID;
-use User\Infrastructure\Repository\UserRepository;
+use User\Infrastructure\Persistence\CQRS\ReadRepository;
+use User\Infrastructure\Persistence\CQRS\WriteRepository;
+use User\Infrastructure\Repository\ReadDataMapperRepository;
+use User\Infrastructure\Repository\WriteDataMapperRepository;
+use User\Infrastructure\Service\UserReadService;
+use User\Infrastructure\Service\UserRegisterService;
+use User\Infrastructure\Service\UserStatusService;
+use User\Infrastructure\Service\UserWriteService;
 
 /**
  * Class management
@@ -22,97 +27,149 @@ use User\Infrastructure\Repository\UserRepository;
 class management extends Controller
 {
     /**
+     * Return a profile user
+     *
+     * @throws \Exception
+     *
+     */
+    public function getUserAction()
+    {
+        $params = Registry::get('request')->getQueryParams();
+        $userID = $params['id'];
+
+        $userReadService = new UserReadService(
+            new ReadRepository(
+                new ReadDataMapperRepository())
+        );
+
+        $user = $userReadService->getByUserID(new UserID($userID));
+
+        echo $this->render('user:management:user.html.twig', array(
+            'user' => $user
+        ));
+    }
+
+    /**
      * Return a users list
      *
      */
     public function getUsersAction()
     {
-        $userService = new UserService();
-        $users = $userService->getUsers();
+        $userReadService = new UserReadService(
+            new ReadRepository(
+                new ReadDataMapperRepository())
+        );
 
-        echo $this->render('user:management:userList.html.twig', array(
+        $users = $userReadService->findAll();
+
+        echo $this->render('user:management:userList.html.twig', [
             'users' => $users
-        ));
+        ]);
     }
 
     /**
      * Complete change of user data
      *
+     * @throws \Exception
      */
     public function putUserAction()
     {
         $params = Registry::get('request')->getQueryParams();
         $userID = $params['id'];
 
-        $userRepository = new UserRepository();
-        /** @var User $user */
-        $user = $userRepository->findByUserID(new UserID($userID));
+        $userReadService = new UserReadService(
+            new ReadRepository(
+                new ReadDataMapperRepository())
+        );
+        $user = $userReadService->getByUserID(new UserID($userID));
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $username = (isset($_POST['username'])) ? $_POST['username'] : '';
-            $nickname = (isset($_POST['nickname'])) ? $_POST['nickname'] : '';
-            $firstname = (isset($_POST['firstname'])) ? $_POST['firstname'] : '';
-            $lastname = (isset($_POST['lastname'])) ? $_POST['lastname'] : '';
-            $email = (isset($_POST['email'])) ? $_POST['email'] : '';
 
-            $user->setUsername($username)
-                ->setNickname($nickname)
-                ->setFirstname($firstname)
-                ->setLastname($lastname)
-                ->setEmail($email);
+            $post = Registry::get('request')->getParsedBody();
 
-            // if ($user->isValid()) {
-            if (true) {
-                $userRepository->save($user);
-            } else {
-                // TODO Message d'erreur
+            foreach ($post as $key => $value) {
+                $data[$key] = htmlspecialchars($value);
             }
+
+            $userWriteService = new UserWriteService (
+                new WriteRepository(new WriteDataMapperRepository())
+            );
+            $userWriteService->update($user, $data);
         }
 
-        echo $this->render('user:management:changeUser.html.twig', array(
-            'user' => $user
-        ));
+        echo $this->render('user:management:changeUser.html.twig', ['user' => $user]);
     }
 
     /**
-     * Create a User
+     * Create a User by admin interface
      *
+     * @throws \Exception
      */
     public function postUserAction()
     {
-        $assign = [];
+        $user = null;
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-            $username = (isset($_POST['username'])) ? htmlspecialchars($_POST['username']) : '';
-            $nickname = (isset($_POST['nickname'])) ? htmlspecialchars($_POST['nickname']) : '';
-            $firstname = (isset($_POST['firstname'])) ? htmlspecialchars($_POST['firstname']) : '';
-            $lastname = (isset($_POST['lastname'])) ? htmlspecialchars($_POST['lastname']) : '';
-            $email = (isset($_POST['email'])) ? htmlspecialchars($_POST['email']) : '';
-
-            $user = new User();
-            $user
-                ->setNickname($nickname)
-                ->setLastname($lastname)
-                ->setFirstname($firstname)
-                ->setUsername($username)
-                ->setEmail($email);
-
-            // TODO valider les données
-            //if ($userAggregate->isValid()) {
-            if (true) {
-                $userService = new UserService();
-                $userService->postUser($user);
-            } else {
-                $assign = [
-                    'username'  => $_POST['username'],
-                    'firstname' => $_POST['firstname'],
-                    'lastname'  => $_POST['lastname'],
-                    'email'     => $_POST['email']
-                ];
+            $post = Registry::get('request')->getParsedBody();
+            foreach ($post as $key => $value) {
+                $data[$key] = htmlspecialchars($value);
             }
+
+            $userRegisterService = new UserRegisterService(
+                new WriteRepository(new WriteDataMapperRepository())
+            );
+            $user = $userRegisterService->create($data);
         }
 
-        echo $this->render('user:management:newUser.html.twig', $assign);
+        echo $this->render('user:management:newUser.html.twig', ['user' => $user]);
+    }
+
+    /**
+     * Lock a user
+     *
+     * @throws \Exception
+     */
+    public function lockAction()
+    {
+        $params = Registry::get('request')->getQueryParams();
+        $userID = $params['id'];
+
+        $userReadService = new UserReadService(
+            new ReadRepository(
+                new ReadDataMapperRepository())
+        );
+        $user = $userReadService->getByUserID(new UserID($userID));
+
+        $userStatusService = new UserStatusService(
+            new WriteRepository(
+                new WriteDataMapperRepository()
+            ));
+
+        $userStatusService->lock($user);
+    }
+
+    /**
+     * Unlock a user
+     *
+     * @throws \Exception
+     */
+    public function unlockAction()
+    {
+        $params = Registry::get('request')->getQueryParams();
+        $userID = $params['id'];
+
+        $userReadService = new UserReadService(
+            new ReadRepository(
+                new ReadDataMapperRepository())
+        );
+        $user = $userReadService->getByUserID(new UserID($userID));
+
+        $userStatusService = new UserStatusService(
+            new WriteRepository(
+                new WriteDataMapperRepository()
+            ));
+
+        $userStatusService->unlock($user);
     }
 }

@@ -9,8 +9,13 @@
 namespace User\Presentation\Controller;
 
 use Lib\Controller\Controller;
-use User\Domain\Model\User;
-use User\Domain\Services\UserService;
+use Lib\Registry;
+use User\Infrastructure\Persistence\CQRS\ReadRepository;
+use User\Infrastructure\Persistence\CQRS\WriteRepository;
+use User\Infrastructure\Repository\ReadDataMapperRepository;
+use User\Infrastructure\Repository\WriteDataMapperRepository;
+use User\Infrastructure\Service\UserReadService;
+use User\Infrastructure\Service\UserRegisterService;
 
 /**
  * Class registration
@@ -23,39 +28,33 @@ class registration extends Controller
      */
     public function registerAction()
     {
-        $assign = [];
-
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-            $username = (isset($_POST['username'])) ? htmlspecialchars($_POST['username']) : '';
-            $nickname = (isset($_POST['nickname'])) ? htmlspecialchars($_POST['nickname']) : '';
-            $firstname = (isset($_POST['firstname'])) ? htmlspecialchars($_POST['firstname']) : '';
-            $lastname = (isset($_POST['lastname'])) ? htmlspecialchars($_POST['lastname']) : '';
-            $email = (isset($_POST['email'])) ? htmlspecialchars($_POST['email']) : '';
+            $post = Registry::get('request')->getParsedBody();
 
-            $user = new User();
-            $user
-                ->setNickname($nickname)
-                ->setLastname($lastname)
-                ->setFirstname($firstname)
-                ->setUsername($username)
-                ->setEmail($email);
-
-            // TODO valider les données
-            //if ($userAggregate->isValid()) {
-            if (true) {
-                $userService = new UserService();
-                $userService->postUser($user);
-            } else {
-                $assign = [
-                    'username'  => $_POST['username'],
-                    'firstname' => $_POST['firstname'],
-                    'lastname'  => $_POST['lastname'],
-                    'email'     => $_POST['email']
-                ];
+            $password = $post['password'];
+            foreach ($post as $key => $value) {
+                $data[$key] = htmlspecialchars($value);
             }
+
+            $userRegisterService = new UserRegisterService(
+                new WriteRepository(
+                    new WriteDataMapperRepository()
+                ));
+
+            $user = $userRegisterService->create($data);
+
+            // TODO parade car je n'ai pas le id_user en retour du service "create"
+            $userReadService = new UserReadService(
+                new ReadRepository(
+                    new ReadDataMapperRepository()
+                ));
+            $user = $userReadService->getByUserID($user->getUserID());
+
+            // Save password
+            $userRegisterService->register($user, $password);
         }
 
-        echo $this->render('user:registration:register.html.twig', $assign);
+        echo $this->render('user:registration:register.html.twig', []);
     }
 }

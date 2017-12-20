@@ -2,11 +2,11 @@
 
 {% block content %}
     <div class="row">
-        <form id="changeUser" action="/changeUser?id={{ user.userID.value }}" method="post" novalidate>
+        <form id="changeUser" action="/admin/changeUser?id={{ user.userID.value }}" method="post" novalidate>
             {% include '/management/formUser.html.twig' %}
             <div class="submit">
                 <input type="submit" form="changeUser" class="btn btn-primary"
-                       value="Mettre à jour le profil utilisateur">
+                       value="update profile">
             </div>
         </form>
     </div>

@@ -5,7 +5,7 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Inscription</title>
+    <title>Connexion</title>
     <link rel="stylesheet" href="/public/node_modules/bootstrap/dist/css/bootstrap.min.css" type="text/css">
     <link rel="stylesheet" href="/public/node_modules/boosted/dist/css/boosted.min.css" type="text/css">
     <style>
@@ -68,38 +68,28 @@
     <main>
         <div class="i-container">
             <div class="form-user">
-                <h1 class="text-center">Join us !</h1>
-                <form action="/registration" method="post" novalidate>
+                <h1 class="text-center">Blogpost</h1>
+                <form action="/login" method="post">
                     <div class="form-group row">
                         <div class="col-sm-4">
-                            <label for="email">Email</label>
+                        <label for="username" class="col-sm-4 col-form-label">username</label>
                         </div>
                         <div class="col-sm-8">
-                            <input id="email" type="email" class="form-control" name="email"
-                                   value="{{ user.email ?? '' }}">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-sm-4">
-                            <label for="username">Username</label>
-                        </div>
-                        <div class="col-sm-8">
-                            <input id="username" type="text" class="form-control" name="username"
+                            <input type="text" id="username" class="form-control" name="username"
                                    value="{{ user.username ?? '' }}">
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="col-sm-4">
-                            <label for="password">Password</label>
+                        <label for="password" class="col-sm-4 col-form-label">Password</label>
                         </div>
                         <div class="col-sm-8">
-                            <input id="password" type="password" class="form-control" name="password"
-                                   value="{{ user.password ?? '' }}">
+                            <input type="password" id="password" class="form-control" name="password">
                         </div>
                     </div>
                     <div class="form-group row float-right">
                         <div class="col-sm-12">
-                            <button type="submit" class="btn btn-primary">Register</button>
+                            <button type="submit" class="btn btn-primary">LOG IN</button>
                         </div>
                     </div>
                 </form>
@@ -110,4 +100,6 @@
 </div>
 </body>
 </html>
+
+
 

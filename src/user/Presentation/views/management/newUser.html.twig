@@ -2,14 +2,14 @@
 
 {% block content %}
     <div class="row">
-        <form id="addUser" action="/addUser" method="post" novalidate>
+        <form id="addUser" action="/admin/addUser" method="post" novalidate>
             {% include '/management/formUser.html.twig' %}
             <div class="submit">
-                <input type="submit" form="addUser" class="btn btn-primary" value="Ajouter un utilisateur">
+                <input type="submit" form="addUser" class="btn btn-primary" value="Add user">
             </div>
         </form>
     </div>
     <hr>
 {% endblock content %}
 
-{% block actionTitle %}Ajouter un utilisateur{% endblock actionTitle %}
+{% block actionTitle %}New user{% endblock actionTitle %}
