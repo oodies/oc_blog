@@ -67,4 +67,24 @@ class UserTableGateway extends AbstractTableGateway
 
         return $statement->fetch();
     }
+
+    /**
+     * Fetches a row by username
+     *
+     * @param string $username
+     *
+     * @return false|array
+     * @throws \Exception
+     */
+    public function findByUsername(string $username)
+    {
+        $sql = "SELECT * FROM " . $this->tableName .
+            " WHERE username" . " = :username";
+
+        /** @var \PDOStatement $statement */
+        $statement = $this->getAdapter()->getConnection()->prepare($sql);
+        $statement->execute([':username' => $username]);
+
+        return $statement->fetch();
+    }
 }
