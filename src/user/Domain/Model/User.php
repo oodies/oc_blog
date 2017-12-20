@@ -81,6 +81,28 @@ class User
      */
     protected $plainPassword;
 
+    /**
+     * Date of registration
+     *
+     * @var \DateTime
+     */
+    protected $registeredAt;
+
+    /**
+     * Last update date
+     *
+     * @var \DateTime
+     */
+    protected $updateAt;
+
+    /**
+     * user is locked ?
+     *
+     * @var boolean
+     */
+    protected $locked;
+
+
 
     /** *******************************
      *  CONSTRUCT
@@ -312,4 +334,114 @@ class User
         $this->lastname = $lastname;
         return $this;
     }
+
+    /**
+     * @return \DateTime
+     */
+    public function getRegisteredAt(): \DateTime
+    {
+        return $this->registeredAt;
+    }
+
+    /**
+     * @param \DateTime $registeredAt
+     *
+     * @return User
+     */
+    public function setRegisteredAt(\DateTime $registeredAt): User
+    {
+        $this->registeredAt = $registeredAt;
+        return $this;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getUpdateAt(): \DateTime
+    {
+        return $this->updateAt;
+    }
+
+    /**
+     * @param \DateTime $updateAt
+     *
+     * @return User
+     */
+    public function setUpdateAt(\DateTime $updateAt): User
+    {
+        $this->updateAt = $updateAt;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getLocked(): bool
+    {
+        return $this->locked;
+    }
+
+    /**
+     * @param bool $enabled
+     *
+     * @return User
+     */
+    public function setLocked(bool $locked): User
+    {
+        $this->locked = $locked;
+        return $this;
+    }
+
+    /** *******************************
+     *  BEHAVIOR OF THE OBJECT MODEL
+     */
+
+    /**
+     * @param array  $data
+     */
+    public function createUser(array $data)
+    {
+        $date = new \DateTime();
+
+        $this->username = $data['username']?? null;
+        $this->email = $data['email']?? null;
+        $this->registeredAt = $date;
+        $this->updateAt = $date;
+        $this->locked = false;
+    }
+
+    /**
+     * @param User $user
+     */
+    public function updateUser(User $user)
+    {
+        $user->updateAt = new \DateTime();
+    }
+
+    /**
+     * Lock user
+     */
+    public function lock()
+    {
+        $this->locked = true;
+        $this->updateAt = new \DateTime();
+    }
+
+    /**
+     * Unlock user
+     */
+    public function unlock()
+    {
+        $this->locked = false;
+        $this->updateAt = new \DateTime();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isLocked(): bool
+    {
+        return (boolean) $this->locked;
+    }
+
 }
