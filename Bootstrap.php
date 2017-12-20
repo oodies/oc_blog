@@ -127,23 +127,39 @@ class Bootstrap
             ],
             // Users management routing
             //
+            'user_management_getUser'      => [
+                'path'       => '/admin/user',
+                'controller' => 'user:management:getUser'
+            ],
             'user_management_users'      => [
-                'path'       => '/users',
+                'path'       => '/admin/users',
                 'controller' => 'user:management:getUsers'
             ],
             'user_management_postUser'    => [
-                'path'       => '/addUser',
+                'path'       => '/admin/addUser',
                 'controller' => 'user:management:postUser',
             ],
             'user_management_putUser'    => [
-                'path'       => '/changeUser',
+                'path'       => '/admin/changeUser',
                 'controller' => 'user:management:putUser',
+            ],
+            'user_management_lock'    => [
+                'path'       => '/admin/user/lock',
+                'controller' => 'user:management:lock',
+            ],
+            'user_management_unlock'    => [
+                'path'       => '/admin/user/unlock',
+                'controller' => 'user:management:unlock',
             ],
             // Comment routing
             //
             'comment_comments_list'      => [
                 'path'       => '/comments',
-                'controller' => 'comment:getComments:getComments'
+                'controller' => 'comment:getComments:getThread'
+            ],
+            'comment_management_comments'      => [
+                'path'       => '/admin/comments',
+                'controller' => 'comment:management:getComments'
             ],
             'comment_comments_new'       => [
                 'path'       => '/newComment',
