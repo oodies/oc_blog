@@ -9,6 +9,7 @@
 namespace User\Infrastructure\Service;
 
 use User\Domain\Model\User;
+use User\Domain\ValueObject\UserID;
 use User\Infrastructure\Persistence\CQRS\WriteRepository;
 
 /**
@@ -31,6 +32,36 @@ class UserWriteService
     public function __construct(WriteRepository $repository)
     {
         $this->repository = $repository;
+    }
+
+    /**
+     * Create a new user from admin interface
+     *
+     * @param string $username
+     * @param string $email
+     * @param string $firstname
+     * @param string $lastname
+     *
+     * @return User
+     */
+    public function createUser(
+        string $username,
+        string $email,
+        string $firstname,
+        string $lastname,
+        string $nickname
+    ): User {
+        $user = new User(new UserID());
+        $user->createCompleteUser(
+            $username,
+            $email,
+            $firstname,
+            $lastname,
+            $nickname
+        );
+        $this->repository->add($user);
+
+        return $user;
     }
 
     /**
