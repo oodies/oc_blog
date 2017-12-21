@@ -1,0 +1,18 @@
+<form action="/newComment" novalidate method="post">
+    <div>
+        <label for="username">Username</label>
+        <input type="text" name="username" id="username"/>
+    </div>
+    <div>
+        <label for="email">Email</label>
+        <input type="email" name="email" id="email"/>
+    </div>
+    <div>
+        <label for="comment">Commentaire</label>
+        <textarea name="comment" id="comment" cols="30" rows="10">
+        </textarea>
+    </div>
+    {# // TODO STUB postID #}
+    <input type="hidden" name="postID" value="9bb1f234-1f72-42b3-89b3-1c73804ec957"/>
+    <button type="submit">Commented</button>
+</form>

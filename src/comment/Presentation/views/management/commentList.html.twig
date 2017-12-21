@@ -1,0 +1,35 @@
+{% extends 'layouts.admin.html.twig' %}
+
+{% block content %}
+<!-- Main Content -->
+<div class="container">
+    <div class="row">
+        <table class="table tablesorter tablesorter-default" role="grid">
+            <thead>
+                <tr>
+                    <th>Auteur</th>
+                    <th>Commentaire</th>
+                    <th>En réponse à</th>
+                    <th>Envoyé le</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for conmentAggregate in comments %}
+                <tr>
+                    <td>{{ conmentAggregate.author.author.nickname }}</td>
+                    <td>{{ conmentAggregate.comment.comment.body }}</td>
+                    <td>En réponse à</td>
+                    <td>{{ commentAggregate.comment.comment.createAt|date }}</td>
+                    <td>
+                        <a href="#" class="btn btn-primary">Approuvé</a>
+                        <a href="#" class="btn btn-danger">Modifier</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{%  endblock content %}
+
+{% block actionTitle %}Commentaires{% endblock actionTitle %}

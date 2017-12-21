@@ -9,7 +9,7 @@
 namespace Comment\Presentation\Controller;
 
 use Comment\Domain\Model\ThreadAggregate;
-use Comment\Domain\Services\CommentService;
+use Comment\Domain\Services\ThreadService;
 use Lib\Controller\Controller;
 
 
@@ -17,17 +17,17 @@ use Lib\Controller\Controller;
  * Class getComments
  * @package Comment\Presentation\Controller
  */
-class getComments extends Controller
+class comments extends Controller
 {
 
-    public function getCommentsAction()
+    public function getThreadAction()
     {
-        // TODO STOB $postID
+        // TODO STUB $postID
         $postID = '4075e3e5-ba4e-4dbd-a888-8026e317a263';
 
-        $commentService = new CommentService();
+        $threadService = new ThreadService();
         /** @var ThreadAggregate $threadAggregate */
-        $threadAggregate = $commentService->getComments($postID);
+        $threadAggregate = $threadService->getThread($postID);
 
         echo $this->render('comment:comment:commentList.html.twig',
             [
