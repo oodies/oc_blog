@@ -42,7 +42,7 @@ class registration extends Controller
                     new WriteDataMapperRepository()
                 ));
 
-            $user = $userRegisterService->create($data);
+            $user = $userRegisterService->create($data['username'], $data['email']);
 
             // TODO parade car je n'ai pas le id_user en retour du service "create"
             $userReadService = new UserReadService(

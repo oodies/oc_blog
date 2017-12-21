@@ -116,10 +116,15 @@ class management extends Controller
                 $data[$key] = htmlspecialchars($value);
             }
 
-            $userRegisterService = new UserRegisterService(
+            $userWriteService = new UserWriteService(
                 new WriteRepository(new WriteDataMapperRepository())
             );
-            $user = $userRegisterService->create($data);
+            $user = $userWriteService->createUser (
+                $data['username'],
+                $data['email'],
+                $data['firstname'],
+                $data['lastname'],
+                $data['nickname']);
         }
 
         echo $this->render('user:management:newUser.html.twig', ['user' => $user]);
