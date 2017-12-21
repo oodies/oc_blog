@@ -25,6 +25,15 @@ class Thread
     /** @var int */
     protected $idThread;
 
+    /** @var \DateTime */
+    protected $createAt;
+
+    /** @var \DateTime */
+    protected $updateAt;
+
+    /** @var int */
+    protected $numberOfComment;
+
     /**
      * Value Object
      */
@@ -94,5 +103,89 @@ class Thread
     {
         $this->threadID = $threadID;
         return $this;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getCreateAt(): \DateTime
+    {
+        return $this->createAt;
+    }
+
+    /**
+     * @param \DateTime $createAt
+     *
+     * @return Thread
+     */
+    public function setCreateAt(\DateTime $createAt): Thread
+    {
+        $this->createAt = $createAt;
+        return $this;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getUpdateAt(): \DateTime
+    {
+        return $this->updateAt;
+    }
+
+    /**
+     * @param \DateTime $updateAt
+     *
+     * @return Thread
+     */
+    public function setUpdateAt(\DateTime $updateAt): Thread
+    {
+        $this->updateAt = $updateAt;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getNumberOfComment(): int
+    {
+        return $this->numberOfComment;
+    }
+
+    /**
+     * @param int $numberOfComment
+     *
+     * @return Thread
+     */
+    public function setNumberOfComment(int $numberOfComment): Thread
+    {
+        $this->numberOfComment = $numberOfComment;
+        return $this;
+    }
+
+
+    /** *******************************
+     *  BEHAVIOR OF THE OBJECT MODEL
+     */
+
+    /**
+     * Create a comment feed for this identified post
+     *
+     * @param PostID $postID
+     */
+    public function createThread(PostID $postID)
+    {
+        $this->setPostID($postID)
+            ->setThreadID(new ThreadID())
+            ->setCreateAt(new \DateTime())
+            ->setUpdateAt(new \DateTime())
+            ->setNumberOfComment(1);
+    }
+
+    /**
+     * Update comment feed for a new post posted
+     */
+    public function updateThread() {
+        $this->numberOfComment = (int)$this->getNumberOfComment()+1;
+        $this->setUpdateAt(new \DateTime());
     }
 }

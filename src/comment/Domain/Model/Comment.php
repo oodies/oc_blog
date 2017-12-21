@@ -28,8 +28,14 @@ class Comment
     /** @var string $body */
     protected $body;
 
-    /** @var \DateTime */
+    /** @var boolean $enabled */
+    protected $enabled;
+
+    /** @var \DateTime $createAt */
     protected $createAt;
+
+    /** @var \DateTime $updateAt */
+    protected $updateAt;
 
     /**
      * Value object
@@ -42,7 +48,7 @@ class Comment
     protected $authorID;
 
     /** *******************************
-     *      METHODS
+     *      SETTER / GETTER
      */
 
     /**
@@ -138,5 +144,86 @@ class Comment
     {
         $this->threadID = $threadID;
         return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isEnabled(): bool
+    {
+        return $this->enabled;
+    }
+
+    /**
+     * @param bool $enabled
+     *
+     * @return Comment
+     */
+    public function setEnabled(bool $enabled): Comment
+    {
+        $this->enabled = $enabled;
+        return $this;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getUpdateAt(): \DateTime
+    {
+        return $this->updateAt;
+    }
+
+    /**
+     * @param \DateTime $updateAt
+     *
+     * @return Comment
+     */
+    public function setUpdateAt(\DateTime $updateAt): Comment
+    {
+        $this->updateAt = $updateAt;
+        return $this;
+    }
+
+
+    /** *******************************
+     *  BEHAVIOR OF THE OBJECT MODEL
+     */
+
+    /**
+     * Add a comment to a post as an identified author
+     * Note : The comment must be approved to be posted
+     *
+     * @param AuthorID $authorID
+     * @param ThreadID $threadID
+     * @param string   $body
+     */
+    public function createComment(AuthorID $authorID, ThreadID $threadID, string $body)
+    {
+        $date = new \DateTime();
+
+        $this->setAuthorID($authorID)
+            ->setThreadID($threadID)
+            ->setBody($body)
+            ->setEnabled(false)
+            ->setCreateAt($date)
+            ->setUpdateAt($date);
+    }
+
+    /**
+     * The comment is approve
+     */
+    public function approveComment()
+    {
+        $this->setEnabled(true);
+        $this->setUpdateAt(new \DateTime());
+    }
+
+    /**
+     * The comment is disapprove
+     */
+    public function disapproveComment()
+    {
+        $this->setEnabled(false);
+        $this->setUpdateAt(new \DateTime());
     }
 }
