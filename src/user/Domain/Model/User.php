@@ -392,19 +392,54 @@ class User
         return $this;
     }
 
+    /**
+     * @return bool
+     */
+    public function isLocked(): bool
+    {
+        return (boolean)$this->locked;
+    }
+
     /** *******************************
      *  BEHAVIOR OF THE OBJECT MODEL
      */
 
     /**
-     * @param array  $data
+     * @param string $username
+     * @param string $email
      */
-    public function createUser(array $data)
+    public function createUser(string $username, string $email)
     {
         $date = new \DateTime();
 
-        $this->username = $data['username']?? null;
-        $this->email = $data['email']?? null;
+        $this->username = $username;
+        $this->email = $email;
+        $this->registeredAt = $date;
+        $this->updateAt = $date;
+        $this->locked = false;
+    }
+
+    /**
+     * @param string $username
+     * @param string $email
+     * @param string $firstname
+     * @param string $lastname
+     * @param string $nickname
+     */
+    public function createCompleteUser(
+        string $username,
+        string $email,
+        string $firstname,
+        string $lastname,
+        string $nickname
+    ) {
+        $date = new \DateTime();
+
+        $this->username = $username;
+        $this->email = $email;
+        $this->firstname = $firstname;
+        $this->lastname = $lastname;
+        $this->nickname = $nickname;
         $this->registeredAt = $date;
         $this->updateAt = $date;
         $this->locked = false;
@@ -435,13 +470,4 @@ class User
         $this->locked = false;
         $this->updateAt = new \DateTime();
     }
-
-    /**
-     * @return bool
-     */
-    public function isLocked(): bool
-    {
-        return (boolean) $this->locked;
-    }
-
 }
