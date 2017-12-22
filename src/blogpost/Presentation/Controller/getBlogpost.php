@@ -8,7 +8,7 @@
 
 namespace Blogpost\presentation\Controller;
 
-use Blogpost\Domain\Services\BlogpostService;
+use Blogpost\Infrastructure\Service\BlogpostService;
 use Lib\Controller\Controller;
 use Lib\Registry;
 use Psr\Http\Message\ServerRequestInterface;
@@ -22,7 +22,7 @@ class getBlogpost extends Controller
     /**
      * Get a single blogpost
      *
-     * @param string $postID
+     * @throws \Exception
      */
     public function getBlogpostAction()
     {
@@ -30,7 +30,7 @@ class getBlogpost extends Controller
         $postID = $params['id'];
 
         $blogpostService = new BlogpostService();
-        $post = $blogpostService->GetBlogPost($postID);
+        $post = $blogpostService->getBlogpost($postID);
 
         echo $this->render('blogpost:blogpost:blogpost.html.twig', [
             'post' => $post

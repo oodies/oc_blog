@@ -8,8 +8,9 @@
 
 namespace Blogpost\presentation\Controller;
 
-use Blogpost\Domain\Model\PostAggregate;
-use Blogpost\Domain\Services\BlogpostService;
+use Blogpost\Infrastructure\Persistence\CQRS\PostWriteRepository;
+use Blogpost\Infrastructure\Repository\PostWriteDataMapperRepository;
+use Blogpost\Infrastructure\Service\PostWriteService;
 use Lib\Controller\Controller;
 
 /**
@@ -32,31 +33,21 @@ class postBlogpost extends Controller
             $brief = (isset($_POST['brief'])) ? htmlspecialchars($_POST['brief']) : '';
             $content = (isset($_POST['content'])) ? htmlspecialchars($_POST['content']) : '';
 
-            $postAggregate = new PostAggregate();
-            $postAggregate->getHeader()
-                ->setTitle($title)
-                ->setBrief($brief);
-            $postAggregate->getBody()
-                ->setContent($content);
+            $postWriteService = new PostWriteService(
+                new PostWriteRepository(
+                    new PostWriteDataMapperRepository()
+                ));
 
-            // TODO Renseigner l'auteur
+            // TODO STUB Renseigner l'auteur selon la session
+            $post = $postWriteService->create(
+                'daa3327d-787d-4b6c-9a50-caada7db013e',
+                $title,
+                $brief,
+                $content
+            );
 
-            // TODO valider les données
-            //if ($postAggregate->isValid()) {
-            if (true) {
-                // Persist data
-                $blogpostService = new BlogpostService();
-                $blogpostService->postBlogPost($postAggregate);
+            $assign = ['success' => 'active'];
 
-                $assign = ['success' => 'active'];
-            } else {
-                $assign = [
-                    'title'   => $_POST['title'],
-                    'brief'   => $_POST['brief'],
-                    'content' => $_POST['content'],
-                    'message' => ''
-                ];
-            }
         }
         echo $this->render('blogpost:blogpost:newPost.html.twig', $assign);
     }

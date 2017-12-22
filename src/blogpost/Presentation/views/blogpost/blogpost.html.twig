@@ -1,8 +1,6 @@
 {% extends "/layouts.html.twig" %}
 
 {% block content %}
-
-
     <!-- Page Header -->
     <header class="masthead" style="background-image: url('/public/node_modules/startbootstrap-clean-blog/img/post-bg.jpg')">
         <div class="overlay"></div>
@@ -14,8 +12,8 @@
                         <h2 class="subheading">{{ post.header.brief }}</h2>
                         <span class="meta">Posted by
                 <a href="#">{{ post.blogger.nickname }}</a>
-                {# TODO DateTime->__toString #}
-                on August 24, 2017</span>
+                           le {{ post.createAt|date('d/m/Y') }}
+                </span>
                     </div>
                 </div>
             </div>
@@ -32,8 +30,6 @@
             </div>
         </div>
     </article>
-    <a href="/changePost&id={{ post.postId.value }}">Change</a>
+    <a href="/changePost?id={{ post.postId.value }}">Change</a>
     <hr>
-
-
 {% endblock %}

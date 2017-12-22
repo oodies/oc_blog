@@ -8,8 +8,9 @@
 
 namespace Blogpost\presentation\Controller;
 
+use Blogpost\Infrastructure\Service\BlogpostService;
 use Lib\Controller\Controller;
-use Blogpost\Domain\Services\BlogpostService;
+use Lib\Registry;
 
 /**
  * Class putBlogpost
@@ -27,7 +28,7 @@ class putBlogpost extends Controller
         $postID = $params['id'];
 
         $blogpostService = new BlogpostService();
-        $postAggregate = $blogpostService->GetBlogPost($postID);
+        $postAggregate = $blogpostService->getBlogpost($postID);
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -35,20 +36,7 @@ class putBlogpost extends Controller
             $brief = (isset($_POST['brief'])) ? htmlspecialchars($_POST['brief']) : '';
             $content = (isset($_POST['content'])) ? htmlspecialchars($_POST['content']) : '';
 
-            $postAggregate->getHeader()->setTitle($title)->setBrief($brief);
-            $postAggregate->getBody()->setContent($content);
-
-            // TODO valider les données
-            //if ($postAggregate->isValid()) {
-            if (true) {
-                // Persist data
-                $blogpostService = new BlogpostService();
-                $blogpostService->putBlogPost($postAggregate);
-
-                $assign = ['success' => 'active'];
-            } else {
-                // TODO Message d'erreur
-            }
+            $blogpostService->updateBlogpost($postAggregate, $title, $brief, $content);
         }
 
         echo $this->render('blogpost:blogpost:changePost.html.twig', ['post' => $postAggregate]);

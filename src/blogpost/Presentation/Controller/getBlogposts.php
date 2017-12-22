@@ -8,7 +8,7 @@
 
 namespace Blogpost\presentation\Controller;
 
-use Blogpost\Domain\Services\BlogpostService;
+use Blogpost\Infrastructure\Service\BlogpostService;
 use Lib\Controller\Controller;
 
 /**
@@ -23,7 +23,7 @@ class getBlogposts extends Controller
     public function getBlogpostsAction()
     {
         $blogpostService = new BlogpostService();
-        $posts = $blogpostService->getBlogPosts();
+        $posts = $blogpostService->getBlogposts();
 
         echo $this->render('blogpost:blogpost:blogpostList.html.twig', array(
             'posts' => $posts

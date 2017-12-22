@@ -10,8 +10,8 @@
             <div class="row">
                 <div class="col-lg-8 col-md-10 mx-auto">
                     <div class="site-heading">
-                        <h1>Clean Blog</h1>
-                        <span class="subheading">A Blog Theme by Start Bootstrap</span>
+                        <h1>Articles</h1>
+                        <span class="subheading"></span>
                     </div>
                 </div>
             </div>
@@ -35,17 +35,12 @@
                                 {{ post.header.brief }}
                             </h3>
                         </a>
-                        <p class="post-meta">Posted by
+                        <p class="post-meta">Publié par
                             <a href="#">{{ post.blogger.nickname }}</a>
                             {# TODO DateTime->__toString #}
-                            on September 24, 2017</p>
+                            le 15/12/2017</p>
                     </div>
                 {% endfor %}
-                <hr>
-                <!-- Pager -->
-                <div class="clearfix">
-                    <a class="btn btn-primary float-right" href="#">Older Posts &rarr;</a>
-                </div>
             </div>
         </div>
     </div>
