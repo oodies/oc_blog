@@ -96,4 +96,20 @@ class Body
         $this->postID = $postID;
         return $this;
     }
+
+    /** *******************************
+     *  BEHAVIOR OF THE OBJECT MODEL
+     */
+
+    /**
+     * Create a content of this post
+     *
+     * @param PostID $postID
+     * @param string $content
+     */
+    public function create(PostID $postID, string $content)
+    {
+        $this->setPostID($postID)
+            ->setContent($content);
+    }
 }

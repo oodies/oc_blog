@@ -118,4 +118,24 @@ class Header
         $this->postID = $postID;
         return $this;
     }
+
+
+    /** *******************************
+     *  BEHAVIOR OF THE OBJECT MODEL
+     */
+
+    /**
+     * Create a header of this post
+     *
+     * @param PostID $postID
+     * @param string $title
+     * @param string $brief
+     */
+    public function create(PostID $postID, string $title, string $brief)
+    {
+        $this->setPostID($postID)
+            ->setTitle($title)
+            ->setBrief($brief);
+    }
+
 }

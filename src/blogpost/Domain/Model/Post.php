@@ -10,7 +10,6 @@ namespace Blogpost\Domain\Model;
 
 use Blogpost\Domain\ValueObject\BloggerID;
 use Blogpost\Domain\ValueObject\PostID;
-use Blogpost\Domain\ValueObject\VersionID;
 
 /**
  * Class Post
@@ -26,15 +25,18 @@ class Post
     /** @var integer */
     protected $idPost;
 
+    /** @var \DateTime */
+    protected $createAt;
+
+    /** @var \DateTime */
+    protected $updateAt;
+
     /**
      * Object-Value
      */
 
     /** @var PostID */
     protected $postID;
-
-    /** @var VersionID */
-    protected $versionID;
 
     /** @var BloggerID */
     protected $bloggerID;
@@ -83,25 +85,6 @@ class Post
     }
 
     /**
-     * @return VersionID
-     */
-    public function getVersionID(): VersionID
-    {
-        return $this->versionID;
-    }
-
-    /**
-     * @param VersionID $versionID
-     *
-     * @return Post
-     */
-    public function setVersionID(VersionID $versionID): Post
-    {
-        $this->versionID = $versionID;
-        return $this;
-    }
-
-    /**
      * @return BloggerID
      */
     public function getBloggerID(): BloggerID
@@ -119,4 +102,70 @@ class Post
         $this->bloggerID = $bloggerID;
         return $this;
     }
+
+    /**
+     * @return \DateTime
+     */
+    public function getCreateAt(): \DateTime
+    {
+        return $this->createAt;
+    }
+
+    /**
+     * @param \DateTime $createAt
+     *
+     * @return Post
+     */
+    public function setCreateAt(\DateTime $createAt): Post
+    {
+        $this->createAt = $createAt;
+        return $this;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getUpdateAt(): \DateTime
+    {
+        return $this->updateAt;
+    }
+
+    /**
+     * @param \DateTime $updateAt
+     *
+     * @return Post
+     */
+    public function setUpdateAt(\DateTime $updateAt): Post
+    {
+        $this->updateAt = $updateAt;
+        return $this;
+    }
+
+    /** *******************************
+     *  BEHAVIOR OF THE OBJECT MODEL
+     */
+
+    /**
+     * Create a post
+     *
+     * @param BloggerID $bloggerID
+     */
+    public function create(BloggerID $bloggerID)
+    {
+        $date = new \DateTime();
+
+        $this->setPostID(new PostID())
+            ->setBloggerID($bloggerID)
+            ->setCreateAt($date)
+            ->setUpdateAt($date);
+    }
+
+    /**
+     * Update a post
+     */
+    public function update()
+    {
+        $this->setUpdateAt(new \DateTime());
+    }
+
 }
