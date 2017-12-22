@@ -9,19 +9,20 @@
 namespace Blogpost\Infrastructure\Repository;
 
 use Blogpost\Domain\Model\Header;
+use Blogpost\Domain\Repository\HeaderReadRepositoryInterface;
 use Blogpost\Domain\ValueObject\PostID;
 use Blogpost\Infrastructure\Repository\TableGateway\HeaderTableGateway;
 use Lib\Db\AbstractRepository;
 
 /**
- * Class HeaderRepository
+ * Class HeaderReadDataMapperRepository
  * @package Blogpost\Infrastructure\Repository
  */
-class HeaderRepository extends AbstractRepository
+class HeaderReadDataMapperRepository extends AbstractRepository implements HeaderReadRepositoryInterface
 {
     /** *******************************
      *      PROPERTIES
-     * ********************************/
+     */
 
     /** @var string $gatewayName */
     protected $gatewayName = HeaderTableGateway::class;
@@ -29,72 +30,62 @@ class HeaderRepository extends AbstractRepository
 
     /** *******************************
      *      METHODS
-     * ********************************/
+     */
 
     /**
-     * Fetches a row by 'postID' foreign key
+     * Get the header of the post
      *
-     * @param PostID $postId
+     * @param PostID $postID
      *
      * @return Header
      */
-    public function findByPostID(PostID $postID): Header
+    public function getByPostID(PostID $postID): Header
     {
         /** @var Header $header */
         $header = new header();
 
         $row = $this->getDbTable()->findByPostId($postID->getValue());
-        // Hydrate
         if ($row !== false) {
-            $header
-                ->setIdHeader($row['id_header'])
-                ->setTitle($row['title'])
-                ->setBrief($row['brief'])
-                ->setPostID($postID);
+            $this->hydrate($header, $row);
         }
+
         return $header;
     }
 
     /**
+     * Gives the header of all post
      *
      * @return array
      */
-    public function findAll()
+    public function findAll(): array
     {
-        $rowSet = $this->getDbTable()->findAll();
-
         $entries = [];
+
+        $rowSet = $this->getDbTable()->findAll();
         if (count($rowSet)) {
             foreach ($rowSet as $key => $row) {
                 $header = new Header();
-                $header
-                    ->setIdHeader($row['id_header'])
-                    ->setTitle($row['title'])
-                    ->setBrief($row['brief'])
-                    ->setPostID(new PostID($row['postID']));
+                $this->hydrate($header, $row);
                 $entries[] = $header;
+                unset($header);
             }
         }
+
         return $entries;
     }
 
     /**
-     * Persist model
+     * Hydrate Header object with data of the row
      *
      * @param Header $header
-     *
-     * @throws \Exception
+     * @param array  $row
      */
-    public function save(Header $header)
+    protected function hydrate(Header $header, array $row)
     {
-        $data['title'] = $header->getTitle();
-        $data['brief'] = $header->getBrief();
-        $data['postID'] = $header->getPostID()->getValue();
-
-        if ($header->getIdHeader() === null) {
-           $this->getDbTable()->insert($data);
-        } else {
-           $this->getDbTable()->update($data, $header->getIdHeader());
-        }
+        $header
+            ->setIdHeader($row['id_header'])
+            ->setTitle($row['title'])
+            ->setBrief($row['brief'])
+            ->setPostID(new PostID($row['postID']));
     }
 }

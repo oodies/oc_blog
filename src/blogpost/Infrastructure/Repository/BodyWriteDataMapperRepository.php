@@ -8,57 +8,39 @@
 
 namespace Blogpost\Infrastructure\Repository;
 
+
 use Blogpost\Domain\Model\Body;
-use Blogpost\Domain\ValueObject\PostID;
+use Blogpost\Domain\Repository\BodyWriteRepositoryInterface;
 use Blogpost\Infrastructure\Repository\TableGateway\BodyTableGateway;
 use Lib\Db\AbstractRepository;
 
 /**
- * Class PersonMapping
+ * Class BodyWriteDataMapperRepository
  * @package Blogpost\Infrastructure\Repository
  */
-class BodyRepository extends AbstractRepository
+class BodyWriteDataMapperRepository extends AbstractRepository implements BodyWriteRepositoryInterface
 {
     /** *******************************
-     *      PROPERTIES
-     * ********************************/
+     *  PROPERTIES
+     */
 
-    /** @var string $gatewayName */
+    /**
+     * @var string
+     */
     protected $gatewayName = BodyTableGateway::class;
 
-
     /** *******************************
-     *      METHODS
-     * ********************************/
-
-    /**
-     * @param PostID $postID
-     *
-     * @return Body
+     *  METHODS
      */
-    public function findByPostID(postID $postID): body
-    {
-        /** @var Body $body */
-        $body = new body();
-
-        $row = $this->getDbTable()->findByPostId($postID->getValue());
-        // Hydrate
-        if ($row !== false) {
-            $body->setIdBody($row['id_body'])
-                ->setContent($row['content'])
-                ->setPostID($postID);
-        }
-        return $body;
-    }
 
     /**
-     * Persist model
+     * Persist Body
      *
      * @param Body $body
      *
      * @throws \Exception
      */
-    public function save(Body $body)
+    public function add(Body $body): void
     {
         $data['content'] = $body->getContent();
         $data['postID'] = $body->getPostID()->getValue();

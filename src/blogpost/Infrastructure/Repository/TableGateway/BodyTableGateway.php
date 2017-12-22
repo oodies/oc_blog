@@ -36,6 +36,7 @@ class BodyTableGateway extends AbstractTableGateway
      * @param string $postID
      *
      * @return array|false
+     * @throws \Exception
      */
     public function findByPostId(string $postID)
     {
