@@ -107,7 +107,7 @@ class Bootstrap
             ],
             'blogpost_put_blogpost'      => [
                 'path'       => '/changePost',
-                'controller' => 'blogpost:putBlogpost:putBlogPost',
+                'controller' => 'blogpost:putBlogpost:putBlogpost',
             ],
             // Users registration routing
             //
