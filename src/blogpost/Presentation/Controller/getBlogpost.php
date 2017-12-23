@@ -6,12 +6,11 @@
  * @since 2017/12
  */
 
-namespace Blogpost\presentation\Controller;
+namespace Blogpost\Presentation\Controller;
 
 use Blogpost\Infrastructure\Service\BlogpostService;
 use Lib\Controller\Controller;
 use Lib\Registry;
-use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Class getBlogpost
