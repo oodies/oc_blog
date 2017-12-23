@@ -6,14 +6,14 @@
  * @since 2017/12
  */
 
-namespace Blogpost\presentation\Controller;
+namespace Blogpost\Presentation\Controller;
 
 use Blogpost\Infrastructure\Service\BlogpostService;
 use Lib\Controller\Controller;
 
 /**
  * Class getBlogposts
- * @package Blogpost\presentation\Controller
+ * @package Blogpost\Presentation\Controller
  */
 class getBlogposts extends Controller
 {
