@@ -6,7 +6,7 @@
  * @since 2017/12
  */
 
-namespace user\Infrastructure\Repository\TableGateway;
+namespace User\Infrastructure\Repository\TableGateway;
 
 use Lib\Db\AbstractTableGateway;
 
