@@ -6,7 +6,7 @@
  * @since 2017/12
  */
 
-namespace Blogpost\presentation\Controller;
+namespace Blogpost\Presentation\Controller;
 
 use Blogpost\Infrastructure\Persistence\CQRS\PostWriteRepository;
 use Blogpost\Infrastructure\Repository\PostWriteDataMapperRepository;
@@ -15,7 +15,7 @@ use Lib\Controller\Controller;
 
 /**
  * Class postBlogpost
- * @package Blogpost\presentation\Controller
+ * @package Blogpost\Presentation\Controller
  */
 class postBlogpost extends Controller
 {
