@@ -39,7 +39,7 @@ class BodyReadService
      *
      * @return Body
      */
-    public function getByPostID(string $postID)
+    public function getByPostID(string $postID): Body
     {
         return $this->repository->getByPostID(new PostID($postID));
     }
