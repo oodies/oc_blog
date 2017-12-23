@@ -13,10 +13,10 @@ use Lib\Controller\Controller;
 use Lib\Registry;
 
 /**
- * Class putBlogpost
+ * Class PutBlogpost
  * @package Blogpost\Presentation\Controller
  */
-class putBlogpost extends Controller
+class PutBlogpost extends Controller
 {
     /**
      * Complete change of blogpost data

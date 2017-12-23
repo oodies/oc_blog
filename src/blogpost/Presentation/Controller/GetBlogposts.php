@@ -12,10 +12,10 @@ use Blogpost\Infrastructure\Service\BlogpostService;
 use Lib\Controller\Controller;
 
 /**
- * Class getBlogposts
+ * Class GetBlogposts
  * @package Blogpost\Presentation\Controller
  */
-class getBlogposts extends Controller
+class GetBlogposts extends Controller
 {
     /**
      * Return a blogpost list

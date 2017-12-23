@@ -13,10 +13,10 @@ use Lib\Controller\Controller;
 use Lib\Registry;
 
 /**
- * Class getBlogpost
+ * Class GetBlogpost
  * @package Blogpost\presentation\Controller
  */
-class getBlogpost extends Controller
+class GetBlogpost extends Controller
 {
     /**
      * Get a single blogpost

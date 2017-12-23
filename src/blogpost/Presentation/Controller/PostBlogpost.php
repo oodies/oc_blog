@@ -14,10 +14,10 @@ use Blogpost\Infrastructure\Service\PostWriteService;
 use Lib\Controller\Controller;
 
 /**
- * Class postBlogpost
+ * Class PostBlogpost
  * @package Blogpost\Presentation\Controller
  */
-class postBlogpost extends Controller
+class PostBlogpost extends Controller
 {
     /**
      * Create a new blogpost

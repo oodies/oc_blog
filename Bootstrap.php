@@ -187,7 +187,7 @@ class Bootstrap
         // default route
         $route = [
             'path'       => '/',
-            'controller' => 'blogpost:getBlogposts:getBlogposts'
+            'controller' => 'app:homepage:homepage'
         ];
         foreach ($this->route as $index => $paramRoute) {
             if ($paramRoute['path'] === $path) {
@@ -197,7 +197,7 @@ class Bootstrap
         }
         list($module, $controller, $action) = explode(':', $route['controller']);
 
-        $class = ucfirst($module) . '\Presentation\Controller' . '\\' . $controller;
+        $class = ucfirst($module) . '\Presentation\Controller' . '\\' . ucfirst($controller);
         $myClass = new $class();
         $action = $action . 'Action';
 
