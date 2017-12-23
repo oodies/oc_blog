@@ -10,7 +10,6 @@ namespace Comment\Infrastructure\Persistence\CQRS;
 
 use Comment\Domain\Repository\CommentReadRepositoryInterface;
 use Comment\Domain\ValueObject\ThreadID;
-use User\Domain\Repository\ReadRepositoryInterface;
 
 /**
  * Class CommentReadRepository
@@ -25,9 +24,9 @@ class CommentReadRepository implements CommentReadRepositoryInterface
     /**
      * CommentReadRepository constructor.
      *
-     * @param ReadRepositoryInterface $repository
+     * @param CommentReadRepositoryInterface $repository
      */
-    public function __construct(ReadRepositoryInterface $repository)
+    public function __construct(CommentReadRepositoryInterface $repository)
     {
         $this->repository = $repository;
     }
