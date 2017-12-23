@@ -8,7 +8,9 @@
 
 namespace Comment\Presentation\Controller;
 
-use Comment\Domain\Services\CommentService;
+use Comment\Infrastructure\Persistence\CQRS\CommentReadRepository;
+use Comment\Infrastructure\Repository\CommentReadDataMapperRepository;
+use Comment\Infrastructure\Service\CommentReadService;
 use Lib\Controller\Controller;
 
 /**
@@ -23,8 +25,12 @@ class management extends controller
      */
     public function getCommentsAction()
     {
-        $commentService = new CommentService();
-        $comments = $commentService->getComments();
+        $commentReadService = new CommentReadService(
+            new CommentReadRepository(
+                new CommentReadDataMapperRepository()
+            )
+        );
+        $comments = $commentReadService->getComments();
 
         echo $this->render('comment:management:commentList.html.twig', [
             'comments' => $comments

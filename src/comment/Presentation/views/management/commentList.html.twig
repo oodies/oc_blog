@@ -7,19 +7,23 @@
         <table class="table tablesorter tablesorter-default" role="grid">
             <thead>
                 <tr>
-                    <th>Auteur</th>
-                    <th>Commentaire</th>
-                    <th>En réponse à</th>
-                    <th>Envoyé le</th>
+                    <th>Author</th>
+                    <th>Commentary</th>
+                    <th>Post</th>
+                    <th>Date</th>
                 </tr>
             </thead>
             <tbody>
-                {% for conmentAggregate in comments %}
+                {% for commentAggregate in comments %}
                 <tr>
-                    <td>{{ conmentAggregate.author.author.nickname }}</td>
-                    <td>{{ conmentAggregate.comment.comment.body }}</td>
-                    <td>En réponse à</td>
-                    <td>{{ commentAggregate.comment.comment.createAt|date }}</td>
+                    <td>{{ commentAggregate.author.nickname }}</td>
+                    <td>{{ commentAggregate.comment.body }}</td>
+                    <td>
+                        <a href="/post?id={{ commentAggregate.postAggregate.postID.value }}">
+                        {{ commentAggregate.postAggregate.header.title }}
+                        </a>
+                    </td>
+                    <td>{{ commentAggregate.comment.createAt|date('d/m/Y H:i') }}</td>
                     <td>
                         <a href="#" class="btn btn-primary">Approuvé</a>
                         <a href="#" class="btn btn-danger">Modifier</a>
