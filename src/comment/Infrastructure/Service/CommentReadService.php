@@ -11,10 +11,11 @@ namespace Comment\Infrastructure\Service;
 use Blogpost\Infrastructure\Service\BlogpostService;
 use Comment\Domain\Model\Comment;
 use Comment\Domain\Model\CommentAggregate;
+use Comment\Domain\ValueObject\ThreadID;
 use Comment\Infrastructure\Persistence\CQRS\CommentReadRepository;
-use Comment\Infrastructure\Persistence\CQRS\ThreadReadRepository;
-use Comment\Infrastructure\Repository\CommentRepository;
+use Comment\Infrastructure\Repository\CommentReadDataMapperRepository;
 use Comment\Infrastructure\Repository\ThreadReadDataMapperRepository;
+use Comment\Infrastructure\Persistence\CQRS\ThreadReadRepository;
 use User\Infrastructure\Persistence\CQRS\ReadRepository;
 use User\Infrastructure\Repository\ReadDataMapperRepository;
 use User\Infrastructure\Service\UserReadService;
@@ -34,7 +35,7 @@ class CommentReadService
     }
 
     /**
-     * Return a comments list
+     * Return all comments list
      *
      */
     public function getComments()
@@ -55,9 +56,11 @@ class CommentReadService
 
         $response = [];
 
-        /** @var CommentRepository $commentRepository */
-        $commentRepository = new CommentRepository();
-        $comments = $commentRepository->findAll();
+        /** @var CommentReadRepository $commentReadRepository */
+        $commentReadRepository = new CommentReadRepository(
+                new CommentReadDataMapperRepository()
+        );
+        $comments = $commentReadRepository->findAll();
 
         /** @var Comment $comment */
         foreach ($comments as $comment) {
@@ -77,9 +80,52 @@ class CommentReadService
         return $response;
     }
 
-
-    public function getByThreadID()
+    /**
+     * Return comments list by ThreadID
+     *
+     * @param string $threadID
+     *
+     * @return array
+     */
+    public function getByThreadID(string $threadID)
     {
+        /** @var UserReadService $userReadService */
+        $userReadService = new UserReadService(
+            new ReadRepository(
+                new ReadDataMapperRepository())
+        );
+        /** @var ThreadReadService $threadReadService */
+        $threadReadService = new ThreadReadService(
+            new ThreadReadRepository(
+                new ThreadReadDataMapperRepository()
+            )
+        );
+        /** @var BlogpostService $postReadService */
+        $blogpostService = new BlogpostService();
 
+        $response = [];
+
+        /** @var CommentReadRepository $commentReadRepository */
+        $commentReadRepository = new CommentReadRepository(
+            new CommentReadDataMapperRepository()
+        );
+        $comments = $commentReadRepository->findAllByThreadID(new ThreadID($threadID));
+
+        /** @var Comment $comment */
+        foreach ($comments as $comment) {
+            $commentAggregate = new CommentAggregate();
+            $commentAggregate->setComment($comment);
+
+            $author = $userReadService->getByUserID($comment->getAuthorID());
+            $thread = $threadReadService->getByThreadID($comment->getThreadID()->getValue());
+            $post = $blogpostService->getBlogpost($thread->getPostID()->getValue());
+
+            $commentAggregate->setPostAggregate($post);
+            $commentAggregate->setAuthor($author);
+
+            $response[] = $commentAggregate;
+        }
+
+        return $response;
     }
 }
