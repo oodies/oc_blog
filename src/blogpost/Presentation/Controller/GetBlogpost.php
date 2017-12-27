@@ -9,6 +9,7 @@
 namespace Blogpost\Presentation\Controller;
 
 use Blogpost\Infrastructure\Service\BlogpostService;
+use Comment\Infrastructure\Service\CommentService;
 use Lib\Controller\Controller;
 use Lib\Registry;
 
@@ -20,6 +21,7 @@ class GetBlogpost extends Controller
 {
     /**
      * Get a single blogpost
+     * with this comments
      *
      * @throws \Exception
      */
@@ -31,8 +33,12 @@ class GetBlogpost extends Controller
         $blogpostService = new BlogpostService();
         $post = $blogpostService->getBlogpost($postID);
 
+        $commentService = new CommentService();
+        $comments = $commentService->getCommentsByPostID($postID);
+
         echo $this->render('blogpost:blogpost:blogpost.html.twig', [
-            'post' => $post
+            'post' => $post,
+            'comments' => $comments
         ]);
     }
 }
