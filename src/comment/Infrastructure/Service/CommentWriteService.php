@@ -13,7 +13,6 @@ use Comment\Domain\Model\Author;
 use Comment\Domain\Model\Comment;
 use Comment\Domain\ValueObject\AuthorID;
 use Comment\Infrastructure\Persistence\CQRS\CommentWriteRepository;
-
 use Comment\Infrastructure\Persistence\CQRS\ThreadReadRepository;
 use Comment\Infrastructure\Persistence\CQRS\ThreadWriteRepository;
 use Comment\Infrastructure\Repository\ThreadReadDataMapperRepository;
@@ -21,9 +20,7 @@ use Comment\Infrastructure\Repository\ThreadWriteDataMapperRepository;
 use User\Domain\Model\User;
 use User\Infrastructure\Persistence\CQRS\WriteRepository;
 use User\Infrastructure\Repository\WriteDataMapperRepository;
-use User\Infrastructure\Service\UserReadService;
-use User\Infrastructure\Persistence\CQRS\ReadRepository;
-use User\Infrastructure\Repository\ReadDataMapperRepository;
+use User\Infrastructure\Service\UserService;
 use User\Infrastructure\Service\UserRegisterService;
 
 /**
@@ -61,13 +58,10 @@ class CommentWriteService
     {
         // One step / Create a new author, if the author is unknown
         //
-        /** @var UserReadService $userReadService */
-        $userReadService = new UserReadService(
-            new ReadRepository(
-                new ReadDataMapperRepository())
-        );
+        /** @var UserService $userService */
+        $userService = new UserService();
         /** @var User $likelyAuthor */
-        $likelyAuthor = $userReadService->findByEmail($email);
+        $likelyAuthor = $userService->findByEmail($email);
 
         if ($likelyAuthor === null) {
             $userRegisterService = new UserRegisterService(

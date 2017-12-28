@@ -16,9 +16,7 @@ use Comment\Infrastructure\Persistence\CQRS\CommentReadRepository;
 use Comment\Infrastructure\Repository\CommentReadDataMapperRepository;
 use Comment\Infrastructure\Repository\ThreadReadDataMapperRepository;
 use Comment\Infrastructure\Persistence\CQRS\ThreadReadRepository;
-use User\Infrastructure\Persistence\CQRS\ReadRepository;
-use User\Infrastructure\Repository\ReadDataMapperRepository;
-use User\Infrastructure\Service\UserReadService;
+use User\Infrastructure\Service\UserService;
 
 /**
  * Class CommentReadService
@@ -40,11 +38,8 @@ class CommentReadService
      */
     public function getComments()
     {
-        /** @var UserReadService $userReadService */
-        $userReadService = new UserReadService(
-            new ReadRepository(
-                new ReadDataMapperRepository())
-        );
+        /** @var UserService $userService */
+        $userService = new UserService();
         /** @var ThreadReadService $threadReadService */
         $threadReadService = new ThreadReadService(
             new ThreadReadRepository(
@@ -58,7 +53,7 @@ class CommentReadService
 
         /** @var CommentReadRepository $commentReadRepository */
         $commentReadRepository = new CommentReadRepository(
-                new CommentReadDataMapperRepository()
+            new CommentReadDataMapperRepository()
         );
         $comments = $commentReadRepository->findAll();
 
@@ -67,7 +62,7 @@ class CommentReadService
             $commentAggregate = new CommentAggregate();
             $commentAggregate->setComment($comment);
 
-            $author = $userReadService->getByUserID($comment->getAuthorID());
+            $author = $userService->getByUserID($comment->getAuthorID()->getValue());
             $thread = $threadReadService->getByThreadID($comment->getThreadID()->getValue());
             $post = $blogpostService->getBlogpost($thread->getPostID()->getValue());
 
@@ -89,11 +84,8 @@ class CommentReadService
      */
     public function getByThreadID(string $threadID)
     {
-        /** @var UserReadService $userReadService */
-        $userReadService = new UserReadService(
-            new ReadRepository(
-                new ReadDataMapperRepository())
-        );
+        /** @var UserService $userService */
+        $userService = new UserService();
         /** @var ThreadReadService $threadReadService */
         $threadReadService = new ThreadReadService(
             new ThreadReadRepository(
@@ -116,7 +108,7 @@ class CommentReadService
             $commentAggregate = new CommentAggregate();
             $commentAggregate->setComment($comment);
 
-            $author = $userReadService->getByUserID($comment->getAuthorID());
+            $author = $userService->getByUserID($comment->getAuthorID()->getValue());
             $thread = $threadReadService->getByThreadID($comment->getThreadID()->getValue());
             $post = $blogpostService->getBlogpost($thread->getPostID()->getValue());
 
