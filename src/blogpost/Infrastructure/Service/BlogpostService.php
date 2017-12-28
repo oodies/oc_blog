@@ -13,10 +13,6 @@ use Blogpost\Domain\Model\Header;
 use Blogpost\Domain\Model\Post;
 use Blogpost\Domain\Model\PostAggregate;
 use Blogpost\Domain\ValueObject\BloggerID;
-use Blogpost\Infrastructure\Persistence\CQRS\HeaderReadRepository;
-use Blogpost\Infrastructure\Persistence\CQRS\HeaderWriteRepository;
-use Blogpost\Infrastructure\Repository\HeaderReadDataMapperRepository;
-use Blogpost\Infrastructure\Repository\HeaderWriteDataMapperRepository;
 use User\Domain\Model\User;
 use User\Infrastructure\Service\UserService;
 
@@ -89,12 +85,8 @@ class BlogpostService
      */
     protected function getHeader(string $postID): Header
     {
-        $headerReadService = new HeaderReadService(
-            new HeaderReadRepository(
-                new HeaderReadDataMapperRepository()
-            )
-        );
-        $header = $headerReadService->getByPostID($postID);
+        $headerService = new HeaderService();
+        $header = $headerService->getByPostID($postID);
 
         return $header;
     }
@@ -171,13 +163,8 @@ class BlogpostService
         string $brief,
         string $content
     ) {
-
-        $headerWriteService = new HeaderWriteService(
-            new HeaderWriteRepository(
-                new HeaderWriteDataMapperRepository()
-            )
-        );
-        $headerWriteService->update($postAggregate->getHeader(), $title, $brief);
+        $headerService = new HeaderService();
+        $headerService->update($postAggregate->getHeader(), $title, $brief);
 
         $bodyService = new BodyService();
         $bodyService->update($postAggregate->getBody(), $content);
