@@ -13,12 +13,8 @@ use Blogpost\Domain\Model\Header;
 use Blogpost\Domain\Model\Post;
 use Blogpost\Domain\Model\PostAggregate;
 use Blogpost\Domain\ValueObject\BloggerID;
-use Blogpost\Infrastructure\Persistence\CQRS\BodyReadRepository;
-use Blogpost\Infrastructure\Persistence\CQRS\BodyWriteRepository;
 use Blogpost\Infrastructure\Persistence\CQRS\HeaderReadRepository;
 use Blogpost\Infrastructure\Persistence\CQRS\HeaderWriteRepository;
-use Blogpost\Infrastructure\Repository\BodyReadDataMapperRepository;
-use Blogpost\Infrastructure\Repository\BodyWriteDataMapperRepository;
 use Blogpost\Infrastructure\Repository\HeaderReadDataMapperRepository;
 use Blogpost\Infrastructure\Repository\HeaderWriteDataMapperRepository;
 use User\Domain\Model\User;
@@ -157,12 +153,8 @@ class BlogpostService
      */
     protected function getBody(string $postID): Body
     {
-        $bodyReadService = new BodyReadService(
-            new BodyReadRepository(
-                new BodyReadDataMapperRepository()
-            )
-        );
-        $body = $bodyReadService->getByPostID($postID);
+        $bodyService = new BodyService();
+        $body = $bodyService->getByPostID($postID);
 
         return $body;
     }
@@ -187,12 +179,8 @@ class BlogpostService
         );
         $headerWriteService->update($postAggregate->getHeader(), $title, $brief);
 
-        $bodyWriteService = new BodyWriteService(
-            new BodyWriteRepository(
-                new BodyWriteDataMapperRepository()
-            )
-        );
-        $bodyWriteService->update($postAggregate->getBody(), $content);
+        $bodyService = new BodyService();
+        $bodyService->update($postAggregate->getBody(), $content);
 
         $postService = new PostService();
         $postService->update($postAggregate);
