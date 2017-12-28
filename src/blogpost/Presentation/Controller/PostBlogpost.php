@@ -8,9 +8,7 @@
 
 namespace Blogpost\Presentation\Controller;
 
-use Blogpost\Infrastructure\Persistence\CQRS\PostWriteRepository;
-use Blogpost\Infrastructure\Repository\PostWriteDataMapperRepository;
-use Blogpost\Infrastructure\Service\PostWriteService;
+use Blogpost\Infrastructure\Service\PostService;
 use Lib\Controller\Controller;
 
 /**
@@ -33,13 +31,10 @@ class PostBlogpost extends Controller
             $brief = (isset($_POST['brief'])) ? htmlspecialchars($_POST['brief']) : '';
             $content = (isset($_POST['content'])) ? htmlspecialchars($_POST['content']) : '';
 
-            $postWriteService = new PostWriteService(
-                new PostWriteRepository(
-                    new PostWriteDataMapperRepository()
-                ));
+            $postService = new PostService();
 
             // TODO STUB Renseigner l'auteur selon la session
-            $post = $postWriteService->create(
+            $post = $postService->create(
                 'daa3327d-787d-4b6c-9a50-caada7db013e',
                 $title,
                 $brief,
