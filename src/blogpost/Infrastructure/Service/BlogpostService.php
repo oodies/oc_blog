@@ -17,17 +17,12 @@ use Blogpost\Infrastructure\Persistence\CQRS\BodyReadRepository;
 use Blogpost\Infrastructure\Persistence\CQRS\BodyWriteRepository;
 use Blogpost\Infrastructure\Persistence\CQRS\HeaderReadRepository;
 use Blogpost\Infrastructure\Persistence\CQRS\HeaderWriteRepository;
-use Blogpost\Infrastructure\Persistence\CQRS\PostReadRepository;
-use Blogpost\Infrastructure\Persistence\CQRS\PostWriteRepository;
 use Blogpost\Infrastructure\Repository\BodyReadDataMapperRepository;
 use Blogpost\Infrastructure\Repository\BodyWriteDataMapperRepository;
 use Blogpost\Infrastructure\Repository\HeaderReadDataMapperRepository;
 use Blogpost\Infrastructure\Repository\HeaderWriteDataMapperRepository;
-use Blogpost\Infrastructure\Repository\PostReadDataMapperRepository;
-use Blogpost\Infrastructure\Repository\PostWriteDataMapperRepository;
 use User\Domain\Model\User;
 use User\Infrastructure\Service\UserService;
-
 
 /**
  * Class BlogpostService
@@ -43,11 +38,8 @@ class BlogpostService
     {
         $entries = [];
 
-        $postReadService = new PostReadService(
-            new PostReadRepository(
-                new PostReadDataMapperRepository()
-            ));
-        $posts = $postReadService->findAll();
+        $postService = new PostService();
+        $posts = $postService->findAll();
 
         /** @var Post $post */
         foreach ($posts as $post) {
@@ -88,11 +80,8 @@ class BlogpostService
      */
     protected function getPost(string $postID): Post
     {
-        $postReadService = new PostReadService(
-            new PostReadRepository(
-                new PostReadDataMapperRepository()
-            ));
-        $post = $postReadService->getByPostID($postID);
+        $postService = new PostService();
+        $post = $postService->getByPostID($postID);
 
         return $post;
     }
@@ -205,11 +194,7 @@ class BlogpostService
         );
         $bodyWriteService->update($postAggregate->getBody(), $content);
 
-        $postWriteService = new PostWriteService(
-            new PostWriteRepository(
-                new PostWriteDataMapperRepository()
-            )
-        );
-        $postWriteService->update($postAggregate);
+        $postService = new PostService();
+        $postService->update($postAggregate);
     }
 }
