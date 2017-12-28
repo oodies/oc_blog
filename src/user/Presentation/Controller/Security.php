@@ -16,10 +16,10 @@ use User\Infrastructure\Repository\ReadDataMapperRepository;
 use User\Infrastructure\Service\UserReadService;
 
 /**
- * Class security
+ * Class Security
  * @package User\Presentation\Controller
  */
-class security extends Controller
+class Security extends Controller
 {
     /**
      *
@@ -42,7 +42,7 @@ class security extends Controller
             $user = $userReadService->findByUsername($username);
 
             $passwordEncoder = new Encoder();
-            $isValid= $passwordEncoder->verify($password, $user->getPassword());
+            $isValid = $passwordEncoder->verify($password, $user->getPassword());
 
             // TODO - Si authentication valid => Redirection selon le profile
 
