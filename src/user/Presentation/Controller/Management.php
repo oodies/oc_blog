@@ -16,15 +16,14 @@ use User\Infrastructure\Persistence\CQRS\WriteRepository;
 use User\Infrastructure\Repository\ReadDataMapperRepository;
 use User\Infrastructure\Repository\WriteDataMapperRepository;
 use User\Infrastructure\Service\UserReadService;
-use User\Infrastructure\Service\UserRegisterService;
 use User\Infrastructure\Service\UserStatusService;
 use User\Infrastructure\Service\UserWriteService;
 
 /**
- * Class management
+ * Class Management
  * @package User\Presentation\Controller
  */
-class management extends Controller
+class Management extends Controller
 {
     /**
      * Return a profile user
@@ -82,6 +81,7 @@ class management extends Controller
                 new ReadDataMapperRepository())
         );
         $user = $userReadService->getByUserID(new UserID($userID));
+        $data = [];
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -119,7 +119,7 @@ class management extends Controller
             $userWriteService = new UserWriteService(
                 new WriteRepository(new WriteDataMapperRepository())
             );
-            $user = $userWriteService->createUser (
+            $user = $userWriteService->createUser(
                 $data['username'],
                 $data['email'],
                 $data['firstname'],
