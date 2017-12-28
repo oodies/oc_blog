@@ -26,9 +26,7 @@ use Blogpost\Infrastructure\Repository\HeaderWriteDataMapperRepository;
 use Blogpost\Infrastructure\Repository\PostReadDataMapperRepository;
 use Blogpost\Infrastructure\Repository\PostWriteDataMapperRepository;
 use User\Domain\Model\User;
-use User\Infrastructure\Persistence\CQRS\ReadRepository;
-use User\Infrastructure\Repository\ReadDataMapperRepository;
-use User\Infrastructure\Service\UserReadService;
+use User\Infrastructure\Service\UserService;
 
 
 /**
@@ -123,11 +121,8 @@ class BlogpostService
      */
     protected function getBlogger(BloggerID $bloggerID): User
     {
-        $userReadService = new UserReadService(
-            new ReadRepository(
-                new ReadDataMapperRepository())
-        );
-        $blogger = $userReadService->getByUserID($bloggerID);
+        $userService = new UserService();
+        $blogger = $userService->getByUserID($bloggerID->getValue());
 
         return $blogger;
     }
