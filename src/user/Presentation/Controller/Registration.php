@@ -18,9 +18,9 @@ use User\Infrastructure\Service\UserReadService;
 use User\Infrastructure\Service\UserRegisterService;
 
 /**
- * Class registration
+ * Class Registration
  */
-class registration extends Controller
+class Registration extends Controller
 {
     /**
      * Registration user
