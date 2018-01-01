@@ -8,6 +8,8 @@
 
 namespace Comment\Domain\Repository;
 
+use Comment\Domain\Model\Comment;
+use Comment\Domain\ValueObject\CommentID;
 use Comment\Domain\ValueObject\ThreadID;
 
 /**
@@ -31,4 +33,13 @@ interface CommentReadRepositoryInterface
      * @return array
      */
     public function findAll(): array;
+
+    /**
+     * Get a comment by CommentID Value object
+     *
+     * @param CommentID $commentID
+     *
+     * @return Comment
+     */
+    public function getByCommentID(CommentID $commentID): Comment;
 }
