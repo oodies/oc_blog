@@ -8,7 +8,9 @@
 
 namespace Comment\Infrastructure\Persistence\CQRS;
 
+use Comment\Domain\Model\Comment;
 use Comment\Domain\Repository\CommentReadRepositoryInterface;
+use Comment\Domain\ValueObject\CommentID;
 use Comment\Domain\ValueObject\ThreadID;
 
 /**
@@ -41,6 +43,18 @@ class CommentReadRepository implements CommentReadRepositoryInterface
     public function findAllByThreadID(ThreadID $threadID): array
     {
         return $this->repository->findAllByThreadID($threadID);
+    }
+
+    /**
+     * Get a comment by CommentID Value object
+     *
+     * @param CommentID $commentID
+     *
+     * @return Comment
+     */
+    public function getByCommentID(CommentID $commentID): Comment
+    {
+        return $this->repository->getByCommentID($commentID);
     }
 
     /**

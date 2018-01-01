@@ -11,6 +11,7 @@ namespace Comment\Infrastructure\Repository;
 use Comment\Domain\Model\Comment;
 use Comment\Domain\Repository\CommentReadRepositoryInterface;
 use Comment\Domain\ValueObject\AuthorID;
+use Comment\Domain\ValueObject\CommentID;
 use Comment\Domain\ValueObject\ThreadID;
 use Comment\Infrastructure\Repository\TableGateway\CommentTableGateway;
 use Lib\Db\AbstractRepository;
@@ -82,6 +83,25 @@ class CommentReadDataMapperRepository extends AbstractRepository implements Comm
     }
 
     /**
+     * Get a comment by CommentID Value object
+     *
+     * @param CommentID $commentID
+     *
+     * @return Comment
+     */
+    public function getByCommentID(CommentID $commentID): Comment
+    {
+        $comment = new Comment();
+
+        $row = $this->getDbTable()->findByCommentID($commentID->getValue());
+        if ($row !== false) {
+            $this->hydrate($comment, $row);
+        }
+
+        return $comment;
+    }
+
+    /**
      * Hydrate Comment model with data
      *
      * @param Comment $comment
@@ -91,6 +111,7 @@ class CommentReadDataMapperRepository extends AbstractRepository implements Comm
     {
         $comment
             ->setIdComment($row['id_comment'])
+            ->setCommentID(new CommentID($row['commentID']))
             ->setThreadID(new ThreadID($row['threadID']))
             ->setAuthorID(new AuthorID($row['authorID']))
             ->setEnabled((bool)$row['enabled'])

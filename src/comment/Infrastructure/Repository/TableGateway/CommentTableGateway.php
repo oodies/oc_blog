@@ -49,4 +49,24 @@ class CommentTableGateway extends AbstractTableGateway
 
         return $statement->fetchAll();
     }
+
+    /**
+     * fetch a row by 'commentID'
+     *
+     * @param string $commentID
+     *
+     * @return array|false
+     * @throws \Exception
+     */
+    public function findByCommentID(string $commentID)
+    {
+        $sql = "SELECT * FROM " . $this->tableName .
+            " WHERE commentID" . "= :commentID";
+
+        /** @var \PDOStatement $statement */
+        $statement = $this->getAdapter()->getConnection()->prepare($sql);
+        $statement->execute([':commentID' => $commentID]);
+
+        return $statement->fetch();
+    }
 }
