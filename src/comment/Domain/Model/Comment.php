@@ -9,6 +9,7 @@
 namespace Comment\Domain\Model;
 
 use Comment\Domain\ValueObject\AuthorID;
+use Comment\Domain\ValueObject\CommentID;
 use Comment\Domain\ValueObject\ThreadID;
 use User\Domain\ValueObject\UserID;
 
@@ -46,6 +47,9 @@ class Comment
 
     /** @var AuthorID $authorID */
     protected $authorID;
+
+    /** @var CommentID $commentID */
+    protected $commentID;
 
     /** *******************************
      *      SETTER / GETTER
@@ -147,6 +151,25 @@ class Comment
     }
 
     /**
+     * @return CommentID
+     */
+    public function getCommentID(): CommentID
+    {
+        return $this->commentID;
+    }
+
+    /**
+     * @param CommentID $commentID
+     *
+     * @return Comment
+     */
+    public function setCommentID(CommentID $commentID): Comment
+    {
+        $this->commentID = $commentID;
+        return $this;
+    }
+
+    /**
      * @return bool
      */
     public function isEnabled(): bool
@@ -163,6 +186,14 @@ class Comment
     {
         $this->enabled = $enabled;
         return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getEnabled(): bool
+    {
+        return $this->enabled;
     }
 
     /**
@@ -201,7 +232,9 @@ class Comment
     {
         $date = new \DateTime();
 
-        $this->setAuthorID($authorID)
+        $this
+            ->setCommentID(new CommentID())
+            ->setAuthorID($authorID)
             ->setThreadID($threadID)
             ->setBody($body)
             ->setEnabled(false)
@@ -212,7 +245,7 @@ class Comment
     /**
      * The comment is approve
      */
-    public function approveComment()
+    public function approve()
     {
         $this->setEnabled(true);
         $this->setUpdateAt(new \DateTime());
@@ -221,9 +254,18 @@ class Comment
     /**
      * The comment is disapprove
      */
-    public function disapproveComment()
+    public function disapprove()
     {
         $this->setEnabled(false);
+        $this->setUpdateAt(new \DateTime());
+    }
+
+    /**
+     * The comment change his body
+     */
+    public function changeBody(string $body)
+    {
+        $this->setBody($body);
         $this->setUpdateAt(new \DateTime());
     }
 }
