@@ -1,0 +1,21 @@
+{% extends 'layouts.admin.html.twig' %}
+
+{% block content %}
+    <div class="row">
+        <form action="/admin/comment/change?id={{ comment.commentID.value }}" method="post">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="comment">Comment</label>
+                        <textarea type="text" class="form-control" name="body" id="body">
+                            {{ comment.body }}
+                        </textarea>
+                    </div>
+                    <div class="submit">
+                        <input type="submit" class="btn btn-primary" value="Change">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}

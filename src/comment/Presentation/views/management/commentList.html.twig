@@ -25,8 +25,13 @@
                     </td>
                     <td>{{ commentAggregate.comment.createAt|date('d/m/Y H:i') }}</td>
                     <td>
-                        <a href="#" class="btn btn-primary">Approuvé</a>
-                        <a href="#" class="btn btn-danger">Modifier</a>
+                        {% if (commentAggregate.comment.enabled) %}
+                            <a href="/admin/comment/disapprove?id={{ commentAggregate.comment.commentID.value }}" class="btn btn-primary">Disapprove</a>
+                        {% else %}
+                            <a href="/admin/comment/approve?id={{ commentAggregate.comment.commentID.value }}" class="btn btn-primary">Approve</a>
+                        {% endif %}
+
+                        <a href="/admin/comment/change?id={{ commentAggregate.comment.commentID.value }}" class="btn btn-danger">Modifier</a>
                     </td>
                 </tr>
                 {% endfor %}
@@ -36,4 +41,4 @@
 </div>
 {%  endblock content %}
 
-{% block actionTitle %}Commentaires{% endblock actionTitle %}
+{% block actionTitle %}Comments{% endblock actionTitle %}
