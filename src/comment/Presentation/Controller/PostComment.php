@@ -14,10 +14,10 @@ use Comment\Infrastructure\Service\CommentWriteService;
 use Lib\Controller\Controller;
 
 /**
- * Class postComment
+ * Class PostComment
  * @package Comment\Presentation\Controller
  */
-class postComment extends Controller
+class PostComment extends Controller
 {
     /**
      * Add a comment for a post
@@ -36,8 +36,13 @@ class postComment extends Controller
                 )
             );
 
-            $commentWriteService->create($postID, $username, $email, $body);
+            // TODO Use $comment for update view with AJAX
+            $comment = $commentWriteService->create($postID, $username, $email, $body);
+
+            // Redirect to BlogPost
+            $host = $_SERVER['HTTP_HOST'];
+            $uri = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+            header("Location: http://$host$uri/post?id=" . $postID);
         }
-        echo $this->render('comment:comments:newComment.html.twig', []);
     }
 }
