@@ -95,9 +95,13 @@ class Management extends Controller
                 new WriteRepository(new WriteDataMapperRepository())
             );
             $userWriteService->update($user, $data);
+
+            $this->redirectToAdminUsers();
         }
 
-        echo $this->render('user:management:changeUser.html.twig', ['user' => $user]);
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            echo $this->render('user:management:changeUser.html.twig', ['user' => $user]);
+        }
     }
 
     /**
@@ -125,9 +129,13 @@ class Management extends Controller
                 $data['firstname'],
                 $data['lastname'],
                 $data['nickname']);
+
+            $this->redirectToAdminUsers();
         }
 
-        echo $this->render('user:management:newUser.html.twig', ['user' => $user]);
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            echo $this->render('user:management:newUser.html.twig', ['user' => $user]);
+        }
     }
 
     /**
@@ -152,6 +160,8 @@ class Management extends Controller
             ));
 
         $userStatusService->lock($user);
+
+        $this->redirectToAdminUsers();
     }
 
     /**
@@ -176,5 +186,17 @@ class Management extends Controller
             ));
 
         $userStatusService->unlock($user);
+
+        $this->redirectToAdminUsers();
+    }
+
+    /**
+     * Redirect to admin users page
+     */
+    protected function redirectToAdminUsers() {
+        // Redirect to /admin/users
+        $host = $_SERVER['HTTP_HOST'];
+        $uri = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+        header("Location: http://$host$uri/admin/users");
     }
 }
