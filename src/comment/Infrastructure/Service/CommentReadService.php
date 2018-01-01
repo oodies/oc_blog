@@ -11,6 +11,7 @@ namespace Comment\Infrastructure\Service;
 use Blogpost\Infrastructure\Service\BlogpostService;
 use Comment\Domain\Model\Comment;
 use Comment\Domain\Model\CommentAggregate;
+use Comment\Domain\ValueObject\CommentID;
 use Comment\Domain\ValueObject\ThreadID;
 use Comment\Infrastructure\Persistence\CQRS\CommentReadRepository;
 use Comment\Infrastructure\Repository\CommentReadDataMapperRepository;
@@ -119,5 +120,21 @@ class CommentReadService
         }
 
         return $response;
+    }
+
+    /**
+     * Return a comment by commentID
+     *
+     * @param string $commentID
+     *
+     * @return Comment
+     */
+    public function getByCommentID(string $commentID): Comment
+    {
+        $commentReadRepository = new CommentReadRepository(
+            new CommentReadDataMapperRepository()
+        );
+
+        return $comment = $commentReadRepository->getByCommentID(new CommentID($commentID));
     }
 }

@@ -11,7 +11,9 @@ namespace Comment\Infrastructure\Service;
 use Blogpost\Domain\ValueObject\PostID;
 use Comment\Domain\Model\Author;
 use Comment\Domain\Model\Comment;
+use Comment\Domain\Model\Thread;
 use Comment\Domain\ValueObject\AuthorID;
+use Comment\Domain\ValueObject\ThreadID;
 use Comment\Infrastructure\Persistence\CQRS\CommentWriteRepository;
 use Comment\Infrastructure\Persistence\CQRS\ThreadReadRepository;
 use Comment\Infrastructure\Persistence\CQRS\ThreadWriteRepository;
@@ -29,7 +31,6 @@ use User\Infrastructure\Service\UserRegisterService;
  */
 class CommentWriteService
 {
-
     /** @var CommentWriteRepository */
     protected $repository;
 
@@ -42,7 +43,6 @@ class CommentWriteService
     {
         $this->repository = $repository;
     }
-
 
     /**
      * Create a new comment
@@ -64,6 +64,7 @@ class CommentWriteService
         $likelyAuthor = $userService->findByEmail($email);
 
         if ($likelyAuthor === null) {
+            /** @var UserRegisterService $userRegisterService */
             $userRegisterService = new UserRegisterService(
                 new WriteRepository(
                     new WriteDataMapperRepository()
@@ -87,17 +88,67 @@ class CommentWriteService
                 new ThreadWriteDataMapperRepository()
             ));
 
+        /** @var Thread $thread */
         if ($likelyThread === null) {
             $thread = $threadWriteService->create($postID);
         } else {
             $thread = $threadWriteService->update($likelyThread);
         }
 
+        /** @var ThreadID $threadID */
         $threadID = $thread->getThreadID();
+        /** @var AuthorID $authorID */
         $authorID = new AuthorID($author->getUserID()->getValue());
 
+        /** @var Comment $comment */
         $comment = new Comment();
         $comment->createComment($authorID, $threadID, $body);
+        $this->repository->add($comment);
+
+        return $comment;
+    }
+
+    /**
+     * Approve comment
+     *
+     * @param Comment $comment
+     *
+     * @return Comment
+     */
+    public function approve(Comment $comment): Comment
+    {
+        $comment->approve();
+        $this->repository->add($comment);
+
+        return $comment;
+    }
+
+    /**
+     * Disapprove comment
+     *
+     * @param Comment $comment
+     *
+     * @return Comment
+     */
+    public function disapprove(Comment $comment): Comment
+    {
+        $comment->disapprove();
+        $this->repository->add($comment);
+
+        return $comment;
+    }
+
+    /**
+     * Change body of this comment
+     *
+     * @param Comment $comment
+     * @param string  $body
+     *
+     * @return Comment
+     */
+    public function changeBody(Comment $comment, string $body): Comment
+    {
+        $comment->changeBody($body);
         $this->repository->add($comment);
 
         return $comment;
