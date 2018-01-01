@@ -94,6 +94,7 @@
                 <h4>{{ comments|length }} Comments</h4>
                 <hr class="mb-4">
                 {% for commentAggregate in comments %}
+                    {% if commentAggregate.comment.enabled %}
                     <div id="comment_{{ commentAggregate.comment.idComment }}" class="comment mb-4">
                         <div class="d-flex w-100">
                             <h6 class="mr-2">{{ commentAggregate.author.lastname }}</h6>
@@ -104,6 +105,7 @@
                             {{ commentAggregate.comment.body }}
                         </p>
                     </div>
+                    {% endif %}
                 {% endfor %}
             </div>
         </div>
