@@ -161,6 +161,18 @@ class Bootstrap
                 'path'       => '/admin/comments',
                 'controller' => 'comment:management:getComments'
             ],
+            'comment_management_approve' => [
+                'path' => '/admin/comment/approve',
+                'controller' => 'comment:management:approve'
+            ],
+            'comment_management_disapprove' => [
+                'path' => '/admin/comment/disapprove',
+                'controller' => 'comment:management:disapprove'
+            ],
+            'comment_management_putComment' => [
+                'path' => '/admin/comment/change',
+                'controller' => 'comment:management:putComment'
+            ],
             'comment_comments_new'       => [
                 'path'       => '/newComment',
                 'controller' => 'comment:postComment:postComment'
