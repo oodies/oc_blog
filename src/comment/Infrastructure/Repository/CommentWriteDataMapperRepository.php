@@ -38,8 +38,10 @@ class CommentWriteDataMapperRepository extends AbstractRepository implements Com
      */
     public function add(Comment $comment): void
     {
+        $data['commentID'] = $comment->getCommentID()->getValue();
         $data['threadID'] = $comment->getThreadID()->getValue();
         $data['authorID'] = $comment->getAuthorID()->getValue();
+        $data['enabled'] = (int)$comment->getEnabled();
         $data['body'] = $comment->getBody();
         $data['create_at'] = $comment->getCreateAt()->format('Y-m-d H:i:s');
         $data['update_at'] = $comment->getUpdateAt()->format('Y-m-d H:i:s');
