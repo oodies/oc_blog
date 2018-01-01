@@ -2,9 +2,10 @@
 
 {% block content %}
     <!-- Page Header -->
-    <header class="masthead" style="background-image: url('/public/node_modules/startbootstrap-clean-blog/img/post-bg.jpg')">
+    <header class="masthead"
+            style="background-image: url('/public/node_modules/startbootstrap-clean-blog/img/post-bg.jpg')">
         <div class="overlay"></div>
-        <div class="container">
+        <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-8 col-md-10 mx-auto">
                     <div class="post-heading">
@@ -22,14 +23,89 @@
 
     <!-- Post Content -->
     <article>
-        <div class="container">
+        <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-8 col-md-10 mx-auto">
                     <p>{{ post.body.content }}</p>
+                    <br>
+                    <a href="/changePost?id={{ post.postId.value }}" class="btn btn-primary">Change</a>
                 </div>
             </div>
         </div>
     </article>
-    <a href="/changePost?id={{ post.postId.value }}">Change</a>
     <hr>
+
+    <!-- Add comment -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <h4>Comments</h4>
+                <hr class="my-4">
+                <div id="comment_thread">
+                    <div class="comment_form_holder">
+                        <h5>Add a comment</h5>
+                        <hr class="my-2">
+                        <form class="comment_new_form" action="/newComment" method="post">
+                            <div class="control-group">
+                                <div class="form-group floating-label-form-group controls">
+                                    <label for="username">Username</label>
+                                    <input type="text" name="username" id="username" class="form-control"
+                                           placeholder="Username"/>
+                                    <p class="help-block text-danger"></p>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <div class="form-group floating-label-form-group controls">
+                                    <label for="email">Email</label>
+                                    <input type="email" name="email" id="email" class="form-control"
+                                           placeholder="Email"/>
+                                    <p class="help-block text-danger"></p>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <div class="form-group floating-label-form-group controls floating-label-form-group-with-value">
+                                    <label for="comment">Your comment</label>
+                                    <textarea name="comment" id="comment"
+                                              class="form-control" placeholder="Comment">
+                                            </textarea>
+                                    <p class="help-block text-danger"></p>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary"
+                                        value="Poster">Posted
+                                </button>
+                            </div>
+                            <input type="hidden" id="postID" name="postID"
+                                   value="{{ commentAggregate.comment.postID.value }}">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+
+    <!-- Comments -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <h4>{{ comments|length }} Comments</h4>
+                <hr class="mb-4">
+                {% for commentAggregate in comments %}
+                    <div id="comment_{{ commentAggregate.comment.idComment }}" class="comment mb-4">
+                        <div class="d-flex w-100">
+                            <h6 class="mr-2">{{ commentAggregate.author.lastname }}</h6>
+                            <small class="text-muted">{{ commentAggregate.comment.createAt|date('d/m/Y H:i') }}</small>
+                        </div>
+                        <p id="comment_body_{{ commentAggregate.comment.idComment }}"
+                           class="my-0">
+                            {{ commentAggregate.comment.body }}
+                        </p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 {% endblock %}
