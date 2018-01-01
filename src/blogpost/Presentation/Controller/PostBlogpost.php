@@ -8,6 +8,7 @@
 
 namespace Blogpost\Presentation\Controller;
 
+use Blogpost\Domain\Model\Post;
 use Blogpost\Infrastructure\Service\PostService;
 use Lib\Controller\Controller;
 
@@ -25,15 +26,20 @@ class PostBlogpost extends Controller
         // view assignment
         $assign = [];
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            echo $this->render('blogpost:blogpost:newPost.html.twig', $assign);
+        }
 
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $title = (isset($_POST['title'])) ? htmlspecialchars($_POST['title']) : '';
             $brief = (isset($_POST['brief'])) ? htmlspecialchars($_POST['brief']) : '';
             $content = (isset($_POST['content'])) ? htmlspecialchars($_POST['content']) : '';
 
+            /** @var PostService $postService */
             $postService = new PostService();
 
             // TODO STUB Renseigner l'auteur selon la session
+            /** @var Post $post */
             $post = $postService->create(
                 'daa3327d-787d-4b6c-9a50-caada7db013e',
                 $title,
@@ -41,9 +47,10 @@ class PostBlogpost extends Controller
                 $content
             );
 
-            $assign = ['success' => 'active'];
-
+            // Redirect to BlogPost
+            $host = $_SERVER['HTTP_HOST'];
+            $uri = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+            header("Location: http://$host$uri/post?id=" . $post->getPostID()->getValue());
         }
-        echo $this->render('blogpost:blogpost:newPost.html.twig', $assign);
     }
 }

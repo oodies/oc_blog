@@ -31,14 +31,20 @@ class PutBlogpost extends Controller
         $postAggregate = $blogpostService->getBlogpost($postID);
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
             $title = (isset($_POST['title'])) ? htmlspecialchars($_POST['title']) : '';
             $brief = (isset($_POST['brief'])) ? htmlspecialchars($_POST['brief']) : '';
             $content = (isset($_POST['content'])) ? htmlspecialchars($_POST['content']) : '';
 
             $blogpostService->updateBlogpost($postAggregate, $title, $brief, $content);
+
+            // Redirect to BlogPost
+            $host = $_SERVER['HTTP_HOST'];
+            $uri = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+            header("Location: http://$host$uri/post?id=" . $postID);
         }
 
-        echo $this->render('blogpost:blogpost:changePost.html.twig', ['post' => $postAggregate]);
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            echo $this->render('blogpost:blogpost:changePost.html.twig', ['post' => $postAggregate]);
+        }
     }
 }
