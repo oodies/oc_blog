@@ -97,7 +97,7 @@
                     {% if commentAggregate.comment.enabled %}
                     <div id="comment_{{ commentAggregate.comment.idComment }}" class="comment mb-4">
                         <div class="d-flex w-100">
-                            <h6 class="mr-2">{{ commentAggregate.author.lastname }}</h6>
+                            <h6 class="mr-2">{{ commentAggregate.author.username }}</h6>
                             <small class="text-muted">{{ commentAggregate.comment.createAt|date('d/m/Y H:i') }}</small>
                         </div>
                         <p id="comment_body_{{ commentAggregate.comment.idComment }}"
