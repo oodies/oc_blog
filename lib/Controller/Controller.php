@@ -12,6 +12,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Twig_Loader_Filesystem;
 use Twig_Environment;
 use Twig_Extension_Debug;
+use User\Domain\Model\User;
 
 /**
  * Class Controller
@@ -32,6 +33,29 @@ class Controller
         $this->setRequest();
 
         return;
+    }
+
+    /**
+     * Push the role and userID in session
+     */
+    public function authenticate(User $user)
+    {
+        session_regenerate_id();
+
+        switch ($user->getRole()) {
+            case 'guest':
+                $roles = ['guest'];
+                break;
+            case 'blogger':
+                $roles = ['guest', 'blogger'];
+                break;
+            case 'admin':
+                $roles = ['guest', 'blogger', 'admin'];
+                break;
+        }
+
+        $_SESSION['roles'] = $roles;
+        $_SESSION['userID'] = $user->getUserID()->getValue();
     }
 
     /**
