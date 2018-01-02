@@ -7,10 +7,11 @@
  */
 namespace Lib\Controller;
 
+use GuzzleHttp\Psr7\ServerRequest;
+use Psr\Http\Message\ServerRequestInterface;
 use Twig_Loader_Filesystem;
 use Twig_Environment;
-use Psr\Http\Message\ServerRequestInterface;
-use GuzzleHttp\Psr7\ServerRequest;
+use Twig_Extension_Debug;
 
 /**
  * Class Controller
@@ -54,7 +55,7 @@ class Controller
     /**
      * Renders a template.
      *
-     * @param string $path By example 'moduleName:ControllerName:ActionName'
+     * @param string $path    By example 'moduleName:ControllerName:ActionName'
      * @param array  $context An array of parameters to pass to the template
      *
      * @return string The rendered template
@@ -63,18 +64,28 @@ class Controller
     {
         list($module, $controller, $action) = explode(':', $path);
 
-        $directoryApp = $_SERVER['DOCUMENT_ROOT'].'/app/views/layout';
-        $directoryModule = $_SERVER['DOCUMENT_ROOT'].'/src/' . $module . '/Presentation/views';
+        $directoryApp = $_SERVER['DOCUMENT_ROOT'] . '/app/views/layout';
+        $directoryModule = $_SERVER['DOCUMENT_ROOT'] . '/src/' . $module . '/Presentation/views';
+
+        if (getenv('ENV') == 'dev') {
+            $options = [
+                'cache' => false,
+                'debug' => true
+            ];
+        } else {
+            $options = ['cache' => true];
+        }
 
         $loader = new Twig_Loader_Filesystem(array($directoryApp, $directoryModule));
         /** @var Twig_Environment $twig */
-        $twig = new Twig_Environment($loader, array(
-            'cache' => false
-        ));
+        $twig = new Twig_Environment($loader, $options);
+
+        if (getenv('ENV') == 'dev') {
+            $twig->addExtension(new Twig_Extension_Debug());
+        }
 
         $name = $controller . '/' . $action;
 
         return $twig->render($name, $context);
     }
-
 }
