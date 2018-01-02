@@ -10,6 +10,7 @@ namespace Blogpost\Presentation\Controller;
 
 use Blogpost\Infrastructure\Service\BlogpostService;
 use Comment\Infrastructure\Service\CommentService;
+use Comment\Infrastructure\Service\ThreadService;
 use Lib\Controller\Controller;
 use Lib\Registry;
 
@@ -36,8 +37,12 @@ class GetBlogpost extends Controller
         $commentService = new CommentService();
         $comments = $commentService->getCommentsByPostID($postID);
 
+        $threadService = new ThreadService();
+        $thread = $threadService->getThreadByPostID($postID);
+
         echo $this->render('blogpost:blogpost:blogpost.html.twig', [
             'post' => $post,
+            'thread' => $thread,
             'comments' => $comments
         ]);
     }

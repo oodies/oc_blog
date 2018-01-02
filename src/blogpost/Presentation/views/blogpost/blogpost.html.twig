@@ -91,7 +91,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-8 col-md-10 mx-auto">
-                <h4>{{ comments|length }} Comments</h4>
+                <h4>{% if thread is not null %}{{ thread.numberOfComment }} Comments{% else %}Be the first to write a comment !{% endif %}</h4>
                 <hr class="mb-4">
                 {% for commentAggregate in comments %}
                     {% if commentAggregate.comment.enabled %}
