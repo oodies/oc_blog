@@ -117,6 +117,21 @@ class CommentWriteService
      */
     public function approve(Comment $comment): Comment
     {
+        // Update comment counter of the thread
+        $threadReadRepository = new ThreadReadRepository(
+            new ThreadReadDataMapperRepository()
+        );
+        $thread = $threadReadRepository->getByThreadID($comment->getThreadID());
+        $thread->commentCounter();
+
+        /** @var ThreadWriteService $threadWriteService */
+        $threadWriteService = new ThreadWriteService(
+            new ThreadWriteRepository(
+                new ThreadWriteDataMapperRepository()
+            ));
+        $threadWriteService->update($thread);
+
+        // Update comment
         $comment->approve();
         $this->repository->add($comment);
 
@@ -132,6 +147,21 @@ class CommentWriteService
      */
     public function disapprove(Comment $comment): Comment
     {
+        // Update comment counter of the thread
+        $threadReadRepository = new ThreadReadRepository(
+            new ThreadReadDataMapperRepository()
+        );
+        $thread = $threadReadRepository->getByThreadID($comment->getThreadID());
+        $thread->commentCounter(-1);
+
+        /** @var ThreadWriteService $threadWriteService */
+        $threadWriteService = new ThreadWriteService(
+            new ThreadWriteRepository(
+                new ThreadWriteDataMapperRepository()
+            ));
+        $threadWriteService->update($thread);
+
+        // Update comment
         $comment->disapprove();
         $this->repository->add($comment);
 
