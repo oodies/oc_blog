@@ -23,7 +23,7 @@
                         <td>{{ user.nickname }}</td>
                         <td>{{ user.firstname }} {{ user.lastname }}</td>
                         <td>{{ user.email }}</td>
-                        <td>Mon role</td>
+                        <td>{{ user.role }}</td>
                         <td>
                             <a href="/admin/changeUser?id={{ user.userID.value }}" class="btn btn-primary">edit</a>
                             {% if user.locked %}

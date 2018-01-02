@@ -128,7 +128,9 @@ class Management extends Controller
                 $data['email'],
                 $data['firstname'],
                 $data['lastname'],
-                $data['nickname']);
+                $data['nickname'],
+                $data['role']
+            );
 
             $this->redirectToAdminUsers();
         }
