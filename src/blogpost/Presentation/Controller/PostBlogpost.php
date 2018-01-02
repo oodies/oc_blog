@@ -38,10 +38,9 @@ class PostBlogpost extends Controller
             /** @var PostService $postService */
             $postService = new PostService();
 
-            // TODO STUB Renseigner l'auteur selon la session
             /** @var Post $post */
             $post = $postService->create(
-                'daa3327d-787d-4b6c-9a50-caada7db013e',
+                $_SESSION['userID'],
                 $title,
                 $brief,
                 $content
