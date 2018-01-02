@@ -44,8 +44,14 @@ class Security extends Controller
             $passwordEncoder = new Encoder();
             $isValid = $passwordEncoder->verify($password, $user->getPassword());
 
-            // TODO - Si authentication valid => Redirection selon le profile
+            if ($isValid) {
+                $this->authenticate($user);
 
+                // TODO - Si authentication valid => Redirection selon le profile
+                $host = $_SERVER['HTTP_HOST'];
+                $uri = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+                header("Location: http://$host$uri");
+            }
         }
         echo $this->render('user:security:login.html.twig', []);
     }
