@@ -178,14 +178,40 @@ class Thread
             ->setThreadID(new ThreadID())
             ->setCreateAt(new \DateTime())
             ->setUpdateAt(new \DateTime())
-            ->setNumberOfComment(1);
+            ->setNumberOfComment(0);
     }
 
     /**
      * Update comment feed for a new post posted
      */
-    public function updateThread() {
-        $this->numberOfComment = (int)$this->getNumberOfComment()+1;
+    public function updateThread()
+    {
+        $this->setUpdateAt(new \DateTime());
+    }
+
+
+    /**
+     * Update the number of approved comments counter
+     *
+     * @param int|null $value
+     *
+     * @throws \Exception
+     */
+    public function commentCounter(int $value = null)
+    {
+        if ($value === null) {
+            $this->numberOfComment = (int)$this->getNumberOfComment() + 1;
+        } else {
+            if ($value !== -1) {
+                throw new \Exception("Value must be equal to -1");
+            }
+            $this->numberOfComment = (int)$this->getNumberOfComment() + $value;
+        }
+
+        if ($this->numberOfComment < 0) {
+            $this->numberOfComment = 0;
+        }
+
         $this->setUpdateAt(new \DateTime());
     }
 }
