@@ -152,6 +152,7 @@ CREATE TABLE IF NOT EXISTS `user_user` (
   `registered_at`  DATETIME                  NOT NULL,
   `update_at`      DATETIME                  NOT NULL,
   `locked`         TINYINT(1)                NOT NULL DEFAULT '0',
+  `role`           VARCHAR(255) COLLATE utf8_bin      DEFAULT NULL,
   PRIMARY KEY (`id_user`),
   UNIQUE KEY `ind_userID` (`userID`)
 )
