@@ -103,6 +103,13 @@ class User
     protected $locked;
 
 
+    /**
+     * Role of the user
+     *
+     * @var string
+     */
+    protected $role;
+
 
     /** *******************************
      *  CONSTRUCT
@@ -382,7 +389,7 @@ class User
     }
 
     /**
-     * @param bool $enabled
+     * @param bool $locked
      *
      * @return User
      */
@@ -399,6 +406,27 @@ class User
     {
         return (boolean)$this->locked;
     }
+
+    /**
+     * @return string
+     */
+    public function getRole(): string
+    {
+        return $this->role;
+    }
+
+    /**
+     * @param string $role
+     *
+     * @return User
+     */
+    public function setRole(string $role): User
+    {
+        $this->role = $role;
+        return $this;
+    }
+
+
 
     /** *******************************
      *  BEHAVIOR OF THE OBJECT MODEL
@@ -417,6 +445,7 @@ class User
         $this->registeredAt = $date;
         $this->updateAt = $date;
         $this->locked = false;
+        $this->role = 'guest';
     }
 
     /**
@@ -425,13 +454,15 @@ class User
      * @param string $firstname
      * @param string $lastname
      * @param string $nickname
+     * @param string $role
      */
     public function createCompleteUser(
         string $username,
         string $email,
         string $firstname,
         string $lastname,
-        string $nickname
+        string $nickname,
+        string $role
     ) {
         $date = new \DateTime();
 
@@ -443,6 +474,7 @@ class User
         $this->registeredAt = $date;
         $this->updateAt = $date;
         $this->locked = false;
+        $this->role = $role;
     }
 
     /**
