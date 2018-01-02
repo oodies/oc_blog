@@ -16,7 +16,7 @@
             <tbody>
                 {% for commentAggregate in comments %}
                 <tr>
-                    <td>{{ commentAggregate.author.nickname }}</td>
+                    <td>{{ commentAggregate.author.username }}</td>
                     <td>{{ commentAggregate.comment.body }}</td>
                     <td>
                         <a href="/post?id={{ commentAggregate.postAggregate.postID.value }}">
