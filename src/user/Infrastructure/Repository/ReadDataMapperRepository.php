@@ -137,6 +137,7 @@ class ReadDataMapperRepository extends AbstractRepository implements ReadReposit
             ->setSalt($row['salt'])
             ->setRegisteredAt(new \dateTime($row['registered_at']))
             ->setUpdateAt(new \DateTime($row['update_at']))
-            ->setLocked((bool)$row['locked']);
+            ->setLocked((bool)$row['locked'])
+            ->setRole($row['role']);
     }
 }

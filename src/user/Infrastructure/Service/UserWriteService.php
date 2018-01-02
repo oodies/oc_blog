@@ -41,6 +41,8 @@ class UserWriteService
      * @param string $email
      * @param string $firstname
      * @param string $lastname
+     * @param string $nickname
+     * @param string $role
      *
      * @return User
      */
@@ -49,7 +51,8 @@ class UserWriteService
         string $email,
         string $firstname,
         string $lastname,
-        string $nickname
+        string $nickname,
+        string $role
     ): User {
         $user = new User(new UserID());
         $user->createCompleteUser(
@@ -57,7 +60,8 @@ class UserWriteService
             $email,
             $firstname,
             $lastname,
-            $nickname
+            $nickname,
+            $role
         );
         $this->repository->add($user);
 
@@ -88,6 +92,9 @@ class UserWriteService
         }
         if (isset($data['email'])) {
             $user->setEmail($data['email']);
+        }
+        if (isset($data['role'])) {
+            $user->setRole($data['role']);
         }
 
         $user->updateUser($user);

@@ -50,6 +50,7 @@ class WriteDataMapperRepository extends AbstractRepository implements WriteRepos
         $data['registered_at'] = $user->getRegisteredAt()->format('Y-m-d H:i:s');
         $data['update_at'] = $user->getUpdateAt()->format('Y-m-d H:i:s');
         $data['locked'] = (int)$user->getLocked();
+        $data['role'] = $user->getRole();
 
         if ($user->getIdUser() === null) {
             $this->getDbTable()->insert($data);
