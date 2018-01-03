@@ -13,7 +13,8 @@
                         <h2 class="subheading">{{ post.header.brief }}</h2>
                         <span class="meta">Posted by
                 <a href="#">{{ post.blogger.nickname }}</a>
-                           le {{ post.createAt|date('d/m/Y') }}
+                           on {{ post.createAt|date }}<br />
+                           update on {{ post.updateAt|date }}
                 </span>
                     </div>
                 </div>
