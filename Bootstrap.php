@@ -102,6 +102,11 @@ class Bootstrap
         $this->route = [
             // Blogpost routing
             //
+            'app_dashboard_index' => [
+                'path'       => '/admin',
+                'controller' => 'app:dashboard:index',
+                'allow'      => 'admin'
+            ],
             'blogpost_get_blogposts'        => [
                 'path'       => '/posts',
                 'controller' => 'blogpost:getBlogposts:getBlogposts',
@@ -147,7 +152,6 @@ class Bootstrap
                 'path'       => '/admin/user',
                 'controller' => 'user:management:getUser',
                 'allow'      => 'admin'
-
             ],
             'user_management_users'         => [
                 'path'       => '/admin/users',
