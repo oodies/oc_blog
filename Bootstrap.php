@@ -8,6 +8,7 @@
 
 use GuzzleHttp\Psr7\ServerRequest;
 use Lib\Db\DbFactory;
+use Lib\Auth;
 use Lib\Registry;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -37,10 +38,10 @@ class Bootstrap
     public function init()
     {
         $this->initDb();
+        $this->initAuth();
         $this->initRequest();
         $this->initRoute();
     }
-
 
     /**
      * Initialization connection database
@@ -72,17 +73,25 @@ class Bootstrap
     }
 
     /**
+     * Persist $_SESSION in Auth object
+     */
+    protected function initAuth()
+    {
+        /** @var Auth $auth */
+        Auth::getInstance()->setStorage();
+    }
+
+    /**
      *
      */
     protected function initRequest()
     {
-        $request = \GuzzleHttp\Psr7\ServerRequest::fromGlobals();
+        $request = ServerRequest::fromGlobals();
         $this->request = $request;
 
         // Set the global information request to a registry
         Registry::set('request', $request);
     }
-
 
     /**
      *
@@ -234,6 +243,8 @@ class Bootstrap
         // Default role
         if (!isset($_SESSION['roles'])) {
             $_SESSION['roles'] = ['guest'];
+
+            Auth::getInstance()->setStorage();
         }
 
         if (in_array($route['allow'], $_SESSION['roles'])) {
@@ -248,7 +259,5 @@ class Bootstrap
         } else {
             echo 'Unauthorized action';
         }
-
-
     }
 }
