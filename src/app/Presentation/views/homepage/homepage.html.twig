@@ -3,14 +3,21 @@
 
 {% block content %}
     <!-- Page Header -->
-    <header class="masthead" style="background-image: url('/public/node_modules/startbootstrap-clean-blog/img/contact-bg.jpg')">
+    <header class="masthead"
+            style="background-image: url('/public/node_modules/startbootstrap-clean-blog/img/contact-bg.jpg')">
         <div class="overlay"></div>
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-md-10 mx-auto">
                     <div class="page-heading">
                         <h1>Sébastien CHOMY</h1>
-                        <span class="subheading">Développeur Web, sur les environnements PHP</span>
+                        <span class="subheading">Web developer, PHP environments</span>
+                        <a href="/public/CV-sebastien-chomy.pdf" target="_blank">
+                            <span class="fa-stack fa-lg d-block mx-auto m-2">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-graduation-cap fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -21,11 +28,12 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-md-10 mx-auto">
-                <p>Vous voulez entrer en contact ? Remplissez le formulaire ci-dessous pour m'envoyer un message et je vous répondrai dans les plus brefs délais !</p>
+                <p>Want to get in touch? Fill in the form below to send me a message and I will answer you as soon as
+                    possible!</p>
                 {% include '/contactUS/contactUs.html.twig' %}
             </div>
         </div>
     </div>
 
     <hr>
-{%  endblock content %}
+{% endblock content %}
