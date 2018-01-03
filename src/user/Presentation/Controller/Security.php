@@ -8,6 +8,7 @@
 
 namespace User\Presentation\Controller;
 
+use Lib\Auth;
 use Lib\Controller\Controller;
 use Lib\Registry;
 use User\Infrastructure\Password\Encoder;
@@ -45,7 +46,8 @@ class Security extends Controller
             $isValid = $passwordEncoder->verify($password, $user->getPassword());
 
             if ($isValid) {
-                $this->authenticate($user);
+                $auth = Auth::getInstance();
+                $auth->authenticate($user);
 
                 // TODO - Si authentication valid => Redirection selon le profile
                 $this->redirectToRoot();
@@ -75,7 +77,6 @@ class Security extends Controller
         if (ini_get('session.use_cookies')) {
             if (isset($_COOKIE[session_name()])) {
                 $cookie_params = session_get_cookie_params();
-            }
             setcookie(session_name(),
                 false,
                 time() - 42000,
@@ -83,6 +84,7 @@ class Security extends Controller
                 $cookie_params['domain'],
                 $cookie_params['secure'],
                 $cookie_params['httponly']);
+            }
         }
 
         // Delete session
