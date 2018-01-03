@@ -5,11 +5,12 @@
  * Date: 01/12/2017
  * Time: 11:56
  */
-session_start();
 
 defined('ROOT_DIR') || define('ROOT_DIR', __DIR__);
 
 require_once ROOT_DIR . '/vendor/autoload.php';
+
+session_start();
 
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\Debug\Debug;
