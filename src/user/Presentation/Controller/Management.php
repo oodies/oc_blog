@@ -16,6 +16,7 @@ use User\Infrastructure\Persistence\CQRS\WriteRepository;
 use User\Infrastructure\Repository\ReadDataMapperRepository;
 use User\Infrastructure\Repository\WriteDataMapperRepository;
 use User\Infrastructure\Service\UserReadService;
+use User\Infrastructure\Service\UserRegisterService;
 use User\Infrastructure\Service\UserStatusService;
 use User\Infrastructure\Service\UserWriteService;
 
@@ -115,11 +116,14 @@ class Management extends Controller
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
+            // Prepare data
             $post = Registry::get('request')->getParsedBody();
+            $password = $post['password'];
             foreach ($post as $key => $value) {
                 $data[$key] = htmlspecialchars($value);
             }
 
+            // Step-1 : Create user
             $userWriteService = new UserWriteService(
                 new WriteRepository(new WriteDataMapperRepository())
             );
@@ -132,6 +136,21 @@ class Management extends Controller
                 $data['role']
             );
 
+            // Step-2 : Get the new user
+            $userReadService = new UserReadService(
+                new ReadRepository(
+                    new ReadDataMapperRepository()
+                ));
+            $user = $userReadService->getByUserID($user->getUserID());
+
+            // Step-3 : Persist password
+            $userRegisterService = new UserRegisterService(
+                new WriteRepository(
+                    new WriteDataMapperRepository()
+                ));
+            $userRegisterService->register($user, $password);
+
+            //
             $this->redirectToAdminUsers();
         }
 

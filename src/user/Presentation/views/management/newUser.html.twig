@@ -3,7 +3,7 @@
 {% block content %}
     <div class="row">
         <form id="addUser" action="/admin/addUser" method="post" novalidate>
-            {% include '/management/formUser.html.twig' %}
+            {% include '/management/formUser.html.twig' with {'context':'newUser'} %}
             <div class="submit">
                 <input type="submit" form="addUser" class="btn btn-primary" value="Add user">
             </div>
