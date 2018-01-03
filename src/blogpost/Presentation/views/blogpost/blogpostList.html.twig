@@ -35,10 +35,11 @@
                                 {{ post.header.brief }}
                             </h3>
                         </a>
-                        <p class="post-meta">Publié par
+                        <p class="post-meta">Posted by
                             <a href="#">{{ post.blogger.nickname }}</a>
-                            {# TODO DateTime->__toString #}
-                            le 15/12/2017</p>
+                            on {{ post.createAt|date }}<br/>
+                            update on {{ psot.updateAt|date }}
+                        </p>
                     </div>
                 {% endfor %}
             </div>
