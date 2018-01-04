@@ -120,4 +120,4 @@ class CommentReadDataMapperRepository extends AbstractRepository implements Comm
             ->setUpdateAt(new \DateTime($row['update_at']))
         ;
     }
-}
+ }
