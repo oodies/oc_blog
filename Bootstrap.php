@@ -127,6 +127,21 @@ class Bootstrap
                 'controller' => 'blogpost:putBlogpost:putBlogpost',
                 'allow'      => 'blogger'
             ],
+            'blogpost_management_postList' => [
+                'path'       => '/admin/posts',
+                'controller' => 'blogpost:management:getPosts',
+                'allow'      => 'admin'
+            ],
+            'blogpost_management_enabled' => [
+                'path'       => '/admin/post/enabled',
+                'controller' => 'blogpost:management:enabled',
+                'allow'      => 'admin'
+            ],
+            'blogpost_management_disabled' => [
+                'path'       => '/admin/post/disabled',
+                'controller' => 'blogpost:management:disabled',
+                'allow'      => 'admin'
+            ],
             // Users registration routing
             //
             'user_registration_register'    => [
