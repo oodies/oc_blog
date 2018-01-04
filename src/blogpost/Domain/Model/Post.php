@@ -31,6 +31,9 @@ class Post
     /** @var \DateTime */
     protected $updateAt;
 
+    /** @var boolean $enabled */
+    protected $enabled;
+
     /**
      * Object-Value
      */
@@ -141,6 +144,33 @@ class Post
         return $this;
     }
 
+    /**
+     * @return bool
+     */
+    public function isEnabled(): bool
+    {
+        return $this->enabled;
+    }
+
+    /**
+     * @param bool $enabled
+     *
+     * @return Post
+     */
+    public function setEnabled(bool $enabled): Post
+    {
+        $this->enabled = $enabled;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getEnabled(): Bool
+    {
+        return $this->enabled;
+    }
+
     /** *******************************
      *  BEHAVIOR OF THE OBJECT MODEL
      */
@@ -156,6 +186,7 @@ class Post
 
         $this->setPostID(new PostID())
             ->setBloggerID($bloggerID)
+            ->setEnabled(true)
             ->setCreateAt($date)
             ->setUpdateAt($date);
     }
@@ -165,6 +196,24 @@ class Post
      */
     public function update()
     {
+        $this->setUpdateAt(new \DateTime());
+    }
+
+    /**
+     * The Post is enabled
+     */
+    public function enabled()
+    {
+        $this->setEnabled(true);
+        $this->setUpdateAt(new \DateTime());
+    }
+
+    /**
+     * The post is disabled
+     */
+    public function disabled()
+    {
+        $this->setEnabled(false);
         $this->setUpdateAt(new \DateTime());
     }
 }
