@@ -1,0 +1,45 @@
+{% extends 'layouts.admin.html.twig' %}
+
+{% block content %}
+   <div class="container">
+       <div class="row">
+           <div class="table-responsive">
+               <table class="table table-striped table-hover" role="grid">
+                   <thead>
+                   <tr>
+                       <th>title</th>
+                       <th>brief</th>
+                       <th>Author</th>
+                       <th>Action</th>
+                       <th>Create At</th>
+                       <th>Update At</th>
+                   </tr>
+                   </thead>
+                   <tbody>
+                        {% for post in posts %}
+                            <tr>
+                            <td><a href="/post?id={{ post.postID.value }}">{{ post.header.title }}</a></td>
+                            <td>{{ post.header.brief }}</td>
+                            <td>{{ post.blogger.username }}</td>
+                            <td>
+                            {% if post.isEnabled %}
+                            <a href="/admin/post/disabled?id={{ post.postID.value }}"
+                                class="btn btn-danger">Disabled</a>
+                            {% else %}
+                            <a href="/admin/post/enabled?id={{ post.postID.value }}"
+                               class="btn btn-primary">Enabled</a>
+                            {% endif %}
+                            </td>
+                            <td>{{ post.createAt|date }}</td>
+                            <td>{{ post.updateAt|date }}</td>
+                            </tr>
+                        {% endfor %}
+                   </tbody>
+               </table>
+           </div>
+       </div>
+   </div>
+{% endblock content %}
+
+{% block actionTitle %}Posts{% endblock actionTitle %}
+
