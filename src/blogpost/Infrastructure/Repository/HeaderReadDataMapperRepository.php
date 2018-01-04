@@ -88,4 +88,12 @@ class HeaderReadDataMapperRepository extends AbstractRepository implements Heade
             ->setBrief($row['brief'])
             ->setPostID(new PostID($row['postID']));
     }
+
+    /**
+     * @return HeaderTableGateway
+     */
+    protected function getDbTable(): HeaderTableGateway
+    {
+        return parent::getDbTable();
+    }
 }

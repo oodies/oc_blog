@@ -56,4 +56,12 @@ class BodyReadDataMapperRepository extends AbstractRepository implements BodyRea
             ->setContent($row['content'])
             ->setPostID(new PostID($row['postID']));
     }
+
+    /**
+     * @return BodyTableGateway
+     */
+    protected function getDbTable(): BodyTableGateway
+    {
+        return parent::getDbTable();
+    }
 }

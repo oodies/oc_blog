@@ -51,4 +51,12 @@ class BodyWriteDataMapperRepository extends AbstractRepository implements BodyWr
             $this->getDbTable()->update($data, $body->getIdBody());
         }
     }
+
+    /**
+     * @return BodyTableGateway
+     */
+    protected function getDbTable(): BodyTableGateway
+    {
+        return parent::getDbTable();
+    }
 }

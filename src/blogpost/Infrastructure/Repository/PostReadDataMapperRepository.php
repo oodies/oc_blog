@@ -81,4 +81,12 @@ class PostReadDataMapperRepository extends AbstractRepository implements PostRea
             ->setUpdateAt(new \DateTime($row['update_at']))
         ;
     }
+
+    /**
+     * @return PostTableGateway
+     */
+    protected function getDbTable(): PostTableGateway
+    {
+        return parent::getDbTable();
+    }
 }

@@ -49,4 +49,12 @@ class HeaderWriteDataMapperRepository extends AbstractRepository implements Head
             $this->getDbTable()->update($data, $header->getIdHeader());
         }
     }
+
+    /**
+     * @return HeaderTableGateway
+     */
+    protected function getDbTable(): HeaderTableGateway
+    {
+        return parent::getDbTable();
+    }
 }
