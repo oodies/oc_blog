@@ -14,12 +14,18 @@ namespace Lib\Db;
  */
 class AbstractRepository
 {
+    /** *******************************
+     *  PROPERTIES
+     */
 
     /**
      * @var AbstractTableGateway $dbTable
      */
     protected $dbTable;
 
+    /** *******************************
+     *  METHODS
+     */
 
     /**
      * AbstractRepository constructor.
@@ -35,9 +41,9 @@ class AbstractRepository
     }
 
     /**
-     * @return AbstractTableGateway
+     * @return mixed
      */
-    public function getDbTable()
+    protected function getDbTable()
     {
         if (null === $this->dbTable) {
             self::setDbTable($this->gatewayName);
@@ -50,7 +56,7 @@ class AbstractRepository
      *
      * @return $this
      */
-    public function setDbTable($dbTable)
+    protected function setDbTable($dbTable)
     {
         if (is_string($dbTable)) {
             $dbTable = new $dbTable();
