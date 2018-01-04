@@ -88,4 +88,12 @@ class ThreadReadDataMapperRepository extends AbstractRepository implements Threa
 
         return $thread;
     }
+
+    /**
+     * @return ThreadTableGateway
+     */
+    protected function getDbTable(): ThreadTableGateway
+    {
+        return parent::getDbTable();
+    }
 }

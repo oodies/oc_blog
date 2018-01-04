@@ -52,4 +52,12 @@ class ThreadWriteDataMapperRepository extends AbstractRepository implements Thre
             $this->getDbTable()->update($data, $thread->getIdThread());
         }
     }
+
+    /**
+     * @return ThreadTableGateway
+     */
+    protected function getDbTable(): ThreadTableGateway
+    {
+        return parent::getDbTable();
+    }
 }

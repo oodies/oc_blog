@@ -52,4 +52,12 @@ class CommentWriteDataMapperRepository extends AbstractRepository implements Com
             $this->getDbTable()->update($data, $comment->getIdComment());
         }
     }
+
+    /**
+     * @return CommentTableGateway
+     */
+    protected function getDbTable(): CommentTableGateway
+    {
+        return parent::getDbTable();
+    }
 }

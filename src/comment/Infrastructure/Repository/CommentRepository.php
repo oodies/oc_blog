@@ -74,8 +74,7 @@ class CommentRepository extends AbstractRepository
                     ->setThreadID(new ThreadID($row['threadID']))
                     ->setAuthorID(new AuthorID($row['authorID']))
                     ->setBody($row['body'])
-                    ->setCreateAt(new \DateTime($row['create_at']))
-                ;
+                    ->setCreateAt(new \DateTime($row['create_at']));
                 $entries[] = $comment;
                 unset($comment);
             }
@@ -102,5 +101,13 @@ class CommentRepository extends AbstractRepository
         } else {
             $this->getDbTable()->update($data, $comment->getIdComment());
         }
+    }
+
+    /**
+     * @return CommentTableGateway
+     */
+    protected function getDbTable(): CommentTableGateway
+    {
+        return parent::getDbTable();
     }
 }

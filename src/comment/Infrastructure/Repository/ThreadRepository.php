@@ -88,4 +88,12 @@ class ThreadRepository extends AbstractRepository
             $this->getDbTable()->update($data, $thread->getIdThread());
         }
     }
+
+    /**
+     * @return ThreadTableGateway
+     */
+    protected function getDbTable(): ThreadTableGateway
+    {
+        return parent::getDbTable();
+    }
 }

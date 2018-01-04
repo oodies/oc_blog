@@ -61,6 +61,25 @@ class CommentReadDataMapperRepository extends AbstractRepository implements Comm
     }
 
     /**
+     * Hydrate Comment model with data
+     *
+     * @param Comment $comment
+     * @param array   $row
+     */
+    protected function hydrate(Comment $comment, array $row)
+    {
+        $comment
+            ->setIdComment($row['id_comment'])
+            ->setCommentID(new CommentID($row['commentID']))
+            ->setThreadID(new ThreadID($row['threadID']))
+            ->setAuthorID(new AuthorID($row['authorID']))
+            ->setEnabled((bool)$row['enabled'])
+            ->setBody($row['body'])
+            ->setCreateAt(new \DateTime($row['create_at']))
+            ->setUpdateAt(new \DateTime($row['update_at']));
+    }
+
+    /**
      * Find all comments
      *
      * @return array
@@ -102,22 +121,10 @@ class CommentReadDataMapperRepository extends AbstractRepository implements Comm
     }
 
     /**
-     * Hydrate Comment model with data
-     *
-     * @param Comment $comment
-     * @param array   $row
+     * @return CommentTableGateway
      */
-    protected function hydrate(Comment $comment, array $row)
+    protected function getDbTable(): CommentTableGateway
     {
-        $comment
-            ->setIdComment($row['id_comment'])
-            ->setCommentID(new CommentID($row['commentID']))
-            ->setThreadID(new ThreadID($row['threadID']))
-            ->setAuthorID(new AuthorID($row['authorID']))
-            ->setEnabled((bool)$row['enabled'])
-            ->setBody($row['body'])
-            ->setCreateAt(new \DateTime($row['create_at']))
-            ->setUpdateAt(new \DateTime($row['update_at']))
-        ;
+        return parent::getDbTable();
     }
- }
+}
