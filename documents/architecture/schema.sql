@@ -75,6 +75,7 @@ CREATE TABLE IF NOT EXISTS `blogpost_post` (
   `bloggerID` CHAR(36) COLLATE utf8_bin NOT NULL,
   `create_at` DATETIME                  NOT NULL,
   `update_at` DATETIME                  NOT NULL,
+  `enabled`   TINYINT(1)                NOT NULL DEFAULT '1',
   PRIMARY KEY (`id_post`),
   UNIQUE KEY `ind_postID` (`postID`),
   KEY `ind_bloggerID` (`bloggerID`)
@@ -210,8 +211,11 @@ ALTER TABLE `comment_thread`
 --
 -- Insert User admin with password equal 'password'
 --
-INSERT INTO `user_user` (`id_user`, `userID`, `nickname`, `firstname`, `lastname`, `username`, `email`, `enabled`, `salt`, `password`, `plain_password`, `registered_at`, `update_at`, `locked`, `role`) VALUES
-(1, '9d093ea8-c6f1-42d5-831f-423283cd7c6e', 'admin', 'admin', 'admin', 'admin', 'admin@mail.com', 0, NULL, '$2y$13$8Ld3Sg/IZ2B9MNYkHaPYzugEk5qTUW2gTc3kdoXUk0C4DDZSBMgku', NULL, '2018-01-01 12:00:00', '2018-01-01 12:00:00', 0, 'admin');
+INSERT INTO `user_user` (`id_user`, `userID`, `nickname`, `firstname`, `lastname`, `username`, `email`, `enabled`, `salt`, `password`, `plain_password`, `registered_at`, `update_at`, `locked`, `role`)
+VALUES
+  (1, '9d093ea8-c6f1-42d5-831f-423283cd7c6e', 'admin', 'admin', 'admin', 'admin', 'admin@mail.com', 0, NULL,
+      '$2y$13$8Ld3Sg/IZ2B9MNYkHaPYzugEk5qTUW2gTc3kdoXUk0C4DDZSBMgku', NULL, '2018-01-01 12:00:00',
+   '2018-01-01 12:00:00', 0, 'admin');
 
 COMMIT;
 
