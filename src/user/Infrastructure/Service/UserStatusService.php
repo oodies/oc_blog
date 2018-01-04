@@ -63,5 +63,4 @@ class UserStatusService
 
         return $user;
     }
-
 }

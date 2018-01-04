@@ -58,5 +58,4 @@ class WriteDataMapperRepository extends AbstractRepository implements WriteRepos
             $this->getDbTable()->update($data, $user->getIdUser());
         }
     }
-
 }
