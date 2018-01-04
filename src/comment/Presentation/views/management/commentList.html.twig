@@ -1,44 +1,42 @@
 {% extends 'layouts.admin.html.twig' %}
 
 {% block content %}
-<!-- Main Content -->
-<div class="container">
-    <div class="row">
-        <table class="table tablesorter tablesorter-default" role="grid">
-            <thead>
-                <tr>
-                    <th>Author</th>
-                    <th>Commentary</th>
-                    <th>Post</th>
-                    <th>Date</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for commentAggregate in comments %}
-                <tr>
-                    <td>{{ commentAggregate.author.username }}</td>
-                    <td>{{ commentAggregate.comment.body }}</td>
-                    <td>
-                        <a href="/post?id={{ commentAggregate.postAggregate.postID.value }}">
-                        {{ commentAggregate.postAggregate.header.title }}
-                        </a>
-                    </td>
-                    <td>{{ commentAggregate.comment.createAt|date('d/m/Y H:i') }}</td>
-                    <td>
-                        {% if (commentAggregate.comment.enabled) %}
-                            <a href="/admin/comment/disapprove?id={{ commentAggregate.comment.commentID.value }}" class="btn btn-primary">Disapprove</a>
-                        {% else %}
-                            <a href="/admin/comment/approve?id={{ commentAggregate.comment.commentID.value }}" class="btn btn-primary">Approve</a>
-                        {% endif %}
-
-                        <a href="/admin/comment/change?id={{ commentAggregate.comment.commentID.value }}" class="btn btn-danger">Modifier</a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+    <!-- Main Content -->
+    <div class="container">
+        <div class="row">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover" role="grid">
+                    <thead>
+                    <tr>
+                        <th>Author</th>
+                        <th>Commentary</th>
+                        <th>Date</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for commentAggregate in comments %}
+                        <tr>
+                            <td>{{ commentAggregate.author.username }}</td>
+                            <td>{{ commentAggregate.comment.body }}</td>
+                            <td>{{ commentAggregate.comment.createAt|date() }}</td>
+                            <td>
+                                {% if (commentAggregate.comment.enabled) %}
+                                    <a href="/admin/comment/disapprove?id={{ commentAggregate.comment.commentID.value }}"
+                                       class="btn btn-primary">Disapprove</a>
+                                {% else %}
+                                    <a href="/admin/comment/approve?id={{ commentAggregate.comment.commentID.value }}"
+                                       class="btn btn-primary">Approve</a>
+                                {% endif %}
+                                <a href="/admin/comment/change?id={{ commentAggregate.comment.commentID.value }}"
+                                   class="btn btn-danger">Change</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-</div>
-{%  endblock content %}
+{% endblock content %}
 
 {% block actionTitle %}Comments{% endblock actionTitle %}

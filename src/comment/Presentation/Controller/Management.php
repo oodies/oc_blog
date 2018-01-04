@@ -9,6 +9,8 @@
 namespace Comment\Presentation\Controller;
 
 use Comment\Domain\Model\Comment;
+use Comment\Domain\Model\CommentAggregate;
+use Comment\Domain\ValueObject\ThreadID;
 use Comment\Infrastructure\Persistence\CQRS\CommentReadRepository;
 use Comment\Infrastructure\Persistence\CQRS\CommentWriteRepository;
 use Comment\Infrastructure\Repository\CommentReadDataMapperRepository;
