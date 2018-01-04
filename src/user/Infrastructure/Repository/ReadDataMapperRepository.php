@@ -140,4 +140,12 @@ class ReadDataMapperRepository extends AbstractRepository implements ReadReposit
             ->setLocked((bool)$row['locked'])
             ->setRole($row['role']);
     }
+
+    /**
+     * @return UserTableGateway
+     */
+    protected function getDbTable(): UserTableGateway
+    {
+        return parent::getDbTable();
+    }
 }
