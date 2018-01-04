@@ -1,7 +1,5 @@
 {% extends "/layouts.html.twig" %}
 
-
-
 {% block content %}
     <!-- Page Header -->
     <header class="masthead" style="background-image: url('/public/node_modules/startbootstrap-clean-blog/img/home-bg.jpg')">
@@ -26,7 +24,8 @@
                     <a href="/newPost">Nouvel article</a>
                 </div>
                 {% for post in posts %}
-                    <div class="post-preview">
+                    {% if post.isEnabled %}
+                    <div>
                         <a href="/post?id={{ post.postID.value }}">
                             <h2 class="post-title">
                                 {{ post.header.title }}
@@ -41,6 +40,7 @@
                             update on {{ post.updateAt|date }}
                         </p>
                     </div>
+                    {% endif %}
                 {% endfor %}
             </div>
         </div>
