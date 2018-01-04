@@ -66,7 +66,6 @@ class PostReadDataMapperRepository extends AbstractRepository implements PostRea
         return $entries;
     }
 
-
     /**
      * @param Post  $post
      * @param array $row
@@ -77,9 +76,9 @@ class PostReadDataMapperRepository extends AbstractRepository implements PostRea
             ->setIdPost($row['id_post'])
             ->setPostID(new PostID($row['postID']))
             ->setBloggerID(new BloggerID($row['bloggerID']))
+            ->setEnabled((bool)$row['enabled'])
             ->setCreateAt(new \DateTime($row['create_at']))
-            ->setUpdateAt(new \DateTime($row['update_at']))
-        ;
+            ->setUpdateAt(new \DateTime($row['update_at']));
     }
 
     /**

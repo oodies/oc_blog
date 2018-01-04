@@ -23,7 +23,7 @@ class HeaderWriteDataMapperRepository extends AbstractRepository implements Head
      *  PROPERTIES
      */
 
-    /** @var string  */
+    /** @var string */
     protected $gatewayName = HeaderTableGateway::class;
 
     /** *******************************
@@ -39,9 +39,11 @@ class HeaderWriteDataMapperRepository extends AbstractRepository implements Head
      */
     public function add(Header $header): void
     {
-        $data['title'] = $header->getTitle();
-        $data['brief'] = $header->getBrief();
-        $data['postID'] = $header->getPostID()->getValue();
+        $data = [
+            'title'  => $header->getTitle(),
+            'brief'  => $header->getBrief(),
+            'postID' => $header->getPostID()->getValue()
+        ];
 
         if ($header->getIdHeader() === null) {
             $this->getDbTable()->insert($data);

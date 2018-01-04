@@ -81,4 +81,30 @@ class PostWriteService
 
         return $post;
     }
+
+    /**
+     * @param Post $post
+     *
+     * @return Post
+     */
+    public function enabled (Post $post): Post
+    {
+        $post->enabled();
+        $this->repository->add($post);
+
+        return $post;
+    }
+
+    /**
+     * @param Post $post
+     *
+     * @return Post
+     */
+    public function disabled (Post $post): Post
+    {
+        $post->disabled();
+        $this->repository->add($post);
+
+        return $post;
+    }
 }

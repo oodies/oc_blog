@@ -46,6 +46,7 @@ class BlogpostService
             $postAggregate
                 ->setPostID($post->getPostID())
                 ->setIdPost($post->getIdPost())
+                ->setEnabled($post->getEnabled())
                 ->setCreateAt($post->getCreateAt())
                 ->setUpdateAt($post->getUpdateAt())
                 ->setBloggerID($post->getBloggerID());
@@ -119,6 +120,7 @@ class BlogpostService
         $postAggregate
             ->setPostID($post->getPostID())
             ->setIdPost($post->getIdPost())
+            ->setEnabled($post->getEnabled())
             ->setCreateAt($post->getCreateAt())
             ->setUpdateAt($post->getUpdateAt())
             ->setBloggerID($post->getBloggerID());

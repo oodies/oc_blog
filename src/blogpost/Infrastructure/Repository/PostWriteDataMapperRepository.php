@@ -24,7 +24,7 @@ class PostWriteDataMapperRepository extends AbstractRepository implements PostWr
      *  PROPERTIES
      */
 
-    /** @var string  */
+    /** @var string */
     protected $gatewayName = PostTableGateway::class;
 
     /** *******************************
@@ -40,10 +40,13 @@ class PostWriteDataMapperRepository extends AbstractRepository implements PostWr
      */
     public function add(Post $post): void
     {
-        $data['postID']     = $post->getPostID()->getValue();
-        $data['bloggerID']  = $post->getBloggerID()->getValue();
-        $data['create_at']  = $post->getCreateAt()->format('Y-m-d H:i:s');
-        $data['update_at']  = $post->getUpdateAt()->format('Y-m-d H:i:s');
+        $data = [
+            'postID'    => $post->getPostID()->getValue(),
+            'bloggerID' => $post->getBloggerID()->getValue(),
+            'create_at' => $post->getCreateAt()->format('Y-m-d H:i:s'),
+            'update_at' => $post->getUpdateAt()->format('Y-m-d H:i:s'),
+            'enabled'   => (int)$post->getEnabled()
+        ];
 
         if ($post->getIdPost() === null) {
             $this->getDbTable()->insert($data);
