@@ -9,10 +9,10 @@
 namespace Lib\Db\Adapter;
 
 /**
- * Class Pdo_Mysql
+ * Class PdoMysql
  * @package Lib\Db\Adapter
  */
-class Pdo_Mysql extends AbstractDB
+class PdoMysql extends AbstractDB
 {
     /**
      * PDO type.

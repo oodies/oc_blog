@@ -50,7 +50,7 @@ class Bootstrap
      */
     protected function initDb()
     {
-        $adapter = 'Pdo_Mysql';
+        $adapter = 'PdoMysql';
 
         $config = \parse_ini_file(ROOT_DIR . '/configs/application.ini', true);
 
