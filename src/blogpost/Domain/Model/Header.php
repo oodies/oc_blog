@@ -137,5 +137,4 @@ class Header
             ->setTitle($title)
             ->setBrief($brief);
     }
-
 }

@@ -167,5 +167,4 @@ class Post
     {
         $this->setUpdateAt(new \DateTime());
     }
-
 }
