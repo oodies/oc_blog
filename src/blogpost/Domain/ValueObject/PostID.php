@@ -30,7 +30,7 @@ class PostID
      */
     public function __construct(string $Uuid = null)
     {
-        if ($Uuid == null) {
+        if ($Uuid === null) {
             $Uuid = Uuid::uuid4()->toString();
         }
         $this->Uuid = $Uuid;
