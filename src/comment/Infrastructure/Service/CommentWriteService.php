@@ -19,11 +19,7 @@ use Comment\Infrastructure\Persistence\CQRS\ThreadReadRepository;
 use Comment\Infrastructure\Persistence\CQRS\ThreadWriteRepository;
 use Comment\Infrastructure\Repository\ThreadReadDataMapperRepository;
 use Comment\Infrastructure\Repository\ThreadWriteDataMapperRepository;
-use User\Domain\Model\User;
-use User\Infrastructure\Persistence\CQRS\WriteRepository;
-use User\Infrastructure\Repository\WriteDataMapperRepository;
-use User\Infrastructure\Service\UserService;
-use User\Infrastructure\Service\UserRegisterService;
+use Lib\Registry;
 
 /**
  * Class CommentWriteService
@@ -59,18 +55,13 @@ class CommentWriteService
         // One step / Create a new author, if the author is unknown
         //
         /** @var UserService $userService */
-        $userService = new UserService();
+        $userService = Registry::getInstance()->get('DIC')->get('userService');
         /** @var User $likelyAuthor */
         $likelyAuthor = $userService->findByEmail($email);
 
         if ($likelyAuthor === null) {
-            /** @var UserRegisterService $userRegisterService */
-            $userRegisterService = new UserRegisterService(
-                new WriteRepository(
-                    new WriteDataMapperRepository()
-                ));
             /** @var Author $author */
-            $author = $userRegisterService->create($username, $email);
+            $author = $userService->create($username, $email);
         } else {
             $author = $likelyAuthor;
         }

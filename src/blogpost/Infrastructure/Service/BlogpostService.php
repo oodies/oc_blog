@@ -13,8 +13,7 @@ use Blogpost\Domain\Model\Header;
 use Blogpost\Domain\Model\Post;
 use Blogpost\Domain\Model\PostAggregate;
 use Blogpost\Domain\ValueObject\BloggerID;
-use User\Domain\Model\User;
-use User\Infrastructure\Service\UserService;
+use Lib\Registry;
 
 /**
  * Class BlogpostService
@@ -97,9 +96,10 @@ class BlogpostService
      *
      * @return User
      */
-    protected function getBlogger(BloggerID $bloggerID): User
+    protected function getBlogger(BloggerID $bloggerID)
     {
-        $userService = new UserService();
+        /** @var UserService $userService */
+        $userService = Registry::getInstance()->get('DIC')->get('userService');
         $blogger = $userService->getByUserID($bloggerID->getValue());
 
         return $blogger;

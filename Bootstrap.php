@@ -9,6 +9,7 @@
 use GuzzleHttp\Psr7\ServerRequest;
 use Lib\Db\DbFactory;
 use Lib\Auth;
+use Lib\DIC;
 use Lib\Registry;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -41,6 +42,7 @@ class Bootstrap
         $this->initAuth();
         $this->initRequest();
         $this->initRoute();
+        $this->initService();
     }
 
     /**
@@ -58,7 +60,7 @@ class Bootstrap
             throw new \Exception('Error while reading configuration parameters');
         }
 
-        /** @var \Lib\Db\Adapter\Pdo_Mysql $db */
+        /** @var \Lib\Db\Adapter\PdoMysql $db */
         $dbAdapter = DbFactory::create($adapter, $config['DB']);
 
         try {
@@ -237,6 +239,19 @@ class Bootstrap
                 'allow'      => 'guest'
             ]
         ];
+    }
+
+    /**
+     *
+     */
+    protected function initService () {
+
+        $DIC = new DIC();
+        $DIC->set('userService', function () {
+           return new User\Infrastructure\Service\UserService();
+        });
+
+        Registry::getInstance()->set('DIC', $DIC);
     }
 
     /**

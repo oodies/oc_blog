@@ -11,7 +11,10 @@ namespace User\Infrastructure\Service;
 use User\Domain\Model\User;
 use User\Domain\ValueObject\UserID;
 use User\Infrastructure\Persistence\CQRS\ReadRepository;
+use User\Infrastructure\Persistence\CQRS\WriteRepository;
 use User\Infrastructure\Repository\ReadDataMapperRepository;
+use User\Infrastructure\Repository\WriteDataMapperRepository;
+
 
 /**
  * Class UserService
@@ -53,5 +56,23 @@ class UserService
         $user = $userReadService->findByEmail($email);
 
         return $user;
+    }
+
+    /**
+     * Create a new user
+     *
+     * @param string $username
+     * @param string $email
+     *
+     * @return User
+     */
+    public function create(string $username, string $email): User
+    {
+        $userRegisterService = new UserRegisterService(
+            new WriteRepository(
+                new WriteDataMapperRepository()
+            )
+        );
+        $userRegisterService->create($username, $email);
     }
 }

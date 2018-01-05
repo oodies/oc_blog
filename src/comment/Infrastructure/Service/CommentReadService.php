@@ -14,7 +14,7 @@ use Comment\Domain\ValueObject\CommentID;
 use Comment\Domain\ValueObject\ThreadID;
 use Comment\Infrastructure\Persistence\CQRS\CommentReadRepository;
 use Comment\Infrastructure\Repository\CommentReadDataMapperRepository;
-use User\Infrastructure\Service\UserService;
+use Lib\Registry;
 
 /**
  * Class CommentReadService
@@ -50,7 +50,7 @@ class CommentReadService
     public function getComments()
     {
         /** @var UserService $userService */
-        $userService = new UserService();
+        $userService = Registry::getInstance()->get('DIC')->get('userService');
 
         $response = [];
 
@@ -82,7 +82,7 @@ class CommentReadService
     public function getByThreadID(string $threadID)
     {
         /** @var UserService $userService */
-        $userService = new UserService();
+        $userService = Registry::getInstance()->get('DIC')->get('userService');
 
         $response = [];
 
