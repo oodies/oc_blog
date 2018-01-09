@@ -39,6 +39,7 @@ class Bootstrap
     public function init()
     {
         $this->initDb();
+        $this->initView();
         $this->initAuth();
         $this->initRequest();
         $this->initRoute();
@@ -75,6 +76,41 @@ class Bootstrap
     }
 
     /**
+     * Initialization twig environment
+     */
+    protected function initView()
+    {
+        $directories[] = $_SERVER['DOCUMENT_ROOT'] . '/app/views/layout';
+
+        $srcDir = new DirectoryIterator(__DIR__.'/src');
+        foreach ($srcDir as $fileInfo) {
+            if ($fileInfo->isDir() && !$fileInfo->isDot()) {
+                $boundedContext = $fileInfo->getFilename();
+                $directories[] = $_SERVER['DOCUMENT_ROOT'] . '/src/' . $boundedContext . '/Presentation/views';
+            }
+        }
+
+        if (getenv('ENV') == 'dev') {
+            $options = [
+                'cache' => false,
+                'debug' => true,
+            ];
+        } else {
+            $options = [];
+        }
+
+        $loader = new Twig_Loader_Filesystem($directories);
+        /** @var Twig_Environment $twig */
+        $twig = new Twig_Environment($loader, $options);
+
+        if (getenv('ENV') == 'dev') {
+            $twig->addExtension(new Twig_Extension_Debug());
+        }
+
+        Registry::set('twig', $twig);
+    }
+
+    /**
      * Persist $_SESSION in Auth object
      */
     protected function initAuth()
@@ -104,152 +140,155 @@ class Bootstrap
         $this->route = [
             // Blogpost routing
             //
-            'app_dashboard_index' => [
+            'app_dashboard_index'           => [
                 'path'       => '/admin',
                 'controller' => 'app:dashboard:index',
-                'allow'      => 'admin'
+                'allow'      => 'admin',
             ],
             'blogpost_get_blogposts'        => [
                 'path'       => '/posts',
                 'controller' => 'blogpost:getBlogposts:getBlogposts',
-                'allow'      => 'guest'
+                'allow'      => 'guest',
             ],
             'blogpost_get_blogpost'         => [
                 'path'       => '/post',
                 'controller' => 'blogpost:getBlogpost:getBlogpost',
-                'allow'      => 'guest'
+                'allow'      => 'guest',
             ],
             'blogpost_post_blogpost'        => [
                 'path'       => '/newPost',
                 'controller' => 'blogpost:postBlogpost:postBlogpost',
-                'allow'      => 'blogger'
+                'allow'      => 'blogger',
             ],
             'blogpost_put_blogpost'         => [
                 'path'       => '/changePost',
                 'controller' => 'blogpost:putBlogpost:putBlogpost',
-                'allow'      => 'blogger'
+                'allow'      => 'blogger',
             ],
-            'blogpost_management_postList' => [
+            'blogpost_management_postList'  => [
                 'path'       => '/admin/posts',
                 'controller' => 'blogpost:management:getPosts',
-                'allow'      => 'admin'
+                'allow'      => 'admin',
             ],
-            'blogpost_management_enabled' => [
+            'blogpost_management_enabled'   => [
                 'path'       => '/admin/post/enabled',
                 'controller' => 'blogpost:management:enabled',
-                'allow'      => 'admin'
+                'allow'      => 'admin',
             ],
-            'blogpost_management_disabled' => [
+            'blogpost_management_disabled'  => [
                 'path'       => '/admin/post/disabled',
                 'controller' => 'blogpost:management:disabled',
-                'allow'      => 'admin'
+                'allow'      => 'admin',
             ],
             // Users registration routing
             //
             'user_registration_register'    => [
                 'path'       => '/registration',
                 'controller' => 'user:registration:register',
-                'allow'      => 'guest'
+                'allow'      => 'guest',
             ],
             // Users security routing
             //
             'user_security_login'           => [
                 'path'       => '/login',
                 'controller' => 'user:security:login',
-                'allow'      => 'guest'
+                'allow'      => 'guest',
             ],
             'user_security_logout'          => [
                 'path'       => '/logout',
                 'controller' => 'user:security:logout',
-                'allow'      => 'guest'
+                'allow'      => 'guest',
             ],
             // Users management routing
             //
             'user_management_getUser'       => [
                 'path'       => '/admin/user',
                 'controller' => 'user:management:getUser',
-                'allow'      => 'admin'
+                'allow'      => 'admin',
             ],
             'user_management_users'         => [
                 'path'       => '/admin/users',
                 'controller' => 'user:management:getUsers',
-                'allow'      => 'admin'
+                'allow'      => 'admin',
             ],
             'user_management_postUser'      => [
                 'path'       => '/admin/addUser',
                 'controller' => 'user:management:postUser',
-                'allow'      => 'admin'
+                'allow'      => 'admin',
             ],
             'user_management_putUser'       => [
                 'path'       => '/admin/changeUser',
                 'controller' => 'user:management:putUser',
-                'allow'      => 'admin'
+                'allow'      => 'admin',
             ],
             'user_management_lock'          => [
                 'path'       => '/admin/user/lock',
                 'controller' => 'user:management:lock',
-                'allow'      => 'admin'
+                'allow'      => 'admin',
             ],
             'user_management_unlock'        => [
                 'path'       => '/admin/user/unlock',
                 'controller' => 'user:management:unlock',
-                'allow'      => 'admin'
+                'allow'      => 'admin',
             ],
             // Comment routing
             //
             'comment_comments_list'         => [
                 'path'       => '/comments',
                 'controller' => 'comment:getComments:getThread',
-                'allow'      => 'admin'
+                'allow'      => 'admin',
             ],
             'comment_management_comments'   => [
                 'path'       => '/admin/comments',
                 'controller' => 'comment:management:getComments',
-                'allow'      => 'admin'
+                'allow'      => 'admin',
             ],
             'comment_management_approve'    => [
                 'path'       => '/admin/comment/approve',
                 'controller' => 'comment:management:approve',
-                'allow'      => 'admin'
+                'allow'      => 'admin',
             ],
             'comment_management_disapprove' => [
                 'path'       => '/admin/comment/disapprove',
                 'controller' => 'comment:management:disapprove',
-                'allow'      => 'admin'
+                'allow'      => 'admin',
             ],
             'comment_management_putComment' => [
                 'path'       => '/admin/comment/change',
                 'controller' => 'comment:management:putComment',
-                'allow'      => 'admin'
+                'allow'      => 'admin',
             ],
             'comment_comments_new'          => [
                 'path'       => '/newComment',
                 'controller' => 'comment:postComment:postComment',
-                'allow'      => 'guest'
+                'allow'      => 'guest',
             ],
             // Other application routing
             'contact'                       => [
                 'path'       => '/contact',
                 'controller' => 'app:contactUs:contactUs',
-                'allow'      => 'guest'
+                'allow'      => 'guest',
             ],
             'homepage'                      => [
                 'path'       => '/',
                 'controller' => 'app:homepage:homepage',
-                'allow'      => 'guest'
-            ]
+                'allow'      => 'guest',
+            ],
         ];
     }
 
     /**
      *
      */
-    protected function initService () {
+    protected function initService()
+    {
 
         $DIC = new DIC();
-        $DIC->set('userService', function () {
-           return new User\Infrastructure\Service\UserService();
-        });
+        $DIC->set(
+            'userService', function () {
+            return new User\Infrastructure\Service\UserService();
+        }
+        );
 
         Registry::getInstance()->set('DIC', $DIC);
     }
@@ -265,7 +304,7 @@ class Bootstrap
         $route = [
             'path'       => '/',
             'controller' => 'app:homepage:homepage',
-            'allow'      => 'guest'
+            'allow'      => 'guest',
         ];
         foreach ($this->route as $index => $paramRoute) {
             if ($paramRoute['path'] === $path) {

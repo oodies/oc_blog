@@ -9,10 +9,8 @@
 namespace Lib\Controller;
 
 use GuzzleHttp\Psr7\ServerRequest;
+use Lib\Registry;
 use Psr\Http\Message\ServerRequestInterface;
-use Twig_Loader_Filesystem;
-use Twig_Environment;
-use Twig_Extension_Debug;
 
 /**
  * Class Controller
@@ -65,25 +63,7 @@ class Controller
     {
         list($module, $controller, $action) = explode(':', $path);
 
-        $directoryApp = $_SERVER['DOCUMENT_ROOT'] . '/app/views/layout';
-        $directoryModule = $_SERVER['DOCUMENT_ROOT'] . '/src/' . $module . '/Presentation/views';
-
-        if (getenv('ENV') == 'dev') {
-            $options = [
-                'cache' => false,
-                'debug' => true
-            ];
-        } else {
-            $options = [];
-        }
-
-        $loader = new Twig_Loader_Filesystem([$directoryApp, $directoryModule]);
-        /** @var Twig_Environment $twig */
-        $twig = new Twig_Environment($loader, $options);
-
-        if (getenv('ENV') == 'dev') {
-            $twig->addExtension(new Twig_Extension_Debug());
-        }
+        $twig = Registry::get('twig');
 
         $name = $controller . '/' . $action;
 
