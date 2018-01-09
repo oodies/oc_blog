@@ -1,18 +1,51 @@
-<form action="/newComment" novalidate method="post">
-    <div>
-        <label for="username">Username</label>
-        <input type="text" name="username" id="username"/>
+<!-- Add comment -->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+            <h4>Comments</h4>
+            <hr class="my-4">
+            <div id="comment_thread">
+                <div class="comment_form_holder">
+                    <h5>Add a comment</h5>
+                    <hr class="my-2">
+                    <form class="comment_new_form" action="/newComment" method="post">
+                        <div class="control-group">
+                            <div class="form-group floating-label-form-group controls">
+                                <label for="username">Username</label>
+                                <input type="text" name="username" id="username" class="form-control"
+                                       placeholder="Username"/>
+                                <p class="help-block text-danger"></p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <div class="form-group floating-label-form-group controls">
+                                <label for="email">Email</label>
+                                <input type="email" name="email" id="email" class="form-control"
+                                       placeholder="Email"/>
+                                <p class="help-block text-danger"></p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <div class="form-group floating-label-form-group controls floating-label-form-group-with-value">
+                                <label for="comment">Your comment</label>
+                                <textarea name="comment" id="comment"
+                                          class="form-control" placeholder="Comment">
+                                            </textarea>
+                                <p class="help-block text-danger"></p>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary"
+                                    value="Poster">Posted
+                            </button>
+                        </div>
+                        <input type="hidden" id="postID" name="postID"
+                               value="{{ post.postId.value }}">
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-    <div>
-        <label for="email">Email</label>
-        <input type="email" name="email" id="email"/>
-    </div>
-    <div>
-        <label for="comment">Your comment</label>
-        <textarea name="comment" id="comment" cols="30" rows="10">
-        </textarea>
-    </div>
-    {# // TODO STUB postID #}
-    <input type="hidden" name="postID" value="9bb1f234-1f72-42b3-89b3-1c73804ec957"/>
-    <button type="submit">Commented</button>
-</form>
+</div>
+<hr>

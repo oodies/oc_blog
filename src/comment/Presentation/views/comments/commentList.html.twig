@@ -1,10 +1,23 @@
-<p>ThreadID : {{ thread.threadID.value }}</p>
-<p>PostID : {{ thread.postID.value }}</p>
-<table>
-    {% for commentAggregate in comments %}
-        <tr>
-            <td>{{ commentAggregate.comment.body }}</td>
-            <td>{{ commentAggregate.author.lastname }}</td>
-        </tr>
-    {% endfor %}
-</table>
+<!-- Comments -->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+            <h4>{% if thread is not null %}{{ thread.numberOfComment }} Comments{% else %}Be the first to write a comment !{% endif %}</h4>
+            <hr class="mb-4">
+            {% for commentAggregate in comments %}
+                {% if commentAggregate.comment.enabled %}
+                    <div id="comment_{{ commentAggregate.comment.idComment }}" class="comment mb-4">
+                        <div class="d-flex w-100">
+                            <h6 class="mr-2">{{ commentAggregate.author.username }}</h6>
+                            <small class="text-muted">{{ commentAggregate.comment.createAt|date('d/m/Y H:i') }}</small>
+                        </div>
+                        <p id="comment_body_{{ commentAggregate.comment.idComment }}"
+                           class="my-0">
+                            {{ commentAggregate.comment.body }}
+                        </p>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
