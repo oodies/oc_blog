@@ -74,10 +74,10 @@ class Controller
                 'debug' => true
             ];
         } else {
-            $options = ['cache' => true];
+            $options = [];
         }
 
-        $loader = new Twig_Loader_Filesystem(array($directoryApp, $directoryModule));
+        $loader = new Twig_Loader_Filesystem([$directoryApp, $directoryModule]);
         /** @var Twig_Environment $twig */
         $twig = new Twig_Environment($loader, $options);
 
