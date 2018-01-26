@@ -61,8 +61,12 @@ class Bootstrap
             throw new \Exception('Error while reading configuration parameters');
         }
 
-        /** @var \Lib\Db\Adapter\PdoMysql $db */
-        $dbAdapter = DbFactory::create($adapter, $config['DB']);
+        try {
+            /** @var \Lib\Db\Adapter\PdoMysql $db */
+            $dbAdapter = DbFactory::create($adapter, $config['DB']);
+        } catch (RuntimeException $e) {
+            echo $e->getMessage();
+        }
 
         try {
             // connection attempt
@@ -82,7 +86,7 @@ class Bootstrap
     {
         $directories[] = $_SERVER['DOCUMENT_ROOT'] . '/app/views/layout';
 
-        $srcDir = new DirectoryIterator(__DIR__.'/src');
+        $srcDir = new DirectoryIterator(__DIR__ . '/src');
         foreach ($srcDir as $fileInfo) {
             if ($fileInfo->isDir() && !$fileInfo->isDot()) {
                 $boundedContext = $fileInfo->getFilename();

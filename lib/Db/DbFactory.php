@@ -19,6 +19,8 @@ class DbFactory
      * @param string $adapter
      * @param array  $config
      *
+     * @throws \RuntimeException
+     *
      * @return \Lib\Db\Adapter\AbstractDB
      */
     public static function create(string $adapter, array $config = array())
@@ -28,7 +30,7 @@ class DbFactory
         $dbAdapter = new $class($config);
 
         if (!$dbAdapter instanceof \Lib\Db\Adapter\AbstractDB) {
-            echo "Adapter class '\Lib\Db\Adapter\AbstractDB' does not extend Abstract Class ";
+            throw new \RuntimeException("Adapter class '\Lib\Db\Adapter\AbstractDB' does not extend Abstract Class ");
         }
 
         return $dbAdapter;
