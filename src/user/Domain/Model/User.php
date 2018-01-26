@@ -408,9 +408,9 @@ class User
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getRole(): string
+    public function getRole(): ?string
     {
         return $this->role;
     }

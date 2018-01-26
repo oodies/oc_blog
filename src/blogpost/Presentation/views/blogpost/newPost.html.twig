@@ -25,9 +25,11 @@
                             <label>Title</label>
                             <input type="text" class="form-control" placeholder="title" id="title" name="title" required
                                    data-validation-required-message="Please enter your title."
-                                value="{{ title ?? '' }}"
+                                value="{{ post.header.title ?? ''}}"
                             >
-                            <p class="help-block text-danger"></p>
+                            <p class="help-block text-danger">
+                                {{ errors.title ?? '' }}
+                            </p>
                         </div>
                     </div>
                     <div class="control-group">
@@ -35,9 +37,11 @@
                             <label>Brief</label>
                             <input type="text" class="form-control" placeholder="brief" id="brief" name="brief" required
                                    data-validation-required-message="Please enter your brief."
-                                    value="{{ brief ?? '' }}"
+                                    value="{{ post.header.brief ?? '' }}"
                             >
-                            <p class="help-block text-danger"></p>
+                            <p class="help-block text-danger">
+                                {{ errors.brief ?? '' }}
+                            </p>
                         </div>
                     </div>
                     <div class="control-group">
@@ -45,8 +49,11 @@
                             <label>Contenu</label>
                             <textarea class="form-control" placeholder="content" id="content" name="content" required
                                       data-validation-required-message="Please enter your content.">
-                                {{ content ?? '' }}
+                                {{ post.body.content ? post.body.content|raw('html') : '' }}
                             </textarea>
+                            <p class="help-block text-danger">
+                                {{ errors.content ?? '' }}
+                            </p>
                         </div>
                     </div>
                     <br>

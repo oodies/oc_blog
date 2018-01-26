@@ -11,10 +11,14 @@ namespace Comment\Presentation\Controller;
 use Comment\Infrastructure\Persistence\CQRS\CommentWriteRepository;
 use Comment\Infrastructure\Repository\CommentWriteDataMapperRepository;
 use Comment\Infrastructure\Service\CommentWriteService;
+use Comment\Infrastructure\Service\ConstraintValidator;
 use Lib\Controller\Controller;
+use Lib\Registry;
+use Lib\Validator\ConstraintViolationList;
 
 /**
  * Class PostComment
+ *
  * @package Comment\Presentation\Controller
  */
 class PostComment extends Controller
@@ -24,25 +28,55 @@ class PostComment extends Controller
      */
     public function postCommentAction()
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $username = $_POST['username'] ?? '';
-            $email = $_POST['email'] ?? '';
-            $body = $_POST['comment'] ?? '';
-            $postID = $_POST['postID'] ?? null;
+        /** @var \GuzzleHttp\Psr7\ServerRequest $request */
+        $request = Registry::get('request');
 
-            $commentWriteService = new CommentWriteService(
-                new CommentWriteRepository(
-                    new CommentWriteDataMapperRepository()
-                )
+        $assign = [];
+
+        if ($request->getMethod() === 'POST') {
+            $post = $request->getParsedBody();
+
+            $username = $post['username'] ?? '';
+            $email = $post['email'] ?? '';
+            $body = $post['comment'] ?? '';
+            $postID = $post['postID'] ?? null;
+
+            $constraintViolationList = new ConstraintViolationList();
+            $isValid = ConstraintValidator::validateRegisterData(
+                [
+                    'username' => $username,
+                    'email'    => $email,
+                    'body'     => $body,
+                ],
+                $constraintViolationList
             );
 
-            // TODO Use $comment for update view with AJAX
-            $comment = $commentWriteService->create($postID, $username, $email, $body);
+            if ($isValid === true) {
+                $commentWriteService = new CommentWriteService(
+                    new CommentWriteRepository(
+                        new CommentWriteDataMapperRepository()
+                    )
+                );
 
-            // Redirect to BlogPost
-            $host = $_SERVER['HTTP_HOST'];
-            $uri = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
-            header("Location: http://$host$uri/post?id=" . $postID);
+                // TODO Use $comment for update view with AJAX
+                $comment = $commentWriteService->create($postID, $username, $email, $body);
+
+                // Redirect to BlogPost
+                $host = $_SERVER['HTTP_HOST'];
+                $uri = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+                header("Location: http://$host$uri/post?id=" . $postID);
+
+            } else {
+                $assign = [
+                    'errors'   => $constraintViolationList->getViolations(),
+                    'username' => $username,
+                    'email'    => $email,
+                    'comment'  => $body,
+                    'postID'   => $postID,
+                ];
+
+                echo $this->render('comment:comments:newComment.html.twig', $assign);
+            }
         }
     }
 }

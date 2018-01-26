@@ -27,7 +27,9 @@
                                    data-validation-required-message="Please enter your title."
                                 value="{{ post.header.title }}"
                             >
-                            <p class="help-block text-danger"></p>
+                            <p class="help-block text-danger">
+                                {{ errors.title ?? '' }}
+                            </p>
                         </div>
                     </div>
                     <div class="control-group">
@@ -37,7 +39,9 @@
                                    data-validation-required-message="Please enter your brief."
                                     value="{{ post.header.brief }}"
                             >
-                            <p class="help-block text-danger"></p>
+                            <p class="help-block text-danger">
+                                {{ errors.brief }}
+                            </p>
                         </div>
                     </div>
                     <div class="control-group">
@@ -47,9 +51,12 @@
                                       data-validation-required-message="Please enter your content.">
                                 {{ post.body.content }}
                             </textarea>
+                            <p class="help-block text-danger">
+                                {{ errors.content }}
+                            </p>
                         </div>
                     </div>
-                    <input type="hidden" value="{{ post.postId.value }}" name="postID"></input>
+                    <input type="hidden" value="{{ post.postId.value }}" name="postID" />
                     <br>
                     <div id="success" class="success {{ success ?? ' active' }}" hidden>Votre article est posté</div>
                     <div class="form-group">

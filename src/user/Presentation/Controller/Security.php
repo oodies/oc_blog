@@ -11,13 +11,16 @@ namespace User\Presentation\Controller;
 use Lib\Auth;
 use Lib\Controller\Controller;
 use Lib\Registry;
+use Lib\Validator\ConstraintViolationList;
 use User\Infrastructure\Password\Encoder;
 use User\Infrastructure\Persistence\CQRS\ReadRepository;
 use User\Infrastructure\Repository\ReadDataMapperRepository;
+use User\Infrastructure\Service\ConstraintValidator;
 use User\Infrastructure\Service\UserReadService;
 
 /**
  * Class Security
+ *
  * @package User\Presentation\Controller
  */
 class Security extends Controller
@@ -27,33 +30,64 @@ class Security extends Controller
      */
     public function loginAction()
     {
+        /** @var \GuzzleHttp\Psr7\ServerRequest $request */
         $request = Registry::get('request');
 
+        $assign = [];
+
         if ($request->getMethod() === 'POST') {
+            $post = $request->getParsedBody();
+            $username = $post['username'];
+            $password = $post['password'];
 
-            $body = $request->getParsedBody();
-            $username = $body['username'];
-            $password = $body['password'];
+            $constraintViolationList = new ConstraintViolationList();
+            $isValid = ConstraintValidator::validateRegisterData(
+                [
+                    'username' => $username,
+                    'password' => $password,
+                ],
+                $constraintViolationList
+            );
 
-            $userReadService = new UserReadService(
-                new ReadRepository(
-                    new ReadDataMapperRepository()
-                ));
+            if ($isValid === true) {
+                $userReadService = new UserReadService(
+                    new ReadRepository(
+                        new ReadDataMapperRepository()
+                    )
+                );
 
-            $user = $userReadService->findByUsername($username);
+                $user = $userReadService->findByUsername($username);
+                if (!is_null($user)) {
+                    $passwordEncoder = new Encoder();
+                    $isValidPassword = $passwordEncoder->verify($password, $user->getPassword());
 
-            $passwordEncoder = new Encoder();
-            $isValid = $passwordEncoder->verify($password, $user->getPassword());
+                    if ($isValidPassword) {
+                        $auth = Auth::getInstance();
+                        $auth->authenticate($user);
 
-            if ($isValid) {
-                $auth = Auth::getInstance();
-                $auth->authenticate($user);
-
-                // TODO - Si authentication valid => Redirection selon le profile
-                $this->redirectToRoot();
+                        // TODO - Si authentication valid => Redirection selon le profile
+                        $this->redirectToRoot();
+                    }
+                }
+                $assign['errors']['authenticate'] = 'Authenticate error !';
+            } else {
+                $assign['username'] = $username;
+                $assign['password'] = $password;
+                $assign['errors'] = $constraintViolationList->getViolations();
             }
         }
-        echo $this->render('user:security:login.html.twig', []);
+
+        echo $this->render('user:security:login.html.twig', $assign);
+    }
+
+    /**
+     *
+     */
+    protected function redirectToRoot()
+    {
+        $host = $_SERVER['HTTP_HOST'];
+        $uri = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+        header("Location: http://$host$uri");
     }
 
     /**
@@ -77,27 +111,19 @@ class Security extends Controller
         if (ini_get('session.use_cookies')) {
             if (isset($_COOKIE[session_name()])) {
                 $cookie_params = session_get_cookie_params();
-            setcookie(session_name(),
-                false,
-                time() - 42000,
-                $cookie_params['path'],
-                $cookie_params['domain'],
-                $cookie_params['secure'],
-                $cookie_params['httponly']);
+                setcookie(
+                    session_name(),
+                    false,
+                    time() - 42000,
+                    $cookie_params['path'],
+                    $cookie_params['domain'],
+                    $cookie_params['secure'],
+                    $cookie_params['httponly']
+                );
             }
         }
 
         // Delete session
         session_destroy();
-    }
-
-    /**
-     *
-     */
-    protected function redirectToRoot()
-    {
-        $host = $_SERVER['HTTP_HOST'];
-        $uri = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
-        header("Location: http://$host$uri");
     }
 }
