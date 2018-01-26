@@ -125,7 +125,7 @@ class Auth
             return null;
         }
 
-        return $user = $this->storage['user'];
+        return $this->storage['user'];
     }
 
     /**
