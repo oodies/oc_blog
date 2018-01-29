@@ -40,13 +40,12 @@ class Management extends Controller
     /**
      * Enable post
      *
+     * @param string $postID
+     *
      * @throws \Exception
      */
-    public function enabledAction()
+    public function enabledAction($postID)
     {
-        $params = Registry::get('request')->getQueryParams();
-        $postID = $params['id'];
-
         $postReadService = new PostReadService(
             new PostReadRepository(
                 new PostReadDataMapperRepository()
@@ -67,13 +66,12 @@ class Management extends Controller
     /**
      * Disable post
      *
+     * @param string $postID
+     *
      * @throws \Exception
      */
-    public function disabledAction()
+    public function disabledAction($postID)
     {
-        $params = Registry::get('request')->getQueryParams();
-        $postID = $params['id'];
-
         $postReadService = new PostReadService(
             new PostReadRepository(
                 new PostReadDataMapperRepository()

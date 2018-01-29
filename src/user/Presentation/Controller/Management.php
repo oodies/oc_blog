@@ -33,14 +33,10 @@ class Management extends Controller
     /**
      * Return a profile user
      *
-     * @throws \Exception
-     *
+     * @param $userID
      */
-    public function getUserAction()
+    public function getUserAction($userID)
     {
-        $params = Registry::get('request')->getQueryParams();
-        $userID = $params['id'];
-
         $userReadService = new UserReadService(
             new ReadRepository(
                 new ReadDataMapperRepository()
@@ -80,14 +76,13 @@ class Management extends Controller
     /**
      * Complete change of user data
      *
+     * @param string $userID
+     *
      * @throws \Exception
      */
-    public function putUserAction()
+    public function putUserAction($userID)
     {
         $request = Registry::get('request');
-
-        $params = $request->getQueryParams();
-        $userID = $params['id'];
 
         $userReadService = new UserReadService(
             new ReadRepository(
@@ -225,13 +220,11 @@ class Management extends Controller
     /**
      * Lock a user
      *
+     * @param string $userID
      * @throws \Exception
      */
-    public function lockAction()
+    public function lockAction($userID)
     {
-        $params = Registry::get('request')->getQueryParams();
-        $userID = $params['id'];
-
         $userReadService = new UserReadService(
             new ReadRepository(
                 new ReadDataMapperRepository()
@@ -253,13 +246,12 @@ class Management extends Controller
     /**
      * Unlock a user
      *
+     * @param string $userID
+     *
      * @throws \Exception
      */
-    public function unlockAction()
+    public function unlockAction($userID)
     {
-        $params = Registry::get('request')->getQueryParams();
-        $userID = $params['id'];
-
         $userReadService = new UserReadService(
             new ReadRepository(
                 new ReadDataMapperRepository()

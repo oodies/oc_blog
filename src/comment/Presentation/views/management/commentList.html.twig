@@ -21,13 +21,13 @@
                             <td>{{ commentAggregate.comment.createAt|date() }}</td>
                             <td>
                                 {% if (commentAggregate.comment.enabled) %}
-                                    <a href="/admin/comment/disapprove?id={{ commentAggregate.comment.commentID.value }}"
+                                    <a href="/admin/comment/disapprove/{{ commentAggregate.comment.commentID.value }}"
                                        class="btn btn-primary">Disapprove</a>
                                 {% else %}
-                                    <a href="/admin/comment/approve?id={{ commentAggregate.comment.commentID.value }}"
+                                    <a href="/admin/comment/approve/{{ commentAggregate.comment.commentID.value }}"
                                        class="btn btn-primary">Approve</a>
                                 {% endif %}
-                                <a href="/admin/comment/change?id={{ commentAggregate.comment.commentID.value }}"
+                                <a href="/admin/comment/change/{{ commentAggregate.comment.commentID.value }}"
                                    class="btn btn-danger">Change</a>
                             </td>
                         </tr>

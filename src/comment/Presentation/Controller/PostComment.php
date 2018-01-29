@@ -64,7 +64,7 @@ class PostComment extends Controller
                 // Redirect to BlogPost
                 $host = $_SERVER['HTTP_HOST'];
                 $uri = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
-                header("Location: http://$host$uri/post?id=" . $postID);
+                header("Location: http://$host$uri/post/" . $postID);
 
             } else {
                 $assign = [

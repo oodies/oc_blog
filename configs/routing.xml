@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<routes xmlns="http://symfony.com/schema/routing"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://symfony.com/schema/routing
+        http://symfony.com/schema/routing/routing-1.0.xsd">
+
+    <route id="app_dashboard_index"
+           path="/admin"
+           controller="App\Presentation\Controller\Dashboard::index">
+        <condition>admin</condition>
+    </route>
+    <!--Blogpost routing-->
+    <route id="blogpost_get_blogposts"
+           path="/posts"
+           controller="Blogpost\Presentation\Controller\GetBlogposts::getBlogposts">
+        <condition>guest</condition>
+    </route>
+    <route id="blogpost_get_blogpost"
+           path="/post/{postID}"
+           controller="Blogpost\Presentation\Controller\GetBlogpost::getBlogpost">
+        <requirement key="postID">w+</requirement>
+        <condition>guest</condition>
+    </route>
+    <route id="blogpost_post_blogpost"
+           path="/newPost"
+           controller="Blogpost\Presentation\Controller\PostBlogpost::postBlogpost">
+        <condition>blogger</condition>
+    </route>
+    <route id="blogpost_put_blogpost"
+           path="/changePost/{postID}"
+           controller="Blogpost\Presentation\Controller\PutBlogpost::putBlogpost">
+        <requirement key="postID">w+</requirement>
+        <condition>blogger</condition>
+    </route>
+    <!--Blogpost Management routing-->
+    <route id="blogpost_management_postList"
+           path="/admin/posts"
+           controller="Blogpost\Presentation\Controller\Management::getPosts">
+        <condition>admin</condition>
+    </route>
+    <route id="blogpost_management_enabled"
+           path="/admin/post/enabled/{postID}"
+           controller="Blogpost\Presentation\Controller\Management::enabled">
+        <requirement key="postID">w+</requirement>
+        <condition>admin</condition>
+    </route>
+    <route id="blogpost_management_disabled"
+           path="/admin/post/disabled/{postID}"
+           controller="Blogpost\Presentation\Controller\Management::disabled">
+        <requirement key="postID">w+</requirement>
+        <condition>admin</condition>
+    </route>
+    <!--Users registration routing-->
+    <route id="user_registration_register"
+           path="/registration"
+           controller="User\Presentation\Controller\Registration::register">
+        <condition>guest</condition>
+    </route>
+    <!--Users security routing-->
+    <route id="user_security_login"
+           path="/login"
+           controller="User\Presentation\Controller\Security::login">
+        <condition>guest</condition>
+    </route>
+    <route id="user_security_logout"
+           path="/logout"
+           controller="User\Presentation\Controller\Security::logout">
+        <condition>guest</condition>
+    </route>
+    <!--Users management routing-->
+    <route id="user_management_getUser"
+           path="/admin/user/{userID}"
+           controller="User\Presentation\Controller\Management::getUser">
+        <requirement key="userID">w+</requirement>
+        <condition>admin</condition>
+    </route>
+    <route id="user_management_users"
+           path="/admin/users"
+           controller="User\Presentation\Controller\Management::getUsers">
+        <condition>admin</condition>
+    </route>
+    <route id="user_management_postUser"
+           path="/admin/addUser"
+           controller="User\Presentation\Controller\Management::postUser">
+        <condition>admin</condition>
+    </route>
+    <route id="user_management_putUser"
+           path="/admin/changeUser/{userID}"
+           controller="User\Presentation\Controller\Management::putUser">
+        <requirement key="userID">w+</requirement>
+        <condition>admin</condition>
+    </route>
+    <route id="user_management_lock"
+           path="/admin/user/lock/{userID}"
+           controller="User\Presentation\Controller\Management::lock">
+        <requirement key="userID">w+</requirement>
+        <condition>admin</condition>
+    </route>
+    <route id="user_management_unlock"
+           path="/admin/user/unlock/{userID}"
+           controller="User\Presentation\Controller\Management::unlock">
+        <requirement key="userID">w+</requirement>
+        <condition>admin</condition>
+    </route>
+    <!--comment routing-->
+    <route id="comment_comments_list"
+           path="/comments"
+           controller="Comment\Presentation\Controller\getComments::getThread">
+        <condition>admin</condition>
+    </route>
+    <route id="comment_management_comments"
+           path="/admin/comments"
+           controller="Comment\Presentation\Controller\Management::getComments">
+        <condition>admin</condition>
+    </route>
+    <!-- Comment management routing -->
+    <route id="comment_management_approve"
+           path="/admin/comment/approve/{commentID}"
+           controller="Comment\Presentation\Controller\Management::approve">
+        <requirement key="commentID">w+</requirement>
+        <condition>admin</condition>
+    </route>
+    <route id="comment_management_disapprove"
+           path="/admin/comment/disapprove/{commentID}"
+           controller="Comment\Presentation\Controller\Management::disapprove">
+        <requirement key="commentID">w+</requirement>
+        <condition>admin</condition>
+    </route>
+    <route id="comment_management_putComment"
+           path="/admin/comment/change/{commentID}"
+           controller="Comment\Presentation\Controller\Management::putComment">
+        <requirement key="commentID">w+</requirement>
+        <condition>admin</condition>
+    </route>
+    <route id="comment_comments_new"
+           path="/newComment"
+           controller="Comment\Presentation\Controller\postComment::postComment">
+        <condition></condition>
+    </route>
+    <!--Other application routing-->
+    <route id="contact"
+           path="/contact"
+           controller="App\Presentation\Controller\ContactUs::contactUs">
+        <condition>guest</condition>
+    </route>
+    <route id="homepage"
+           path="/"
+           controller="App\Presentation\Controller\Homepage::homepage">
+        <condition>guest</condition>
+    </route>
+</routes>

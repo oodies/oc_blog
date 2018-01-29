@@ -15,6 +15,7 @@ use Comment\Infrastructure\Repository\CommentReadDataMapperRepository;
 use Comment\Infrastructure\Repository\CommentWriteDataMapperRepository;
 use Comment\Infrastructure\Service\CommentReadService;
 use Comment\Infrastructure\Service\CommentWriteService;
+use GuzzleHttp\Psr7\Request;
 use Lib\Controller\Controller;
 use Lib\Registry;
 
@@ -43,12 +44,14 @@ class Management extends controller
     }
 
     /**
+     * @param string $commentID
+     *
      * @throws \Exception
      */
-    public function putCommentAction()
+    public function putCommentAction($commentID)
     {
-        $params = Registry::get('request')->getQueryParams();
-        $commentID = $params['id'];
+        /** @var Request $request */
+        $request = Registry::get('request');
 
         /** @var CommentReadService $commentReadService */
         $commentReadService = new CommentReadService(
@@ -59,8 +62,8 @@ class Management extends controller
         /** @var Comment $comment */
         $comment = $commentReadService->getByCommentID($commentID);
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $post = Registry::get('request')->getParsedBody();
+        if ($request->getMethod() === 'POST') {
+            $post = $request->getParsedBody();
             $body = htmlspecialchars($post['body']);
 
             $commentWriteService = new CommentWriteService(
@@ -73,19 +76,18 @@ class Management extends controller
             $this->redirectToAdminComments();
         }
 
-        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+        if ($request->getMethod() === 'GET') {
             echo $this->render('comment:management:changeComment.html.twig', ['comment' => $comment]);
         }
     }
 
     /**
      * Approve a comment
+     *
+     * @param string $commentID
      */
-    public function approveAction()
+    public function approveAction($commentID)
     {
-        $params = Registry::get('request')->getQueryParams();
-        $commentID = $params['id'];
-
         /** @var CommentReadService $commentReadService */
         $commentReadService = new CommentReadService(
             new CommentReadRepository(
@@ -108,12 +110,11 @@ class Management extends controller
 
     /**
      * Disapprove a comment
+     *
+     * @param string $commentID
      */
-    public function disapproveAction()
+    public function disapproveAction($commentID)
     {
-        $params = Registry::get('request')->getQueryParams();
-        $commentID = $params['id'];
-
         /** @var CommentReadService $commentReadService */
         $commentReadService = new CommentReadService(
             new CommentReadRepository(

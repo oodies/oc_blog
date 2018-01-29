@@ -19,17 +19,17 @@
                 <tbody>
                 {% for user in users %}
                     <tr>
-                        <td><a href="/admin/user?id={{ user.userID.value }}">{{ user.username }}</a></td>
+                        <td><a href="/admin/user/{{ user.userID.value }}">{{ user.username }}</a></td>
                         <td>{{ user.nickname }}</td>
                         <td>{{ user.firstname }} {{ user.lastname }}</td>
                         <td>{{ user.email }}</td>
                         <td>{{ user.role }}</td>
                         <td>
-                            <a href="/admin/changeUser?id={{ user.userID.value }}" class="btn btn-primary">edit</a>
+                            <a href="/admin/changeUser/{{ user.userID.value }}" class="btn btn-primary">edit</a>
                             {% if user.locked %}
-                            <a href="/admin/user/unlock?id={{ user.userID.value }}" class="btn btn-warning">unlock</a>
+                            <a href="/admin/user/unlock/{{ user.userID.value }}" class="btn btn-warning">unlock</a>
                             {% else %}
-                            <a href="/admin/user/lock?id={{ user.userID.value }}" class="btn btn-danger">lock</a>
+                            <a href="/admin/user/lock/{{ user.userID.value }}" class="btn btn-danger">lock</a>
                             {% endif %}
                         </td>
                     </tr>

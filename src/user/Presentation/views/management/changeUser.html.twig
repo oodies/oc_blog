@@ -2,7 +2,7 @@
 
 {% block content %}
     <div class="row">
-        <form id="changeUser" action="/admin/changeUser?id={{ user.userID.value }}" method="post" novalidate>
+        <form id="changeUser" action="/admin/changeUser/{{ user.userID.value }}" method="post" novalidate>
             {% include '/management/formUser.html.twig' with {'context':'changeUser'} %}
             <div class="submit">
                 <input type="submit" form="changeUser" class="btn btn-primary"

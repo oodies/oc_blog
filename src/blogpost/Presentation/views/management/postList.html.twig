@@ -18,15 +18,15 @@
                    <tbody>
                         {% for post in posts %}
                             <tr>
-                            <td><a href="/post?id={{ post.postID.value }}">{{ post.header.title }}</a></td>
+                            <td><a href="/post/{{ post.postID.value }}">{{ post.header.title }}</a></td>
                             <td>{{ post.header.brief }}</td>
                             <td>{{ post.blogger.username }}</td>
                             <td>
                             {% if post.isEnabled %}
-                            <a href="/admin/post/disabled?id={{ post.postID.value }}"
+                            <a href="/admin/post/disabled/{{ post.postID.value }}"
                                 class="btn btn-danger">Disabled</a>
                             {% else %}
-                            <a href="/admin/post/enabled?id={{ post.postID.value }}"
+                            <a href="/admin/post/enabled/{{ post.postID.value }}"
                                class="btn btn-primary">Enabled</a>
                             {% endif %}
                             </td>

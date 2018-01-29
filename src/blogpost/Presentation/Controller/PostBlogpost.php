@@ -67,7 +67,7 @@ class PostBlogpost extends Controller
                 // Redirect to BlogPost
                 $host = $_SERVER['HTTP_HOST'];
                 $uri = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
-                header("Location: http://$host$uri/post?id=" . $post->getPostID()->getValue());
+                header("Location: http://$host$uri/post/" . $post->getPostID()->getValue());
             } else {
                 $assign['errors'] = $constraintViolationList->getViolations();
             }

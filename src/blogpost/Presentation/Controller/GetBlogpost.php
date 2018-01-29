@@ -23,7 +23,12 @@ class GetBlogpost extends Controller
 {
 
     /** @var CommentAggregate $commentAggregate1 */
-    /** @var CommentAggregate $commentAggregate2 */
+    /**
+     * @param $commentAggregate1
+     * @param $commentAggregate2
+     *
+     * @return int
+     */
     protected function sortedByCreateDate($commentAggregate1, $commentAggregate2)
     {
         $date1 = $commentAggregate1->getComment()->getCreateAt();
@@ -39,13 +44,12 @@ class GetBlogpost extends Controller
      * Get a single blogpost
      * with this comments
      *
+     * @param string $postID
+     *
      * @throws \Exception
      */
-    public function getBlogpostAction()
+    public function getBlogpostAction($postID)
     {
-        $params = Registry::get('request')->getQueryParams();
-        $postID = $params['id'];
-
         $threadService = new ThreadService();
         $thread = $threadService->getThreadByPostID($postID);
 

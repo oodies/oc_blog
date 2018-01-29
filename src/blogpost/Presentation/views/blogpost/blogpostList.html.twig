@@ -26,7 +26,7 @@
                 {% for post in posts %}
                     {% if post.isEnabled %}
                     <div>
-                        <a href="/post?id={{ post.postID.value }}">
+                        <a href="/post/{{ post.postID.value }}">
                             <h2 class="post-title">
                                 {{ post.header.title }}
                             </h2>
