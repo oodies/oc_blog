@@ -10,11 +10,12 @@ use GuzzleHttp\Psr7\ServerRequest;
 use Lib\Db\DbFactory;
 use Lib\Auth;
 use Lib\DIC;
+use Lib\HTTPFoundation\HTTPResponse;
 use Lib\Registry;
-use Psr\Http\Message\ServerRequestInterface;
 use Lib\Routing\Route;
 use Lib\Routing\RouteList;
 use Lib\Routing\Router;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Class Bootstrap
@@ -230,8 +231,9 @@ class Bootstrap
                 echo 'Unauthorized action';
             }
         } catch (\RuntimeException $e) {
-            // TODO Error 404
-            echo 'Unknown page';
+            if ($e->getCode() == $this->router::NO_ROUTE) {
+                HTTPResponse::redirect404();
+            }
         }
     }
 }
