@@ -227,8 +227,7 @@ class Bootstrap
                 // Dispatch
                 $myClass->$action(implode(',', array_values($matchedRoute->getVars())));
             } else {
-                // TODO Unauthorized Page
-                echo 'Unauthorized action';
+                HTTPResponse::redirect403();
             }
         } catch (\RuntimeException $e) {
             if ($e->getCode() == $this->router::NO_ROUTE) {

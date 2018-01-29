@@ -15,6 +15,16 @@ namespace Lib\HTTPFoundation;
  */
 class HTTPResponse
 {
+
+    /**
+     *
+     */
+    public static function redirect403()
+    {
+        header($_SERVER["SERVER_PROTOCOL"] . ' 403 Forbidden');
+        echo file_get_contents(ROOT_DIR . '/app/views/Exception/error403.html');
+    }
+
     /**
      *
      */
