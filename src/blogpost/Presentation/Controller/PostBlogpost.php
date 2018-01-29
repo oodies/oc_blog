@@ -51,8 +51,8 @@ class PostBlogpost extends Controller
             $constraintViolationList = new ConstraintViolationList();
             $isValid = ConstraintValidator::validateRegisterData(
                 [
-                    'title'   => $title,
-                    'brief'   => $brief,
+                    'title' => $title,
+                    'brief' => $brief,
                     'content' => $content,
                 ],
                 $constraintViolationList
@@ -63,11 +63,10 @@ class PostBlogpost extends Controller
                 $postService = new PostService();
                 /** @var Post $post */
                 $post = $postService->create($_SESSION['userID'], $title, $brief, $content);
-
                 // Redirect to BlogPost
-                $host = $_SERVER['HTTP_HOST'];
-                $uri = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
-                header("Location: http://$host$uri/post/" . $post->getPostID()->getValue());
+                $this->redirectTo(
+                    $this->generateUrl('blogpost_get_blogpost', ['postID' => $post->getPostID()->getValue()])
+                );
             } else {
                 $assign['errors'] = $constraintViolationList->getViolations();
             }

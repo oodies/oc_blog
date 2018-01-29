@@ -66,7 +66,7 @@ class Security extends Controller
                         $auth->authenticate($user);
 
                         // TODO - Si authentication valid => Redirection selon le profile
-                        $this->redirectToRoot();
+                        $this->redirectTo($this->generateUrl('homepage'));
                     }
                 }
                 $assign['errors']['authenticate'] = 'Authenticate error !';
@@ -83,20 +83,10 @@ class Security extends Controller
     /**
      *
      */
-    protected function redirectToRoot()
-    {
-        $host = $_SERVER['HTTP_HOST'];
-        $uri = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
-        header("Location: http://$host$uri");
-    }
-
-    /**
-     *
-     */
     public function logoutAction()
     {
         $this->expireSessionCookie();
-        $this->redirectToRoot();
+        $this->redirectTo($this->generateUrl('homepage'));
     }
 
     /**

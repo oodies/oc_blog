@@ -14,6 +14,7 @@ use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Class Controller
+ *
  * @package Lib\Controller
  */
 class Controller
@@ -34,6 +35,45 @@ class Controller
     }
 
     /**
+     * @param string $routeName
+     * @param array  $params
+     *
+     * @return string
+     */
+    public function generateUrl(string $routeName, array $params = null)
+    {
+
+        $xml = new \DOMDocument;
+        $xml->load(ROOT_DIR . '/configs/routing.xml');
+
+        $routes = $xml->getElementsByTagName('route');
+
+        /** @var \DOMElement $DOMRoute */
+        foreach ($routes as $DOMRoute) {
+            if ($routeName == $DOMRoute->getAttribute('id')) {
+                $path = $DOMRoute->getAttribute('path');
+
+                if (!is_null($params)) {
+                    foreach ($params as $param => $value) {
+                        $path = str_replace('{' . $param . '}', $value, $path);
+                    }
+                }
+            }
+        }
+
+        return $path;
+    }
+
+    /**
+     * @param string $uri
+     */
+    public function redirectTo(string $uri)
+    {
+        $host = $_SERVER['HTTP_HOST'];
+        header("Location: http://$host$uri");
+    }
+
+    /**
      * @return ServerRequestInterface
      */
     protected function getRequest()
@@ -43,6 +83,7 @@ class Controller
 
     /**
      * Set ServerRequestInterface
+     *
      * @return Controller
      */
     protected function setRequest(): Controller
@@ -59,8 +100,10 @@ class Controller
      *
      * @return string The rendered template
      */
-    protected function render(string $path, array $context)
-    {
+    protected function render(
+        string $path,
+        array $context
+    ) {
         list($module, $controller, $action) = explode(':', $path);
 
         $twig = Registry::get('twig');

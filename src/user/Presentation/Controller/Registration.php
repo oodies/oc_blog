@@ -66,14 +66,10 @@ class Registration extends Controller
                     )
                 );
                 $user = $userReadService->getByUserID($user->getUserID());
-
                 // Save password
                 $userRegisterService->register($user, $password);
-
-                $host = $_SERVER['HTTP_HOST'];
-                $uri = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
-                header("Location: http://$host$uri/login");
-
+                // Redirect To Login
+                $this->redirectTo($this->generateUrl('user_security_login'));
             } else {
                 $assign['email'] = $email;
                 $assign['username'] = $username;

@@ -57,15 +57,10 @@ class PostComment extends Controller
                         new CommentWriteDataMapperRepository()
                     )
                 );
-
                 // TODO Use $comment for update view with AJAX
                 $comment = $commentWriteService->create($postID, $username, $email, $body);
-
                 // Redirect to BlogPost
-                $host = $_SERVER['HTTP_HOST'];
-                $uri = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
-                header("Location: http://$host$uri/post/" . $postID);
-
+                $this->redirectTo($this->generateUrl('blogpost_get_blogpost', ['postID' => $postID ]));
             } else {
                 $assign = [
                     'errors'   => $constraintViolationList->getViolations(),

@@ -63,11 +63,8 @@ class PutBlogpost extends Controller
 
             if ($isValid === true) {
                 $blogpostService->updateBlogpost($postAggregate, $title, $brief, $content);
-
                 // Redirect to BlogPost
-                $host = $_SERVER['HTTP_HOST'];
-                $uri = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
-                header("Location: http://$host$uri/post/" . $postID);
+                $this->redirectTo($this->generateUrl('blogpost_get_blogpost', ['postID' => $postID]));
             } else {
                 $assign['errors'] = $constraintViolationList->getViolations();
             }

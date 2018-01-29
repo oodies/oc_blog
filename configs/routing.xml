@@ -135,7 +135,7 @@
     <route id="comment_comments_new"
            path="/newComment"
            controller="Comment\Presentation\Controller\postComment::postComment">
-        <condition></condition>
+        <condition>guest</condition>
     </route>
     <!--Other application routing-->
     <route id="contact"

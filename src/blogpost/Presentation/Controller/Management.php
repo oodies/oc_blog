@@ -94,8 +94,6 @@ class Management extends Controller
      */
     protected function redirectToAdminPosts()
     {
-        $host = $_SERVER['HTTP_HOST'];
-        $uri = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
-        header("Location: http://$host$uri/admin/posts");
+        $this->redirectTo($this->generateUrl('blogpost_management_postList'));
     }
 }

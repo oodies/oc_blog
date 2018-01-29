@@ -21,6 +21,7 @@ use Lib\Registry;
 
 /**
  * Class Management
+ *
  * @package Comment\Presentation\Controller
  */
 class Management extends controller
@@ -38,9 +39,11 @@ class Management extends controller
         );
         $comments = $commentReadService->getComments();
 
-        echo $this->render('comment:management:commentList.html.twig', [
-            'comments' => $comments
-        ]);
+        echo $this->render(
+            'comment:management:commentList.html.twig', [
+                                                          'comments' => $comments,
+                                                      ]
+        );
     }
 
     /**
@@ -79,6 +82,14 @@ class Management extends controller
         if ($request->getMethod() === 'GET') {
             echo $this->render('comment:management:changeComment.html.twig', ['comment' => $comment]);
         }
+    }
+
+    /**
+     * Redirect to admin comment list
+     */
+    protected function redirectToAdminComments()
+    {
+        $this->redirectTo($this->generateUrl('comment_management_comments'));
     }
 
     /**
@@ -133,15 +144,5 @@ class Management extends controller
         $commentWriteService->disapprove($comment);
 
         $this->redirectToAdminComments();
-    }
-
-    /**
-     * Redirect to admin comment list
-     */
-    protected function redirectToAdminComments()
-    {
-        $host = $_SERVER['HTTP_HOST'];
-        $uri = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
-        header("Location: http://$host$uri/admin/comments");
     }
 }
