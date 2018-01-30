@@ -59,7 +59,7 @@ class PostReadDataMapperRepository extends AbstractRepository implements PostRea
 
         $rowSet = $this->getDbTable()->findAll();
         if (count($rowSet)) {
-            foreach ($rowSet as $key => $row) {
+            foreach ($rowSet as $row) {
                 $post = new Post();
                 $this->hydrate($post, $row);
                 $entries[] = $post;

@@ -68,7 +68,7 @@ class CommentRepository extends AbstractRepository
 
         $entries = [];
         if (count($rowSet)) {
-            foreach ($rowSet as $key => $row) {
+            foreach ($rowSet as $row) {
                 $comment = new Comment();
                 $comment->setIdComment($row['id_comment'])
                     ->setThreadID(new ThreadID($row['threadID']))

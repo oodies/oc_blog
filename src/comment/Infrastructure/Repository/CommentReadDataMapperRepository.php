@@ -71,7 +71,7 @@ class CommentReadDataMapperRepository extends AbstractRepository implements Comm
 
         $rowSet = $this->getDbTable()->findAll();
         if (count($rowSet)) {
-            foreach ($rowSet as $key => $row) {
+            foreach ($rowSet as $row) {
                 $comment = new Comment();
                 $this->hydrate($comment, $row);
                 $entries[] = $comment;

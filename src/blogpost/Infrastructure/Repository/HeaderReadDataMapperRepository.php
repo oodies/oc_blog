@@ -63,7 +63,7 @@ class HeaderReadDataMapperRepository extends AbstractRepository implements Heade
 
         $rowSet = $this->getDbTable()->findAll();
         if (count($rowSet)) {
-            foreach ($rowSet as $key => $row) {
+            foreach ($rowSet as $row) {
                 $header = new Header();
                 $this->hydrate($header, $row);
                 $entries[] = $header;

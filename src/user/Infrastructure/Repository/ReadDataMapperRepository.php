@@ -85,7 +85,7 @@ class ReadDataMapperRepository extends AbstractRepository implements ReadReposit
 
         $rowSet = $this->getDbTable()->findAll();
         if (count($rowSet)) {
-            foreach ($rowSet as $key => $row) {
+            foreach ($rowSet as $row) {
                 $user = new User();
                 $this->hydrate($user, $row);
                 $user->setUserID(new UserID($row['userID']));
