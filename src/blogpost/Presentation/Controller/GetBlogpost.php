@@ -10,7 +10,6 @@ namespace Blogpost\Presentation\Controller;
 
 use Blogpost\Infrastructure\Service\BlogpostService;
 use Blogpost\Infrastructure\Service\PostService;
-use Comment\Domain\Model\CommentAggregate;
 use Comment\Infrastructure\Service\CommentService;
 use Comment\Infrastructure\Service\ThreadService;
 use Lib\Controller\Controller;
@@ -22,15 +21,14 @@ use Lib\HTTPFoundation\HTTPResponse;
  */
 class GetBlogpost extends Controller
 {
-
-    /** @var CommentAggregate $commentAggregate1 */
     /**
-     * @param CommentAggregate $commentAggregate1
-     * @param CommentAggregate $commentAggregate2
+     * @param \Comment\Domain\Model\CommentAggregate $commentAggregate1
+     * @param \Comment\Domain\Model\CommentAggregate $commentAggregate2
      *
      * @return int
      */
-    protected function sortedByCreateDate(CommentAggregate $commentAggregate1, CommentAggregate $commentAggregate2)
+    protected function sortedByCreateDate(\Comment\Domain\Model\CommentAggregate $commentAggregate1,
+                                          \Comment\Domain\Model\CommentAggregate $commentAggregate2)
     {
         $date1 = $commentAggregate1->getComment()->getCreateAt();
         $date2 = $commentAggregate2->getComment()->getCreateAt();

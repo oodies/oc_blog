@@ -8,7 +8,6 @@
 
 namespace Blogpost\Presentation\Controller;
 
-use Blogpost\Domain\Model\Post;
 use Blogpost\Domain\Model\PostAggregate;
 use Blogpost\Infrastructure\Service\ConstraintValidator;
 use Blogpost\Infrastructure\Service\PostService;
@@ -59,9 +58,8 @@ class PostBlogpost extends Controller
             );
 
             if ($isValid === true) {
-                /** @var PostService $postService */
                 $postService = new PostService();
-                /** @var Post $post */
+                /** @var \Blogpost\Domain\Model\Post $post */
                 $post = $postService->create($_SESSION['userID'], $title, $brief, $content);
                 // Redirect to BlogPost
                 $this->redirectTo(

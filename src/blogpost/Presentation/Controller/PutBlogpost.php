@@ -8,7 +8,6 @@
 
 namespace Blogpost\Presentation\Controller;
 
-use Blogpost\Domain\Model\PostAggregate;
 use Blogpost\Infrastructure\Service\ConstraintValidator;
 use Blogpost\Infrastructure\Service\BlogpostService;
 use Blogpost\Infrastructure\Service\PostService;
@@ -45,7 +44,7 @@ class PutBlogpost extends Controller
         $assign = [];
 
         $blogpostService = new BlogpostService();
-        /** @var PostAggregate $postAggregate */
+        /** @var \Blogpost\Domain\Model\PostAggregate $postAggregate */
         $postAggregate = $blogpostService->getBlogpost($postID);
 
         if ($request->getMethod() === 'POST') {

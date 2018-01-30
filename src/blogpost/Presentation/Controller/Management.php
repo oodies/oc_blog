@@ -16,7 +16,6 @@ use Blogpost\Infrastructure\Service\BlogpostService;
 use Blogpost\Infrastructure\Service\PostReadService;
 use Blogpost\Infrastructure\Service\PostWriteService;
 use Lib\Controller\Controller;
-use Lib\Registry;
 
 /**
  * Class Management
@@ -31,7 +30,7 @@ class Management extends Controller
     public function getPostsAction()
     {
         $blogpostService = new BlogpostService();
-        /** @var array Post $posts */
+        /** @var array of PostAggregate $posts */
         $posts = $blogpostService->getBlogposts();
 
         echo $this->render('blogpost:management:postList.html.twig', ['posts' => $posts]);
