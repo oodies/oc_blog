@@ -141,17 +141,6 @@ class Management extends Controller
     }
 
     /**
-     * Redirect to admin users page
-     */
-    protected function redirectToAdminUsers()
-    {
-        // Redirect to /admin/users
-        $host = $_SERVER['HTTP_HOST'];
-        $uri = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
-        header("Location: http://$host$uri/admin/users");
-    }
-
-    /**
      * Create a User by admin interface
      *
      * @throws \Exception
@@ -280,5 +269,13 @@ class Management extends Controller
         }
 
         $this->redirectToAdminUsers();
+    }
+
+    /**
+     * Redirect to admin users page
+     */
+    protected function redirectToAdminUsers()
+    {
+        $this->redirectTo($this->generateUrl('user_management_users'));
     }
 }
