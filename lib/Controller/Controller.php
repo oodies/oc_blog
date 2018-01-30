@@ -105,9 +105,9 @@ class Controller
         array $context
     ) {
         list($module, $controller, $action) = explode(':', $path);
+        unset($module);
 
         $twig = Registry::get('twig');
-
         $name = $controller . '/' . $action;
 
         return $twig->render($name, $context);
