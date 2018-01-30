@@ -23,6 +23,7 @@ class HTTPResponse
     {
         header($_SERVER["SERVER_PROTOCOL"] . ' 403 Forbidden');
         echo file_get_contents(ROOT_DIR . '/app/views/Exception/error403.html');
+        exit();
     }
 
     /**
@@ -32,5 +33,6 @@ class HTTPResponse
     {
         header($_SERVER["SERVER_PROTOCOL"] . ' 404 Not Found');
         echo file_get_contents(ROOT_DIR . '/app/views/Exception/error404.html');
+        exit();
     }
 }
