@@ -49,7 +49,7 @@ class CommentReadService
      */
     public function getComments()
     {
-        /** @var UserService $userService */
+        /** @var \User\Infrastructure\Service\UserService $userService */
         $userService = Registry::getInstance()->get('DIC')->get('userService');
 
         $response = [];
@@ -60,7 +60,7 @@ class CommentReadService
         );
         $comments = $commentReadRepository->findAll();
 
-        /** @var Comment $comment */
+        /** @var \Comment\Domain\Model\Comment $comment */
         foreach ($comments as $comment) {
             $commentAggregate = new CommentAggregate();
             $commentAggregate->setComment($comment);
@@ -81,7 +81,7 @@ class CommentReadService
      */
     public function getByThreadID(string $threadID)
     {
-        /** @var UserService $userService */
+        /** @var \User\Infrastructure\Service\UserService $userService */
         $userService = Registry::getInstance()->get('DIC')->get('userService');
 
         $response = [];
@@ -92,7 +92,7 @@ class CommentReadService
         );
         $comments = $commentReadRepository->findAllByThreadID(new ThreadID($threadID));
 
-        /** @var Comment $comment */
+        /** @var \Comment\Domain\Model\Comment $comment */
         foreach ($comments as $comment) {
             $commentAggregate = new CommentAggregate();
             $commentAggregate->setComment($comment);
@@ -109,9 +109,9 @@ class CommentReadService
      *
      * @param string $commentID
      *
-     * @return Comment
+     * @return null|Comment
      */
-    public function getByCommentID(string $commentID): Comment
+    public function getByCommentID(string $commentID): ?Comment
     {
         $commentReadRepository = new CommentReadRepository(
             new CommentReadDataMapperRepository()

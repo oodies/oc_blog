@@ -15,8 +15,8 @@ use Comment\Infrastructure\Repository\CommentReadDataMapperRepository;
 use Comment\Infrastructure\Repository\CommentWriteDataMapperRepository;
 use Comment\Infrastructure\Service\CommentReadService;
 use Comment\Infrastructure\Service\CommentWriteService;
-use GuzzleHttp\Psr7\Request;
 use Lib\Controller\Controller;
+use Lib\HTTPFoundation\HTTPResponse;
 use Lib\Registry;
 
 /**
@@ -53,7 +53,7 @@ class Management extends controller
      */
     public function putCommentAction($commentID)
     {
-        /** @var Request $request */
+        /** @var \GuzzleHttp\Psr7\ServerRequest $request */
         $request = Registry::get('request');
 
         /** @var CommentReadService $commentReadService */
@@ -64,6 +64,10 @@ class Management extends controller
         );
         /** @var Comment $comment */
         $comment = $commentReadService->getByCommentID($commentID);
+
+        if (is_null($comment)) {
+            HTTPResponse::redirect404();
+        }
 
         if ($request->getMethod() === 'POST') {
             $post = $request->getParsedBody();
@@ -85,14 +89,6 @@ class Management extends controller
     }
 
     /**
-     * Redirect to admin comment list
-     */
-    protected function redirectToAdminComments()
-    {
-        $this->redirectTo($this->generateUrl('comment_management_comments'));
-    }
-
-    /**
      * Approve a comment
      *
      * @param string $commentID
@@ -108,13 +104,15 @@ class Management extends controller
         /** @var Comment $comment */
         $comment = $commentReadService->getByCommentID($commentID);
 
-        /** @var CommentWriteService $commentWriteService */
-        $commentWriteService = new CommentWriteService(
-            new CommentWriteRepository(
-                new CommentWriteDataMapperRepository()
-            )
-        );
-        $commentWriteService->approve($comment);
+        if (!is_null($comment)) {
+            /** @var CommentWriteService $commentWriteService */
+            $commentWriteService = new CommentWriteService(
+                new CommentWriteRepository(
+                    new CommentWriteDataMapperRepository()
+                )
+            );
+            $commentWriteService->approve($comment);
+        }
 
         $this->redirectToAdminComments();
     }
@@ -135,14 +133,24 @@ class Management extends controller
         /** @var Comment $comment */
         $comment = $commentReadService->getByCommentID($commentID);
 
-        /** @var CommentWriteService $commentWriteService */
-        $commentWriteService = new CommentWriteService(
-            new CommentWriteRepository(
-                new CommentWriteDataMapperRepository()
-            )
-        );
-        $commentWriteService->disapprove($comment);
+        if (!is_null($comment)) {
+            /** @var CommentWriteService $commentWriteService */
+            $commentWriteService = new CommentWriteService(
+                new CommentWriteRepository(
+                    new CommentWriteDataMapperRepository()
+                )
+            );
+            $commentWriteService->disapprove($comment);
+        }
 
         $this->redirectToAdminComments();
+    }
+
+    /**
+     * Redirect to admin comment list
+     */
+    protected function redirectToAdminComments()
+    {
+        $this->redirectTo($this->generateUrl('comment_management_comments'));
     }
 }

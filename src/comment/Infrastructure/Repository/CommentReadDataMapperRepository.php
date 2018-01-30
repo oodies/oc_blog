@@ -61,25 +61,6 @@ class CommentReadDataMapperRepository extends AbstractRepository implements Comm
     }
 
     /**
-     * Hydrate Comment model with data
-     *
-     * @param Comment $comment
-     * @param array   $row
-     */
-    protected function hydrate(Comment $comment, array $row)
-    {
-        $comment
-            ->setIdComment($row['id_comment'])
-            ->setCommentID(new CommentID($row['commentID']))
-            ->setThreadID(new ThreadID($row['threadID']))
-            ->setAuthorID(new AuthorID($row['authorID']))
-            ->setEnabled((bool)$row['enabled'])
-            ->setBody($row['body'])
-            ->setCreateAt(new \DateTime($row['create_at']))
-            ->setUpdateAt(new \DateTime($row['update_at']));
-    }
-
-    /**
      * Find all comments
      *
      * @return array
@@ -106,16 +87,18 @@ class CommentReadDataMapperRepository extends AbstractRepository implements Comm
      *
      * @param CommentID $commentID
      *
-     * @return Comment
+     * @return null|Comment
      */
-    public function getByCommentID(CommentID $commentID): Comment
+    public function getByCommentID(CommentID $commentID): ?Comment
     {
         $comment = new Comment();
 
         $row = $this->getDbTable()->findByCommentID($commentID->getValue());
-        if ($row !== false) {
-            $this->hydrate($comment, $row);
+        if ($row == false) {
+            return null;
         }
+
+        $this->hydrate($comment, $row);
 
         return $comment;
     }
@@ -126,5 +109,24 @@ class CommentReadDataMapperRepository extends AbstractRepository implements Comm
     protected function getDbTable(): CommentTableGateway
     {
         return parent::getDbTable();
+    }
+
+    /**
+     * Hydrate Comment model with data
+     *
+     * @param Comment $comment
+     * @param array   $row
+     */
+    protected function hydrate(Comment $comment, array $row)
+    {
+        $comment
+            ->setIdComment($row['id_comment'])
+            ->setCommentID(new CommentID($row['commentID']))
+            ->setThreadID(new ThreadID($row['threadID']))
+            ->setAuthorID(new AuthorID($row['authorID']))
+            ->setEnabled((bool)$row['enabled'])
+            ->setBody($row['body'])
+            ->setCreateAt(new \DateTime($row['create_at']))
+            ->setUpdateAt(new \DateTime($row['update_at']));
     }
 }

@@ -50,9 +50,9 @@ class CommentReadRepository implements CommentReadRepositoryInterface
      *
      * @param CommentID $commentID
      *
-     * @return Comment
+     * @return null|Comment
      */
-    public function getByCommentID(CommentID $commentID): Comment
+    public function getByCommentID(CommentID $commentID): ?Comment
     {
         return $this->repository->getByCommentID($commentID);
     }
