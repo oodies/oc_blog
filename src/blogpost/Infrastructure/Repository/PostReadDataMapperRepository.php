@@ -17,6 +17,7 @@ use Lib\Db\AbstractRepository;
 
 /**
  * Class PostReadDataMapperRepository
+ *
  * @package Blogpost\Infrastructure\Repository
  */
 class PostReadDataMapperRepository extends AbstractRepository implements PostReadRepositoryInterface
@@ -30,16 +31,19 @@ class PostReadDataMapperRepository extends AbstractRepository implements PostRea
      *
      * @param PostID $postID
      *
-     * @return Post
+     * @return null|Post
      */
-    public function getByPostID(PostID $postID): Post
+    public function getByPostID(PostID $postID): ?Post
     {
         $post = new Post();
 
         $row = $this->getDbTable()->findByPostId($postID->getValue());
-        if ($row !== false) {
-            $this->hydrate($post, $row);
+
+        if ($row == false) {
+            return null;
         }
+
+        $this->hydrate($post, $row);
 
         return $post;
     }

@@ -59,9 +59,9 @@ class PostService
      *
      * @param string $postID
      *
-     * @return Post
+     * @return null|Post
      */
-    public function getByPostID(string $postID): Post
+    public function getByPostID(string $postID): ?Post
     {
         $postReadService = new PostReadService(
             new PostReadRepository(

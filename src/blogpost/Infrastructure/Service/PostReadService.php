@@ -38,9 +38,9 @@ class PostReadService
      *
      * @param string $postID
      *
-     * @return Post
+     * @return null|Post
      */
-    public function getByPostID(string $postID): Post
+    public function getByPostID(string $postID): ?Post
     {
         return $this->repository->getByPostID(new PostID($postID));
     }

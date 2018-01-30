@@ -22,9 +22,9 @@ interface PostReadRepositoryInterface
      *
      * @param PostID $postID
      *
-     * @return Post
+     * @return null|Post
      */
-    public function getByPostID(PostID $postID): Post;
+    public function getByPostID(PostID $postID): ?Post;
 
     /**
      * Gives all posts

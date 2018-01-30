@@ -11,7 +11,9 @@ namespace Blogpost\Presentation\Controller;
 use Blogpost\Domain\Model\PostAggregate;
 use Blogpost\Infrastructure\Service\ConstraintValidator;
 use Blogpost\Infrastructure\Service\BlogpostService;
+use Blogpost\Infrastructure\Service\PostService;
 use Lib\Controller\Controller;
+use Lib\HTTPFoundation\HTTPResponse;
 use Lib\Registry;
 use Lib\Validator\ConstraintViolationList;
 
@@ -29,6 +31,13 @@ class PutBlogpost extends Controller
      */
     public function putBlogpostAction($postID)
     {
+        $postService = new PostService();
+        $post = $postService->getByPostID($postID);
+
+        if( is_null($post) ) {
+            HTTPResponse::redirect404();
+        }
+
         /** @var \GuzzleHttp\Psr7\ServerRequest $request */
         $request = Registry::get('request');
 
