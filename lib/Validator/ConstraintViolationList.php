@@ -86,9 +86,9 @@ class ConstraintViolationList implements \ArrayAccess, \Countable
     {
         if (null === $offset) {
             $this->add($violation);
-        } else {
-            $this->set($offset, $violation);
+            return;
         }
+        $this->set($offset, $violation);
     }
 
     /**

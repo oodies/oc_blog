@@ -86,9 +86,9 @@ class RouteList implements \ArrayAccess
     {
         if (null === $offset) {
             $this->add($route);
-        } else {
-            $this->set($offset, $route);
+            return;
         }
+        $this->set($offset, $route);
     }
 
     /**
