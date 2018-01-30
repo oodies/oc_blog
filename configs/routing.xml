@@ -103,11 +103,6 @@
         <condition>admin</condition>
     </route>
     <!--comment routing-->
-    <route id="comment_comments_list"
-           path="/comments"
-           controller="Comment\Presentation\Controller\getComments::getThread">
-        <condition>admin</condition>
-    </route>
     <route id="comment_management_comments"
            path="/admin/comments"
            controller="Comment\Presentation\Controller\Management::getComments">
@@ -134,7 +129,7 @@
     </route>
     <route id="comment_comments_new"
            path="/newComment"
-           controller="Comment\Presentation\Controller\postComment::postComment">
+           controller="Comment\Presentation\Controller\PostComment::postComment">
         <condition>guest</condition>
     </route>
     <!--Other application routing-->
