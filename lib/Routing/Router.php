@@ -54,7 +54,7 @@ class Router
     public function getRoute(string $url)
     {
         /** @var Route $route */
-        foreach ($this->routeList->getRoutes() as $index => $route) {
+        foreach ($this->routeList->getRoutes() as $route) {
             if ($route->match($url) == true) {
                 return $route;
             }
