@@ -55,12 +55,9 @@ class Router
     {
         /** @var Route $route */
         foreach ($this->routeList->getRoutes() as $index => $route) {
-            if (($varValues = $route->match($url)) !== false) {
-                if (isset($varValues[1])) {
-                    $route->setVars([array_keys($route->getRequirements())[0] => $varValues[1]]);
-                }
+            if ($route->match($url) == true) {
                 return $route;
-            };
+            }
         }
 
         throw new \RuntimeException('nothing route', self::NO_ROUTE);

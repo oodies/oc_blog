@@ -29,7 +29,7 @@ class Route
     protected $path;
 
     /** @var array $requirements An array of require parameters (regexes) */
-    protected $requirements;
+    protected $requirements = [];
 
     /** @var array $vars An array of params values */
     protected $vars = [];
@@ -113,19 +113,28 @@ class Route
         $path = $this->path;
 
         if (!empty($this->requirements)) {
-
-            foreach ($this->requirements as $key => $value) {
-                if ($value == 'w+') {
-                    $value = '[a-zA-Z0-9-]*';
-                }
-                $path = str_replace('{' . $key . '}', '('.$value.')', $path);
+            foreach ($this->requirements as $key => $regex) {
+                // Generation new path by changing params with regex
+                $path = str_replace('{' . $key . '}', '(' . $regex . ')', $path);
             }
         }
+        // Escaping "/" to make our regex recognize "/" char
+        $path = str_replace("/", "\/", $path);
 
-        if (preg_match('%^'.$path.'$%', $url, $matches)) {
-            return $matches;
-        } else {
+        if (!preg_match('%^' . $path . '$%', $url, $matches)) {
             return false;
+        } else {
+            // Unset $matches[0] is an array of full pattern matches
+            array_shift($matches);
+            // Get queryString parameters
+            $keys = array_keys($this->getRequirements());
+
+            if (!empty($matches)) {
+                for ($i=0 ; $i < count($matches); $i++)  {
+                    $this->vars[$keys{$i}] = $matches{$i};
+                }
+            }
+            return true;
         }
     }
 

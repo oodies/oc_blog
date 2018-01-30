@@ -18,7 +18,7 @@
     <route id="blogpost_get_blogpost"
            path="/post/{postID}"
            controller="Blogpost\Presentation\Controller\GetBlogpost::getBlogpost">
-        <requirement key="postID">w+</requirement>
+        <requirement key="postID">[a-zA-Z0-9-]*</requirement>
         <condition>guest</condition>
     </route>
     <route id="blogpost_post_blogpost"
@@ -29,7 +29,7 @@
     <route id="blogpost_put_blogpost"
            path="/changePost/{postID}"
            controller="Blogpost\Presentation\Controller\PutBlogpost::putBlogpost">
-        <requirement key="postID">w+</requirement>
+        <requirement key="postID">[a-zA-Z0-9-]*</requirement>
         <condition>blogger</condition>
     </route>
     <!--Blogpost Management routing-->
@@ -41,13 +41,13 @@
     <route id="blogpost_management_enabled"
            path="/admin/post/enabled/{postID}"
            controller="Blogpost\Presentation\Controller\Management::enabled">
-        <requirement key="postID">w+</requirement>
+        <requirement key="postID">[a-zA-Z0-9-]*</requirement>
         <condition>admin</condition>
     </route>
     <route id="blogpost_management_disabled"
            path="/admin/post/disabled/{postID}"
            controller="Blogpost\Presentation\Controller\Management::disabled">
-        <requirement key="postID">w+</requirement>
+        <requirement key="postID">[a-zA-Z0-9-]*</requirement>
         <condition>admin</condition>
     </route>
     <!--Users registration routing-->
@@ -71,7 +71,7 @@
     <route id="user_management_getUser"
            path="/admin/user/{userID}"
            controller="User\Presentation\Controller\Management::getUser">
-        <requirement key="userID">w+</requirement>
+        <requirement key="userID">[a-zA-Z0-9-]*</requirement>
         <condition>admin</condition>
     </route>
     <route id="user_management_users"
@@ -87,19 +87,19 @@
     <route id="user_management_putUser"
            path="/admin/changeUser/{userID}"
            controller="User\Presentation\Controller\Management::putUser">
-        <requirement key="userID">w+</requirement>
+        <requirement key="userID">[a-zA-Z0-9-]*</requirement>
         <condition>admin</condition>
     </route>
     <route id="user_management_lock"
            path="/admin/user/lock/{userID}"
            controller="User\Presentation\Controller\Management::lock">
-        <requirement key="userID">w+</requirement>
+        <requirement key="userID">[a-zA-Z0-9-]*</requirement>
         <condition>admin</condition>
     </route>
     <route id="user_management_unlock"
            path="/admin/user/unlock/{userID}"
            controller="User\Presentation\Controller\Management::unlock">
-        <requirement key="userID">w+</requirement>
+        <requirement key="userID">[a-zA-Z0-9-]*</requirement>
         <condition>admin</condition>
     </route>
     <!--comment routing-->
@@ -117,19 +117,19 @@
     <route id="comment_management_approve"
            path="/admin/comment/approve/{commentID}"
            controller="Comment\Presentation\Controller\Management::approve">
-        <requirement key="commentID">w+</requirement>
+        <requirement key="commentID">[a-zA-Z0-9-]*</requirement>
         <condition>admin</condition>
     </route>
     <route id="comment_management_disapprove"
            path="/admin/comment/disapprove/{commentID}"
            controller="Comment\Presentation\Controller\Management::disapprove">
-        <requirement key="commentID">w+</requirement>
+        <requirement key="commentID">[a-zA-Z0-9-]*</requirement>
         <condition>admin</condition>
     </route>
     <route id="comment_management_putComment"
            path="/admin/comment/change/{commentID}"
            controller="Comment\Presentation\Controller\Management::putComment">
-        <requirement key="commentID">w+</requirement>
+        <requirement key="commentID">[a-zA-Z0-9-]*</requirement>
         <condition>admin</condition>
     </route>
     <route id="comment_comments_new"
