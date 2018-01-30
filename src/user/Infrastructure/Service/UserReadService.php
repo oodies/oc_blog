@@ -39,9 +39,9 @@ class UserReadService
      *
      * @param UserID $userID
      *
-     * @return User
+     * @return null|User
      */
-    public function getByUserID(UserID $userID): User
+    public function getByUserID(UserID $userID): ?User
     {
         return $this->repository->getByUserID($userID);
     }
@@ -61,7 +61,7 @@ class UserReadService
     /**
      * Find an user by username
      *
-     * @param string $email
+     * @param string $username
      *
      * @return null|User
      */

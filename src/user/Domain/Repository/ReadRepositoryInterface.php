@@ -47,7 +47,7 @@ interface ReadRepositoryInterface
      *
      * @param UserID $userID
      *
-     * @return User
+     * @return null|User
      */
-    public function getByUserID(UserID $userID): User;
+    public function getByUserID(UserID $userID): ?User;
 }

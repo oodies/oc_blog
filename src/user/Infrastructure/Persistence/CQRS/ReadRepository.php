@@ -48,9 +48,9 @@ class ReadRepository implements ReadRepositoryInterface
      *
      * @param UserID $userID
      *
-     * @return User
+     * @return null|User
      */
-    public function getByUserID(UserID $userID): User
+    public function getByUserID(UserID $userID): ?User
     {
         return $this->repository->getByUserID($userID);
     }

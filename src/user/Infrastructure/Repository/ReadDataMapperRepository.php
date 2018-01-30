@@ -102,19 +102,21 @@ class ReadDataMapperRepository extends AbstractRepository implements ReadReposit
      * 
      * @param UserID $userID
      *
-     * @return User
+     * @return null|User
      */
-    public function getByUserID(UserID $userID): User
+    public function getByUserID(UserID $userID): ?User
     {
         /** @var User $user */
         $user = new User();
 
         $row = $this->getDbTable()->findByUserID($userID->getValue());
-        if ($row !== false) {
-            $this->hydrate($user, $row);
-            $user->setUserID($userID);
+
+        if ($row == false) {
+            return null;
         }
-        
+
+        $this->hydrate($user, $row);
+
         return $user;
     }
 

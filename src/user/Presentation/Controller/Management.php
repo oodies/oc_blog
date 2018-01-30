@@ -9,6 +9,7 @@
 namespace User\Presentation\Controller;
 
 use Lib\Controller\Controller;
+use Lib\HTTPFoundation\HTTPResponse;
 use Lib\Registry;
 use Lib\Validator\ConstraintViolationList;
 use User\Domain\Model\User;
@@ -42,8 +43,11 @@ class Management extends Controller
                 new ReadDataMapperRepository()
             )
         );
-
         $user = $userReadService->getByUserID(new UserID($userID));
+
+        if (is_null($user)) {
+            HTTPResponse::redirect404();
+        }
 
         echo $this->render(
             'user:management:user.html.twig', [
@@ -90,9 +94,13 @@ class Management extends Controller
             )
         );
 
-        $assign = [];
         $user = $userReadService->getByUserID(new UserID($userID));
 
+        if (is_null($user)) {
+            HTTPResponse::redirect404();
+        }
+
+        $assign = [];
         if ($request->getMethod() === 'POST') {
             $post = $request->getParsedBody();
             $data = [
@@ -232,13 +240,15 @@ class Management extends Controller
         );
         $user = $userReadService->getByUserID(new UserID($userID));
 
-        $userStatusService = new UserStatusService(
-            new WriteRepository(
-                new WriteDataMapperRepository()
-            )
-        );
+        if (!is_null($user)) {
+            $userStatusService = new UserStatusService(
+                new WriteRepository(
+                    new WriteDataMapperRepository()
+                )
+            );
 
-        $userStatusService->lock($user);
+            $userStatusService->lock($user);
+        }
 
         $this->redirectToAdminUsers();
     }
@@ -259,13 +269,15 @@ class Management extends Controller
         );
         $user = $userReadService->getByUserID(new UserID($userID));
 
-        $userStatusService = new UserStatusService(
-            new WriteRepository(
-                new WriteDataMapperRepository()
-            )
-        );
+        if (!is_null($user)) {
+            $userStatusService = new UserStatusService(
+                new WriteRepository(
+                    new WriteDataMapperRepository()
+                )
+            );
 
-        $userStatusService->unlock($user);
+            $userStatusService->unlock($user);
+        }
 
         $this->redirectToAdminUsers();
     }

@@ -27,9 +27,9 @@ class UserService
      *
      * @param string $userID
      *
-     * @return \User\Domain\Model\User
+     * @return null|User
      */
-    public function getByUserID(string $userID): User
+    public function getByUserID(string $userID): ?User
     {
         $userReadService = new UserReadService(
             new ReadRepository(
@@ -73,6 +73,6 @@ class UserService
                 new WriteDataMapperRepository()
             )
         );
-        $userRegisterService->create($username, $email);
+        return $userRegisterService->create($username, $email);
     }
 }
