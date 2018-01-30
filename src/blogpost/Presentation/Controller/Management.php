@@ -53,12 +53,14 @@ class Management extends Controller
         );
         $post = $postReadService->getByPostID($postID);
 
-        $postWriteService = new PostWriteService(
-            new PostWriteRepository(
-                new PostWriteDataMapperRepository()
-            )
-        );
-        $postWriteService->enabled($post);
+        if (!is_null($post)) {
+            $postWriteService = new PostWriteService(
+                new PostWriteRepository(
+                    new PostWriteDataMapperRepository()
+                )
+            );
+            $postWriteService->enabled($post);
+        }
 
         $this->redirectToAdminPosts();
     }
@@ -79,12 +81,14 @@ class Management extends Controller
         );
         $post = $postReadService->getByPostID($postID);
 
-        $postWriteService = new PostWriteService(
-            new PostWriteRepository(
-                new PostWriteDataMapperRepository()
-            )
-        );
-        $postWriteService->disabled($post);
+        if (!is_null($post)) {
+            $postWriteService = new PostWriteService(
+                new PostWriteRepository(
+                    new PostWriteDataMapperRepository()
+                )
+            );
+            $postWriteService->disabled($post);
+        }
 
         $this->redirectToAdminPosts();
     }
