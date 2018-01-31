@@ -130,7 +130,7 @@ class Route
             $keys = array_keys($this->getRequirements());
 
             if (!empty($matches)) {
-                for ($i=0 ; $i < count($matches); $i++)  {
+                for ($i = 0; $i < count($matches); $i++) {
                     $this->vars[$keys{$i}] = $matches{$i};
                 }
             }

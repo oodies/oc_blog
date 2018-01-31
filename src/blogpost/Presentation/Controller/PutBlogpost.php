@@ -33,7 +33,7 @@ class PutBlogpost extends Controller
         $postService = new PostService();
         $post = $postService->getByPostID($postID);
 
-        if( is_null($post) ) {
+        if (is_null($post)) {
             HTTPResponse::redirect404();
         }
 
@@ -64,7 +64,7 @@ class PutBlogpost extends Controller
                 [
                     'title'   => $title,
                     'brief'   => $brief,
-                    'content' => $content,
+                    'content' => $content
                 ],
                 $constraintViolationList
             );
