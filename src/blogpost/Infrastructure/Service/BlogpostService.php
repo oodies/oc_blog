@@ -8,15 +8,12 @@
 
 namespace Blogpost\Infrastructure\Service;
 
-use Blogpost\Domain\Model\Body;
-use Blogpost\Domain\Model\Header;
-use Blogpost\Domain\Model\Post;
 use Blogpost\Domain\Model\PostAggregate;
-use Blogpost\Domain\ValueObject\BloggerID;
 use Lib\Registry;
 
 /**
  * Class BlogpostService
+ *
  * @package Blogpost\Infrastructure\Service
  */
 class BlogpostService
@@ -32,14 +29,11 @@ class BlogpostService
         $postService = new PostService();
         $posts = $postService->findAll();
 
-        /** @var Post $post */
+        /** @var \Blogpost\Domain\Model\Post $post */
         foreach ($posts as $post) {
-
             $postID = $post->getPostID()->getValue();
-
             /** @var PostAggregate $postAggregate */
             $postAggregate = new PostAggregate();
-
             // Set Post
             $post = $this->getPost($postID);
             $postAggregate
@@ -49,7 +43,6 @@ class BlogpostService
                 ->setCreateAt($post->getCreateAt())
                 ->setUpdateAt($post->getUpdateAt())
                 ->setBloggerID($post->getBloggerID());
-
             // Set Header
             $postAggregate->setHeader(
                 $this->getHeader($postID)
@@ -61,16 +54,15 @@ class BlogpostService
 
             $entries[] = $postAggregate;
         }
-
         return $entries;
     }
 
     /**
      * @param string $postID
      *
-     * @return Post
+     * @return \Blogpost\Domain\Model\Post
      */
-    protected function getPost(string $postID): Post
+    protected function getPost(string $postID): \Blogpost\Domain\Model\Post
     {
         $postService = new PostService();
         $post = $postService->getByPostID($postID);
@@ -81,9 +73,9 @@ class BlogpostService
     /**
      * @param string $postID
      *
-     * @return Header
+     * @return \Blogpost\Domain\Model\Header
      */
-    protected function getHeader(string $postID): Header
+    protected function getHeader(string $postID): \Blogpost\Domain\Model\Header
     {
         $headerService = new HeaderService();
         $header = $headerService->getByPostID($postID);
@@ -92,13 +84,13 @@ class BlogpostService
     }
 
     /**
-     * @param BloggerID $bloggerID
+     * @param \Blogpost\Domain\ValueObject\BloggerID $bloggerID
      *
-     * @return User
+     * @return \User\Domain\Model\User
      */
-    protected function getBlogger(BloggerID $bloggerID)
+    protected function getBlogger(\Blogpost\Domain\ValueObject\BloggerID $bloggerID)
     {
-        /** @var UserService $userService */
+        /** @var \User\Infrastructure\Service\UserService $userService */
         $userService = Registry::getInstance()->get('DIC')->get('userService');
         $blogger = $userService->getByUserID($bloggerID->getValue());
 
@@ -112,7 +104,6 @@ class BlogpostService
      */
     public function getBlogpost(string $postID): PostAggregate
     {
-        /** @var PostAggregate $postAggregate */
         $postAggregate = new PostAggregate();
 
         // Set Post
@@ -143,9 +134,9 @@ class BlogpostService
     /**
      * @param string $postID
      *
-     * @return Body
+     * @return \Blogpost\Domain\Model\Body
      */
-    protected function getBody(string $postID): Body
+    protected function getBody(string $postID): \Blogpost\Domain\Model\Body
     {
         $bodyService = new BodyService();
         $body = $bodyService->getByPostID($postID);

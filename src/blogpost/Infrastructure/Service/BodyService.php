@@ -8,7 +8,6 @@
 
 namespace Blogpost\Infrastructure\Service;
 
-use Blogpost\Domain\Model\Body;
 use Blogpost\Infrastructure\Persistence\CQRS\BodyReadRepository;
 use Blogpost\Infrastructure\Persistence\CQRS\BodyWriteRepository;
 use Blogpost\Infrastructure\Repository\BodyReadDataMapperRepository;
@@ -16,6 +15,7 @@ use Blogpost\Infrastructure\Repository\BodyWriteDataMapperRepository;
 
 /**
  * Class BodyService
+ *
  * @package Blogpost\Infrastructure\Service
  */
 class BodyService
@@ -25,9 +25,9 @@ class BodyService
      *
      * @param string $postID
      *
-     * @return Body
+     * @return \Blogpost\Domain\Model\Body
      */
-    public function getByPostID(string $postID): Body
+    public function getByPostID(string $postID): \Blogpost\Domain\Model\Body
     {
         $bodyReadService = new BodyReadService(
             new BodyReadRepository(
@@ -40,12 +40,12 @@ class BodyService
     }
 
     /**
-     * @param Body $body
-     * @param      $content
+     * @param \Blogpost\Domain\Model\Body $body
+     * @param                             $content
      *
-     * @return Body
+     * @return \Blogpost\Domain\Model\Body
      */
-    public function update(Body $body, string $content): Body
+    public function update(\Blogpost\Domain\Model\Body $body, string $content): \Blogpost\Domain\Model\Body
     {
         $bodyWriteService = new BodyWriteService(
             new BodyWriteRepository(

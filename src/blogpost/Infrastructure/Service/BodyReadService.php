@@ -8,26 +8,24 @@
 
 namespace Blogpost\Infrastructure\Service;
 
-use Blogpost\Domain\Model\Body;
 use Blogpost\Domain\ValueObject\PostID;
-use Blogpost\Infrastructure\Persistence\CQRS\BodyReadRepository;
-
 
 /**
  * Class BodyReadService
+ *
  * @package Blogpost\Infrastructure\Service
  */
 class BodyReadService
 {
-    /** @var BodyReadRepository */
+    /** @var \Blogpost\Infrastructure\Persistence\CQRS\BodyReadRepository */
     protected $repository;
 
     /**
      * BodyReadService constructor.
      *
-     * @param BodyReadRepository $repository
+     * @param \Blogpost\Infrastructure\Persistence\CQRS\BodyReadRepository $repository
      */
-    public function __construct(BodyReadRepository $repository)
+    public function __construct(\Blogpost\Infrastructure\Persistence\CQRS\BodyReadRepository $repository)
     {
         $this->repository = $repository;
     }
@@ -37,9 +35,9 @@ class BodyReadService
      *
      * @param string $postID
      *
-     * @return Body
+     * @return \Blogpost\Domain\Model\Body
      */
-    public function getByPostID(string $postID): Body
+    public function getByPostID(string $postID): \Blogpost\Domain\Model\Body
     {
         return $this->repository->getByPostID(new PostID($postID));
     }
