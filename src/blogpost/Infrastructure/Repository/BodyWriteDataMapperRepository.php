@@ -8,14 +8,13 @@
 
 namespace Blogpost\Infrastructure\Repository;
 
-
-use Blogpost\Domain\Model\Body;
 use Blogpost\Domain\Repository\BodyWriteRepositoryInterface;
 use Blogpost\Infrastructure\Repository\TableGateway\BodyTableGateway;
 use Lib\Db\AbstractRepository;
 
 /**
  * Class BodyWriteDataMapperRepository
+ *
  * @package Blogpost\Infrastructure\Repository
  */
 class BodyWriteDataMapperRepository extends AbstractRepository implements BodyWriteRepositoryInterface
@@ -36,11 +35,11 @@ class BodyWriteDataMapperRepository extends AbstractRepository implements BodyWr
     /**
      * Persist Body
      *
-     * @param Body $body
+     * @param \Blogpost\Domain\Model\Body $body
      *
      * @throws \Exception
      */
-    public function add(Body $body): void
+    public function add(\Blogpost\Domain\Model\Body $body): void
     {
         $data['content'] = $body->getContent();
         $data['postID'] = $body->getPostID()->getValue();

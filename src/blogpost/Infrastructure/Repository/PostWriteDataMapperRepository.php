@@ -8,13 +8,13 @@
 
 namespace Blogpost\Infrastructure\Repository;
 
-use Blogpost\Domain\Model\Post;
 use Blogpost\Domain\Repository\PostWriteRepositoryInterface;
 use Blogpost\Infrastructure\Repository\TableGateway\PostTableGateway;
 use Lib\Db\AbstractRepository;
 
 /**
  * Class PostWriteDataMapperRepository
+ *
  * @package Blogpost\Infrastructure\Repository
  */
 class PostWriteDataMapperRepository extends AbstractRepository implements PostWriteRepositoryInterface
@@ -34,11 +34,11 @@ class PostWriteDataMapperRepository extends AbstractRepository implements PostWr
     /**
      * Persist Header
      *
-     * @param Post $post
+     * @param \Blogpost\Domain\Model\Post $post
      *
      * @throws \Exception
      */
-    public function add(Post $post): void
+    public function add(\Blogpost\Domain\Model\Post $post): void
     {
         $data = [
             'postID'    => $post->getPostID()->getValue(),

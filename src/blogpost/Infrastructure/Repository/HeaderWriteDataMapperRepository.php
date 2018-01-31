@@ -8,13 +8,13 @@
 
 namespace Blogpost\Infrastructure\Repository;
 
-use Blogpost\Domain\Model\Header;
 use Blogpost\Domain\Repository\HeaderWriteRepositoryInterface;
 use Blogpost\Infrastructure\Repository\TableGateway\HeaderTableGateway;
 use Lib\Db\AbstractRepository;
 
 /**
  * Class HeaderWriteDataMapperRepository
+ *
  * @package Blogpost\Infrastructure\Repository
  */
 class HeaderWriteDataMapperRepository extends AbstractRepository implements HeaderWriteRepositoryInterface
@@ -33,11 +33,11 @@ class HeaderWriteDataMapperRepository extends AbstractRepository implements Head
     /**
      * Persist Header
      *
-     * @param Header $header
+     * @param \Blogpost\Domain\Model\Header $header
      *
      * @throws \Exception
      */
-    public function add(Header $header): void
+    public function add(\Blogpost\Domain\Model\Header $header): void
     {
         $data = [
             'title'  => $header->getTitle(),
