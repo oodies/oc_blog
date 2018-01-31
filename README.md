@@ -5,6 +5,10 @@ Project number 5 of OpenClassrooms "Developpeur d'application PHP / Symfony" cur
 
 The objective of this project is to create a blogpost without using a framework.
 
+## Code quality
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/dbf1585253c74ab1b78f6d051ae929de)](https://www.codacy.com/app/sebastien.chomy/oc_blog?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=sebastien-chomy/oc_blog&amp;utm_campaign=Badge_Grade)
+
 ## Architecture
 
 An experiment where I was able to try my hand at the DDD Domain-Driven Design.
