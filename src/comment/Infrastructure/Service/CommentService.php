@@ -16,6 +16,7 @@ use Comment\Infrastructure\Repository\ThreadReadDataMapperRepository;
 
 /**
  * Class CommentService
+ *
  * @package Comment\Infrastructure\Service
  */
 class CommentService
@@ -42,7 +43,7 @@ class CommentService
             );
             return $commentReadService->getByThreadID($thread->getThreadID()->getValue());
         } else {
-            return array();
+            return [];
         }
     }
 }

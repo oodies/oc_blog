@@ -12,6 +12,7 @@ use Lib\Controller\Controller;
 
 /**
  * Class Dashboard
+ *
  * @package App\Presentation\Controller
  */
 class Dashboard extends Controller
@@ -22,6 +23,6 @@ class Dashboard extends Controller
      */
     public function indexAction()
     {
-        echo $this->render('app:dashboard:index.html.twig', array());
+        echo $this->render('app:dashboard:index.html.twig', []);
     }
 }

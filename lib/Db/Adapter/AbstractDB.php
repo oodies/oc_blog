@@ -5,14 +5,14 @@ namespace Lib\Db\Adapter;
 
 /**
  * Class AbstractDB
+ *
  * @package Lib\Db\Adapter
  */
 class AbstractDB implements AdapterInterface
 {
-
     /** *******************************
      *  PROPERTIES
-     * ****************************** */
+     * */
 
     /**
      * Database connection
@@ -33,14 +33,14 @@ class AbstractDB implements AdapterInterface
 
     /** *******************************
      *  METHODS
-     * ****************************** */
+     */
 
     /**
      * AbstractDB constructor.
      *
      * @param array $config
      */
-    public function __construct(array $config = array())
+    public function __construct(array $config = [])
     {
         $this->config = $config;
     }
@@ -59,7 +59,7 @@ class AbstractDB implements AdapterInterface
     /**
      * Creates a PDO object and connects to the database
      *
-     * @throws  \Exception
+     * @throws  \PDOException
      */
     public function connect(): void
     {

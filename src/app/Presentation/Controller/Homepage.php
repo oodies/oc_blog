@@ -12,6 +12,7 @@ use Lib\Controller\Controller;
 
 /**
  * Class Homepage
+ *
  * @package App\Presentation\Controller
  */
 class Homepage extends Controller
@@ -21,6 +22,6 @@ class Homepage extends Controller
      */
     public function homepageAction()
     {
-        echo $this->render('app:homepage:homepage.html.twig', array());
+        echo $this->render('app:homepage:homepage.html.twig', []);
     }
 }

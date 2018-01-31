@@ -11,6 +11,7 @@ namespace Lib;
 /**
  * Class Registry
  * a registry design pattern
+ *
  * @package Lib
  */
 class Registry extends \ArrayObject
@@ -30,18 +31,18 @@ class Registry extends \ArrayObject
      * @param string $iterator_class
      */
     public function __construct(
-        $input = array(),
+        $input = [],
         int $flags = parent::ARRAY_AS_PROPS,
-        string $iterator_class = "ArrayIterator"
+        string $iteratorClass = "ArrayIterator"
     ) {
-        parent::__construct($input, $flags, $iterator_class);
+        parent::__construct($input, $flags, $iteratorClass);
     }
 
     /**
      * Set the value at the specified index to value
      *
      * @param string $index
-     * @param $value
+     * @param        $value
      */
     public static function set($index, $value)
     {
@@ -51,6 +52,7 @@ class Registry extends \ArrayObject
 
     /**
      * Singleton design pattern
+     *
      * @return Registry|null
      */
     public static function getInstance()

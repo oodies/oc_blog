@@ -10,6 +10,7 @@ namespace Lib\Db;
 
 /**
  * Class DbFactory
+ *
  * @package Lib\Db
  */
 class DbFactory
@@ -23,7 +24,7 @@ class DbFactory
      *
      * @return \Lib\Db\Adapter\AbstractDB
      */
-    public static function create(string $adapter, array $config = array())
+    public static function create(string $adapter, array $config = [])
     {
         $class = "Lib\\Db\\Adapter\\" . $adapter;
 
