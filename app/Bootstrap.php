@@ -88,13 +88,13 @@ class Bootstrap
      */
     protected function initView()
     {
-        $directories[] = $_SERVER['DOCUMENT_ROOT'] . '/app/views/layout';
+        $directories[] = ROOT_DIR . '/app/views/layout';
 
-        $srcDir = new DirectoryIterator(__DIR__ . '/src');
+        $srcDir = new DirectoryIterator(ROOT_DIR . '/src');
         foreach ($srcDir as $fileInfo) {
             if ($fileInfo->isDir() && !$fileInfo->isDot()) {
                 $boundedContext = $fileInfo->getFilename();
-                $directories[] = $_SERVER['DOCUMENT_ROOT'] . '/src/' . $boundedContext . '/Presentation/views';
+                $directories[] = ROOT_DIR . '/src/' . $boundedContext . '/Presentation/views';
             }
         }
 

@@ -18,8 +18,8 @@ use Symfony\Component\Debug\ErrorHandler;
 use Symfony\Component\Debug\ExceptionHandler;
 
 $dotenv = new Dotenv();
-$dotenv->load(__DIR__.'/configs/.env');
-$env = (getenv('ENV'))??'prod';
+$dotenv->load(__DIR__ . '/configs/.env');
+$env = (getenv('ENV')) ?? 'prod';
 
 if ($env == 'dev') {
     Debug::enable();
@@ -27,7 +27,7 @@ if ($env == 'dev') {
     ExceptionHandler::register();
 }
 // Initialization application
-require_once 'Bootstrap.php';
+require_once ROOT_DIR . '/app/Bootstrap.php';
 $bootstrap = new Bootstrap();
 
 $bootstrap->init();
