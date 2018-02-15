@@ -37,13 +37,13 @@ class Management extends Controller
     }
 
     /**
-     * Enable post
+     * Publish a post
      *
      * @param string $postID
      *
      * @throws \Exception
      */
-    public function enabledAction($postID)
+    public function publishAction($postID)
     {
         $postReadService = new PostReadService(
             new PostReadRepository(
@@ -65,13 +65,13 @@ class Management extends Controller
     }
 
     /**
-     * Disable post
+     * Unpublish a post
      *
      * @param string $postID
      *
      * @throws \Exception
      */
-    public function disabledAction($postID)
+    public function unpublishAction($postID)
     {
         $postReadService = new PostReadService(
             new PostReadRepository(
