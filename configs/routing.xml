@@ -38,15 +38,15 @@
            controller="Blogpost\Presentation\Controller\Management::getPosts">
         <condition>admin</condition>
     </route>
-    <route id="blogpost_management_enabled"
-           path="/admin/post/enabled/{postID}"
-           controller="Blogpost\Presentation\Controller\Management::enabled">
+    <route id="blogpost_management_publish"
+           path="/admin/post/publish/{postID}"
+           controller="Blogpost\Presentation\Controller\Management::publish">
         <requirement key="postID">[a-zA-Z0-9-]*</requirement>
         <condition>admin</condition>
     </route>
-    <route id="blogpost_management_disabled"
-           path="/admin/post/disabled/{postID}"
-           controller="Blogpost\Presentation\Controller\Management::disabled">
+    <route id="blogpost_management_unpublish"
+           path="/admin/post/unpublish/{postID}"
+           controller="Blogpost\Presentation\Controller\Management::unpublish">
         <requirement key="postID">[a-zA-Z0-9-]*</requirement>
         <condition>admin</condition>
     </route>
@@ -103,12 +103,17 @@
         <condition>admin</condition>
     </route>
     <!--comment routing-->
+    <route id="comment_comments_new"
+           path="/newComment"
+           controller="Comment\Presentation\Controller\PostComment::postComment">
+        <condition>guest</condition>
+    </route>
+    <!-- Comment management routing -->
     <route id="comment_management_comments"
            path="/admin/comments"
            controller="Comment\Presentation\Controller\Management::getComments">
         <condition>admin</condition>
     </route>
-    <!-- Comment management routing -->
     <route id="comment_management_approve"
            path="/admin/comment/approve/{commentID}"
            controller="Comment\Presentation\Controller\Management::approve">
@@ -127,11 +132,7 @@
         <requirement key="commentID">[a-zA-Z0-9-]*</requirement>
         <condition>admin</condition>
     </route>
-    <route id="comment_comments_new"
-           path="/newComment"
-           controller="Comment\Presentation\Controller\PostComment::postComment">
-        <condition>guest</condition>
-    </route>
+
     <!--Other application routing-->
     <route id="contact"
            path="/contact"
