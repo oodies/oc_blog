@@ -9,11 +9,11 @@
 namespace User\Infrastructure\Service;
 
 use User\Domain\Model\User;
-use User\Domain\ValueObject\UserID;
 use User\Infrastructure\Persistence\CQRS\WriteRepository;
 
 /**
  * Class UserWriteService
+ *
  * @package User\Infrastructure\Service
  */
 class UserWriteService
@@ -54,7 +54,7 @@ class UserWriteService
         string $nickname,
         string $role
     ): User {
-        $user = new User(new UserID());
+        $user = new User();
         $user->createCompleteUser(
             $username,
             $email,

@@ -12,6 +12,7 @@ use User\Domain\ValueObject\UserID;
 
 /**
  * Class User
+ *
  * @package User\Domain\Model
  */
 class User
@@ -29,18 +30,21 @@ class User
 
     /**
      * Contains the nickname of the person
+     *
      * @var  string $nickname
      */
     protected $nickname;
 
     /**
      * Contains the firstname of the person
+     *
      * @var string $firstName
      */
     protected $firstname;
 
     /**
      * Contains the lastname of the person
+     *
      * @var string $lastName
      */
     protected $lastname;
@@ -109,25 +113,6 @@ class User
      * @var string
      */
     protected $role;
-
-
-    /** *******************************
-     *  CONSTRUCT
-     */
-
-    /**
-     * User constructor.
-     *
-     * @param null|UserID $userID
-     */
-    public function __construct(?UserID $userID = null)
-    {
-        if ($userID === null) {
-            $userID = new UserID();
-        }
-        $this->setUserID($userID);
-    }
-
 
     /** *******************************
      *  GETTER/SETTER
@@ -389,6 +374,14 @@ class User
     }
 
     /**
+     * @return bool
+     */
+    public function isLocked(): bool
+    {
+        return (boolean)$this->locked;
+    }
+
+    /**
      * @param bool $locked
      *
      * @return User
@@ -397,14 +390,6 @@ class User
     {
         $this->locked = $locked;
         return $this;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isLocked(): bool
-    {
-        return (boolean)$this->locked;
     }
 
     /**
@@ -440,12 +425,13 @@ class User
     {
         $date = new \DateTime();
 
-        $this->username = $username;
-        $this->email = $email;
-        $this->registeredAt = $date;
-        $this->updateAt = $date;
-        $this->locked = false;
-        $this->role = 'guest';
+        $this->setUserID(new UserID())
+             ->setUsername($username)
+             ->setEmail($email)
+             ->setRegisteredAt($date)
+             ->setUpdateAt($date)
+             ->setLocked(false)
+             ->setRole('guest');
     }
 
     /**
@@ -466,15 +452,16 @@ class User
     ) {
         $date = new \DateTime();
 
-        $this->username = $username;
-        $this->email = $email;
-        $this->firstname = $firstname;
-        $this->lastname = $lastname;
-        $this->nickname = $nickname;
-        $this->registeredAt = $date;
-        $this->updateAt = $date;
-        $this->locked = false;
-        $this->role = $role;
+        $this->setUserID(new UserID())
+             ->setUsername($username)
+             ->setEmail($email)
+             ->setFirstname($firstname)
+             ->setLastname($lastname)
+             ->setNickname($nickname)
+             ->setRegisteredAt($date)
+             ->setUpdateAt($date)
+             ->setLocked(false)
+             ->setRole($role);
     }
 
     /**
