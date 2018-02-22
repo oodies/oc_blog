@@ -31,8 +31,6 @@ class PostComment extends Controller
         /** @var \GuzzleHttp\Psr7\ServerRequest $request */
         $request = Registry::get('request');
 
-        $assign = [];
-
         if ($request->getMethod() === 'POST') {
             $post = $request->getParsedBody();
 
@@ -57,10 +55,14 @@ class PostComment extends Controller
                         new CommentWriteDataMapperRepository()
                     )
                 );
-                // TODO Use $comment for update view with AJAX
-                $comment = $commentWriteService->create($postID, $username, $email, $body);
-                // Redirect to BlogPost
-                $this->redirectTo($this->generateUrl('blogpost_get_blogpost', ['postID' => $postID ]));
+                $commentWriteService->create($postID, $username, $email, $body);
+                $assign = [
+                    'username' => '',
+                    'email'    => '',
+                    'comment'  => '',
+                    'postID'   => $postID,
+                    'advert'   => true
+                ];
             } else {
                 $assign = [
                     'errors'   => $constraintViolationList->getViolations(),
@@ -69,9 +71,8 @@ class PostComment extends Controller
                     'comment'  => $body,
                     'postID'   => $postID,
                 ];
-
-                echo $this->render('comment:comments:newComment.html.twig', $assign);
             }
         }
+        echo $this->render('comment:comments:newComment.html.twig', $assign);
     }
 }

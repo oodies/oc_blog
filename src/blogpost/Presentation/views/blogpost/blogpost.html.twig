@@ -35,6 +35,6 @@
         </div>
     </article>
     <hr>
-    {% include 'comments/newComment.html.twig' with{'post' : post} %}
+    {% include 'comments/newComment.html.twig' with{'postID' : post.postId.value} %}
     {% include 'comments/commentList.html.twig' with{'thread' : thread, 'comments' : comments} %}
 {% endblock %}
