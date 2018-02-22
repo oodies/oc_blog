@@ -12,8 +12,10 @@ use Blogpost\Domain\Model\PostAggregate;
 use Blogpost\Infrastructure\Service\ConstraintValidator;
 use Blogpost\Infrastructure\Service\PostService;
 use Lib\Controller\Controller;
+use Lib\CsrfToken;
 use Lib\Registry;
 use Lib\Validator\ConstraintViolationList;
+use Lib\HTTPFoundation\HTTPResponse;
 
 /**
  * Class PostBlogpost
@@ -34,9 +36,14 @@ class PostBlogpost extends Controller
         $assign = [];
 
         $postAggregate = new PostAggregate();
+        $csrfToken = new CsrfToken();
 
         if ($request->getMethod() === 'POST') {
             $post = $request->getParsedBody();
+
+            if ($csrfToken->validateToken($post['_csrf_token']) === false ) {
+                HTTPResponse::redirect403();
+            }
 
             $title = $post['title'] ?? '';
             $brief = $post['brief'] ?? '';
@@ -70,6 +77,7 @@ class PostBlogpost extends Controller
             }
         }
 
+        $assign['_csrf_token'] = $csrfToken->generateToken();
         $assign['post'] = $postAggregate;
 
         echo $this->render('blogpost:blogpost:newPost.html.twig', $assign);
