@@ -9,12 +9,12 @@
 namespace User\Infrastructure\Service;
 
 use User\Domain\Model\User;
-use User\Domain\ValueObject\UserID;
 use User\Infrastructure\Password\Encoder;
 use User\Infrastructure\Persistence\CQRS\WriteRepository;
 
 /**
  * Class UserRegisterService
+ *
  * @package User\Infrastructure\Service
  */
 class UserRegisterService
@@ -29,7 +29,6 @@ class UserRegisterService
      * UserRegisterService constructor.
      *
      * @param WriteRepository $repository
-     * @param                 $userEntity
      */
     public function __construct(WriteRepository $repository)
     {
@@ -46,7 +45,7 @@ class UserRegisterService
      */
     public function create(string $username, string $email): User
     {
-        $user = new User(new UserID());
+        $user = new User();
         $user->createUser($username, $email);
         $this->repository->add($user);
 
