@@ -9,6 +9,7 @@
 namespace User\Presentation\Controller;
 
 use Lib\Controller\Controller;
+use Lib\CsrfToken;
 use Lib\HTTPFoundation\HTTPResponse;
 use Lib\Registry;
 use Lib\Validator\ConstraintViolationList;
@@ -86,14 +87,11 @@ class Management extends Controller
      */
     public function putUserAction($userID)
     {
-        $request = Registry::get('request');
-
         $userReadService = new UserReadService(
             new ReadRepository(
                 new ReadDataMapperRepository()
             )
         );
-
         $user = $userReadService->getByUserID(new UserID($userID));
 
         if (is_null($user)) {
@@ -101,8 +99,17 @@ class Management extends Controller
         }
 
         $assign = [];
+        $csrfToken = new CsrfToken();
+
+        $request = Registry::get('request');
+
         if ($request->getMethod() === 'POST') {
             $post = $request->getParsedBody();
+
+            if ($csrfToken->validateToken($post['_csrf_token']) === false) {
+                HTTPResponse::redirect403();
+            }
+
             $data = [
                 'username'  => $post['username'] ?? '',
                 'email'     => $post['email'] ?? '',
@@ -135,7 +142,9 @@ class Management extends Controller
                 $assign['errors'] = ['user' => $constraintViolationList->getViolations()];
             }
         }
+
         $assign['user'] = $user;
+        $assign['_csrf_token'] = $csrfToken->generateToken();
 
         echo $this->render('user:management:changeUser.html.twig', $assign);
     }
@@ -150,11 +159,17 @@ class Management extends Controller
         $request = Registry::get('request');
 
         $assign = [];
-        $assign['user'] = new User();
+        $user = new User();
+        $csrfToken = new CsrfToken();
 
         if ($request->getMethod() === 'POST') {
-            // Prepare data
             $post = $request->getParsedBody();
+
+            if ($csrfToken->validateToken($post['_csrf_token']) === false) {
+                HTTPResponse::redirect403();
+            }
+
+            // Prepare data
             $data = [
                 'username'  => $post['username'] ?? '',
                 'password'  => $post['password'] ?? '',
@@ -164,6 +179,13 @@ class Management extends Controller
                 'nickname'  => $post['nickname'] ?? '',
                 'role'      => $post['role'] ?? '',
             ];
+
+            $user->setUsername($data['username'])
+                 ->setEmail($data['email'])
+                 ->setFirstname($data['firstname'])
+                 ->setLastname($data['lastname'])
+                 ->setNickname($data['nickname'])
+                 ->setRole($data['role']);
 
             $constraintViolationList = new ConstraintViolationList();
             $isValid = ConstraintValidator::validateRegisterData(
@@ -204,12 +226,12 @@ class Management extends Controller
                 // Finally Redirect
                 $this->redirectToAdminUsers();
             } else {
-                $assign = array_merge(
-                    $assign,
-                    ['errors' => ['user' => $constraintViolationList->getViolations()]]
-                );
+                $assign['errors'] = ['user' => $constraintViolationList->getViolations()];
             }
         }
+
+        $assign['user'] = $user;
+        $assign['_csrf_token'] = $csrfToken->generateToken();
 
         echo $this->render('user:management:newUser.html.twig', $assign);
     }
@@ -218,6 +240,7 @@ class Management extends Controller
      * Lock a user
      *
      * @param string $userID
+     *
      * @throws \Exception
      */
     public function lockAction($userID)

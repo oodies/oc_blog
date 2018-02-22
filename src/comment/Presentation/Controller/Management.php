@@ -16,6 +16,7 @@ use Comment\Infrastructure\Repository\CommentWriteDataMapperRepository;
 use Comment\Infrastructure\Service\CommentReadService;
 use Comment\Infrastructure\Service\CommentWriteService;
 use Lib\Controller\Controller;
+use Lib\CsrfToken;
 use Lib\HTTPFoundation\HTTPResponse;
 use Lib\Registry;
 
@@ -69,8 +70,15 @@ class Management extends controller
             HTTPResponse::redirect404();
         }
 
+        $csrfToken = new CsrfToken();
+
         if ($request->getMethod() === 'POST') {
             $post = $request->getParsedBody();
+
+            if ($csrfToken->validateToken($post['_csrf_token']) === false ) {
+                HTTPResponse::redirect403();
+            }
+
             $body = htmlspecialchars($post['body']);
 
             $commentWriteService = new CommentWriteService(
@@ -83,9 +91,10 @@ class Management extends controller
             $this->redirectToAdminComments();
         }
 
-        if ($request->getMethod() === 'GET') {
-            echo $this->render('comment:management:changeComment.html.twig', ['comment' => $comment]);
-        }
+        $assign['_csrf_token'] = $csrfToken->generateToken();
+        $assign['comment'] = $comment;
+
+        echo $this->render('comment:management:changeComment.html.twig', $assign);
     }
 
     /**

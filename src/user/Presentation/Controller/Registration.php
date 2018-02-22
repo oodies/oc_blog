@@ -9,6 +9,8 @@
 namespace User\Presentation\Controller;
 
 use Lib\Controller\Controller;
+use Lib\CsrfToken;
+use Lib\HTTPFoundation\HTTPResponse;
 use Lib\Registry;
 use Lib\Validator\ConstraintViolationList;
 use User\Infrastructure\Persistence\CQRS\ReadRepository;
@@ -34,9 +36,15 @@ class Registration extends Controller
         $request = Registry::get('request');
 
         $assign = [];
+        $csrfToken = new CsrfToken();
 
         if ($request->getMethod() === 'POST') {
             $post = $request->getParsedBody();
+
+            if ($csrfToken->validateToken($post['_csrf_token']) === false ) {
+                HTTPResponse::redirect403();
+            }
+
             $email = $post['email'];
             $username = $post['username'];
             $password = $post['password'];
@@ -77,6 +85,8 @@ class Registration extends Controller
                 $assign['errors'] = $constraintViolationList->getViolations();
             }
         }
+
+        $assign['_csrf_token'] = $csrfToken->generateToken();
 
         echo $this->render('user:registration:register.html.twig', $assign);
     }

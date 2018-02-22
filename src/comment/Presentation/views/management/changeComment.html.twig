@@ -11,6 +11,7 @@
                             {{ comment.body }}
                         </textarea>
                     </div>
+                    <input type="hidden" value="{{ _csrf_token }}" name="_csrf_token">
                     <div class="submit">
                         <input type="submit" class="btn btn-primary" value="Change">
                     </div>
